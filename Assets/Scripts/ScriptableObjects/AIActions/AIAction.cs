@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(fileName = "Custom", menuName = "AIActions/Action",order = 1)]
+[CreateAssetMenu(fileName = "New AIAction", menuName = "AIAction",order = 1)]
 public class AIAction : ScriptableObject
 {
     public enum State
