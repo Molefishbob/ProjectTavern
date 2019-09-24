@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using static Managers.BeverageManager;
 
 [CustomEditor(typeof(Race))]
 public class RaceEditor : Editor
@@ -32,7 +33,7 @@ public class RaceEditor : Editor
         SerializedProperty agressiveness = _actionSO.FindProperty("_agressiveness");
 
         race.enumValueIndex = (int)(Race.Type)EditorGUILayout.EnumPopup("Race:", (Race.Type)System.Enum.GetValues(typeof(Race.Type)).GetValue(race.enumValueIndex));
-        beverage.enumValueIndex = (int)(Race.Beverage)EditorGUILayout.EnumPopup("Preferred beverage:", (Race.Beverage)System.Enum.GetValues(typeof(Race.Beverage)).GetValue(beverage.enumValueIndex));
+        beverage.enumValueIndex = (int)(Beverage)EditorGUILayout.EnumPopup("Preferred beverage:", (Beverage)System.Enum.GetValues(typeof(Beverage)).GetValue(beverage.enumValueIndex));
         aTolerance.intValue = EditorGUILayout.IntSlider(new GUIContent("Alcohol Tolerance:", "How well they handle their alcohol"), _target._alcoholTolerance, _target.MinAlcoholTolerance, _target.MaxAlcoholTolerance);
         agressiveness.intValue = EditorGUILayout.IntSlider(new GUIContent("Agressiveness:", "How easily starts fights when getting drunk"), _target._agressiveness, _target.MinAlcoholTolerance, _target.MaxAlcoholTolerance);
 

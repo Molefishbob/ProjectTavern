@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d026e1aa861c524c8d6d55080e304ad, type: 3}
+  m_Name: DwarfBehaviour
+  m_EditorClassIdentifier: 
+  _race: {fileID: 11400000, guid: 90bd2de20b49c4c4e9374810fc43fdc1, type: 2}
+  _actions:
+  - {fileID: 11400000, guid: cfe6ffe341a2d884c89feaa2bf972a08, type: 2}
+  - {fileID: 11400000, guid: ae1fc9a802221c2428e0763ac51f31e0, type: 2}

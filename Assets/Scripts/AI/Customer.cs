@@ -1,31 +1,68 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using PolyNav;
+using static Managers.AIManager;
+using static Managers.BeverageManager;
 
 public class Customer : MonoBehaviour
 {
     #region Members
-    protected AIAction.State _currentState;
+    protected State _currentState;
     [SerializeField]
+    protected AIBehaviour _behaviour;
     protected Race _race;
-    [SerializeField]
-    protected float _movementSpeed;
-    [SerializeField]
-    protected float _turnSpeed;
+    protected BaseActions _act;
+    protected Action _specialAct;
     #endregion
 
-    #region Parameters
-    public AIAction.State CurrentState { get => _currentState; set => _currentState = value; }
+    #region Properties
+    public State CurrentState { get => _currentState;}
     #endregion
 
-    public void Move(Vector3 movementVector, float turnAngle = 0)
+    #region Unity Methods
+    private void Awake()
     {
-        // TODO: Movement
-        // TODO: Turning
+        _race = _behaviour._race;
+        if (typeof(BaseActions) == _behaviour._actions[0].GetType())
+        {
+            _act = (BaseActions)_behaviour._actions[0];
+            _specialAct = _behaviour._actions[1];
+        }
+        else
+        {
+            _act = (BaseActions)_behaviour._actions[1];
+            _specialAct = _behaviour._actions[0]; 
+        }
+        // Debug
+        GetComponent<PolyNavAgent>().SetDestination(new Vector2(-4, -3));
+    }
+    #endregion
+
+    #region Base Actions
+    public void Move(Vector2 pos)
+    {
+        _act.Move(pos);
     }
 
-    public void Order()
+    public Beverage Order()
     {
-
+        return _act.Order();
     }
+
+    public void Drink(/* add drink */)
+    {
+        _act.Drink(/* add drink */);
+    }
+
+    public void Fight(/*add enemy */)
+    {
+        _act.Fight(/* add enemy */);
+    }
+
+    public void PassOut()
+    {
+        _act.PassOut();
+    }
+    #endregion
 }

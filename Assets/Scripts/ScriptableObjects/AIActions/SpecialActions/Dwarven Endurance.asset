@@ -9,13 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d29aa3891a11624ebcd62b1e7c306b1, type: 3}
-  m_Name: Orc
+  m_Script: {fileID: 11500000, guid: dd5d9ee5b197900408d8710840556d0e, type: 3}
+  m_Name: Dwarven Endurance
   m_EditorClassIdentifier: 
-  _aiActions: []
-  MaxAlcoholTolerance: 10
-  MinAlcoholTolerance: 0
-  _race: 4
-  _alcoholTolerance: 6
-  _agressiveness: 9
-  _preferredBeverage: 6
