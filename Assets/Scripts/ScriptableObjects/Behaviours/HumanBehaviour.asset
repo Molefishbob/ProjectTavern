@@ -10,6 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5d026e1aa861c524c8d6d55080e304ad, type: 3}
-  m_Name: TestAction
+  m_Name: HumanBehaviour
   m_EditorClassIdentifier: 
-  _actionState: 0
+  _race: {fileID: 11400000, guid: c692c95792bce93429a115c19e883586, type: 2}
+  _actions:
+  - {fileID: 11400000, guid: cfe6ffe341a2d884c89feaa2bf972a08, type: 2}
