@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using PolyNav;
 using static Managers.AIManager;
 using static Managers.BeverageManager;
 
@@ -11,9 +12,7 @@ public class Customer : MonoBehaviour
     [SerializeField]
     protected AIBehaviour _behaviour;
     [SerializeField]
-    protected float _movementSpeed;
-    [SerializeField]
-    protected float _turnSpeed;
+    protected float _rotationSpeed = 15f;
     protected Race _race;
     protected BaseActions _act;
     protected Action _specialAct;
@@ -34,20 +33,37 @@ public class Customer : MonoBehaviour
         }
         else
         {
-            _act = (BaseActions) _behaviour._actions[1];
+            _act = (BaseActions)_behaviour._actions[1];
             _specialAct = _behaviour._actions[0];
         }
+        GetComponent<PolyNavAgent>().SetDestination(new Vector2(-4, -3));
     }
     #endregion
 
-    public void Move(Vector3 movementVector, float turnAngle)
+    #region Base Actions
+    public void Move(Vector2 movementVector, Vector2 turnDirection)
     {
-        // TODO: Use move method from behaviour
+        _act.Move(movementVector, turnDirection);
     }
 
     public Beverage Order()
     {
-        // TODO: Use Order method from behaviour
-        return 0;
+        return _act.Order();
     }
+
+    public void Drink(/* add drink */)
+    {
+        _act.Drink(/* add drink */);
+    }
+
+    public void Fight(/*add enemy */)
+    {
+        _act.Fight(/* add enemy */);
+    }
+
+    public void PassOut()
+    {
+        _act.PassOut();
+    }
+    #endregion
 }

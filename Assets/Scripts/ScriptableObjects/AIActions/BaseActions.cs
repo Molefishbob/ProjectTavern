@@ -6,7 +6,7 @@ using static Managers.BeverageManager;
 [CreateAssetMenu(fileName = "New base actions",menuName = "Actions/Base Actions",order = 2)]
 public class BaseActions : Action
 {
-    public void Move(Vector3 movementVector, float turnAngle)
+    public void Move(Vector2 movementVector, Vector2 turnDirection)
     {
         // TODO: Movement Action
         // TODO: Turning Action
