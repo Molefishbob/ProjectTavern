@@ -11,19 +11,17 @@ public class Customer : MonoBehaviour
     protected State _currentState;
     [SerializeField]
     protected AIBehaviour _behaviour;
-    [SerializeField]
-    protected float _rotationSpeed = 15f;
     protected Race _race;
     protected BaseActions _act;
     protected Action _specialAct;
     #endregion
 
-    #region Parameters
-    public State CurrentState { get => _currentState; set => _currentState = value; }
+    #region Properties
+    public State CurrentState { get => _currentState;}
     #endregion
 
     #region Unity Methods
-    private void Start()
+    private void Awake()
     {
         _race = _behaviour._race;
         if (typeof(BaseActions) == _behaviour._actions[0].GetType())
@@ -34,16 +32,17 @@ public class Customer : MonoBehaviour
         else
         {
             _act = (BaseActions)_behaviour._actions[1];
-            _specialAct = _behaviour._actions[0];
+            _specialAct = _behaviour._actions[0]; 
         }
+        // Debug
         GetComponent<PolyNavAgent>().SetDestination(new Vector2(-4, -3));
     }
     #endregion
 
     #region Base Actions
-    public void Move(Vector2 movementVector, Vector2 turnDirection)
+    public void Move(Vector2 pos)
     {
-        _act.Move(movementVector, turnDirection);
+        _act.Move(pos);
     }
 
     public Beverage Order()

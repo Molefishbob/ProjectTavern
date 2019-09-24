@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Action : ScriptableObject
+public abstract class Action : ScriptableObject
 {
 
 }

@@ -18,7 +18,7 @@ namespace Managers
         }
     protected Customer[] _activeAgents;
         #endregion
-        #region Parameters
+        #region Properties
         public Customer[] ActiveAgents { get => _activeAgents; }
         #endregion
         #region Unity Methods
