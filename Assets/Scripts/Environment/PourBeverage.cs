@@ -1,21 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Managers.BeverageManager;
 
 public class PourBeverage : PlayerUseable
 {
-    public enum Beverage
-    {
-        None = 0,
-        PaleLager = 1,
-        StoutBeer = 2,
-        WhiteWine = 3,
-        RedWine = 4,
-        FruitCocktail = 5,
-        Spirit = 6,
-        Water = 7,
-        Absinthe = 8
-    }
+
 
     public Beverage _drink;
 
@@ -58,15 +48,13 @@ public class PourBeverage : PlayerUseable
                     Debug.Log("Poured water");
                 }
                 break;
-            case Beverage.Absinthe:
+            case Beverage.Grog:
                 {
-                    Debug.Log("Poured absinthe");
+                    Debug.Log("Poured Grog");
                 }
                 break;
-            case Beverage.None:
-                {
-
-                }
+            default:
+                Debug.LogError("Error!!! No beverage selected");
                 break;
         }
     }
