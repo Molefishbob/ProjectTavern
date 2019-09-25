@@ -4,12 +4,18 @@ using UnityEngine;
 
 public class Food : PlayerUseable
 {
-    [SerializeField][Range (0, 30)]
+    [SerializeField][Range (15, 40)]
     private int _temperature;
 
-    public override void Use()
+    protected override void Awake()
     {
-        
+        base.Awake();
+        _timer.OnTimerCompleted += GetFood;
     }
 
+    private void GetFood()
+    {
+        Debug.Log("You got some yumyum");
+    }
+    
 }

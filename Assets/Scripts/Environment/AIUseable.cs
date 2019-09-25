@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AIUseable : MonoBehaviour, IUseable
+public abstract class AIUseable : MonoBehaviour, IUseable
 {
     public virtual void Use()
     {

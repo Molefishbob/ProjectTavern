@@ -13,13 +13,14 @@ public class TableInteractions : AIUseable
     }
 
     [SerializeField]
-    private int _totalSeatsCount;
+    private int _totalSeatsCount = 4;
     private int _freeSeatsCount;
-    public GameObject chair;
+    public GameObject[] _chairs;
 
     private void Awake()
     {
         _freeSeatsCount = _totalSeatsCount;
+        _chairs = new GameObject[_totalSeatsCount];
     }
     public override void Use()
     {

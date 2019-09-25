@@ -4,13 +4,17 @@ using UnityEngine;
 
 public class CleanableMess : PlayerUseable
 {
-    public override void Use()
+
+    protected override void Awake()
+    {
+        base.Awake();
+        _timer.OnTimerCompleted += Cleaned;
+    }
+    
+    private void Cleaned()
     {
         Debug.Log("You cleaned some rancid puke");
-        //TODO: something else than destroy
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
-
-    
 
 }
