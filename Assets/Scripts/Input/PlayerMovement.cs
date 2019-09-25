@@ -9,27 +9,40 @@ namespace GameInput
     {
         [SerializeField] private float _speed = 10;
         [SerializeField] private Vector2 _direction = new Vector2();
-        public int DeviceID = 1;
+        public int DeviceID { get; private set; }
         private Controls controls;
 
         private void Awake()
         {
-            controls = ControlsManager.Instance.GetControls();
-            controls.Enable();
+            controls = new Controls();
+            controls.Player.Move.Enable();
+            controls.Player.Pause.Enable();
             controls.Player.Move.performed += ctx => ReadMovementInput(ctx);
             controls.Player.Pause.performed += ctx => DeviceID = ctx.control.device.deviceId;
+        }
 
-            InputSystem.onDeviceChange += (device, change) =>
+        public void SetDevice(int deviceID = -1, InputDevice device = null)
+        {
+            if (device == null && deviceID == -1)
             {
-                if (change == InputDeviceChange.Reconnected)
-                    DeviceID = device.deviceId;
-            };
+                Debug.LogError("Invalid parameters!" + gameObject.name + " now uses inputDevice 1 as input!");
+                DeviceID = 1;
+            }
+            if (device != null)
+            {
+                DeviceID = device.deviceId;
+                return;
+            }
+            DeviceID = deviceID;
         }
 
         private void OnDestroy()
         {
             controls.Player.Move.performed -= ctx => ReadMovementInput(ctx);
             controls.Player.Pause.performed -= ctx => DeviceID = ctx.control.device.deviceId;
+            controls.Player.Move.Disable();
+            controls.Player.Pause.Disable();
+            controls = null;
         }
 
         private void Update()
@@ -40,19 +53,16 @@ namespace GameInput
         public void Move()
         {
             transform.Translate(_direction * _speed * Time.deltaTime);
+
             Vector2 posInCamera = Camera.main.WorldToViewportPoint(transform.position);
             if (posInCamera.x < 0 || posInCamera.x > 1 || posInCamera.y < 0 || posInCamera.y > 1)
-                transform.position = new Vector3();
+                transform.position = Vector3.zero;
         }
 
         private void ReadMovementInput(InputAction.CallbackContext context)
         {
-            // Debug.Log(context.control.device.deviceId);
             if (DeviceID == context.control.device.deviceId)
-            {
-                // Debug.Log("Device ID:" + context.control.device.deviceId + " moved " + gameObject.name);
                 _direction = context.ReadValue<Vector2>();
-            }
         }
     }
 }
