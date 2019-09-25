@@ -6,10 +6,15 @@ using static Managers.BeverageManager;
 public class PourBeverage : PlayerUseable
 {
 
-
     public Beverage _drink;
 
-    public override void Use()
+    protected override void Awake()
+    {
+        base.Awake();
+        _timer.OnTimerCompleted += DrinkPoured;
+    }
+
+    private void DrinkPoured()
     {
         switch (_drink)
         {
