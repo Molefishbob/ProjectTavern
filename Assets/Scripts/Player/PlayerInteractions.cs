@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿/*using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,9 +10,8 @@ public class PlayerInteractions : MonoBehaviour
     {
         if(collision.GetComponentInParent<IUseable>() != null)
         {
-            //probably not like this. Don't know how our input system works :)
             if(Input.GetButtonDown(_useButton))
             collision.GetComponentInParent<PlayerUseable>().Use(gameObject);
         }
     }
-}
+}*/

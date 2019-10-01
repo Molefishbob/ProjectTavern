@@ -1,12 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GameInput;
 
 public abstract class PlayerUseable : MonoBehaviour, IUseable
 {
-
+    private bool _withinRange;
     protected ScaledOneShotTimer _timer;
-    protected bool _withinRange;
     [SerializeField][Tooltip("How long the action takes to finish")]
     protected float _interactionTime = 2;
 
@@ -40,14 +40,21 @@ public abstract class PlayerUseable : MonoBehaviour, IUseable
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        //what ever layer the player is in
-        if(collision.gameObject.layer == 6)
+        if(collision.GetComponent<PlayerMovement>() != null)
+        {
             _withinRange = true;
+            collision.GetComponent<PlayerMovement>()._useableObject = gameObject;
+        }
+            
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == 6)
-            _withinRange = false;
+        if (collision.GetComponent<PlayerMovement>() != null)
+        {
+            _withinRange = true;
+            collision.GetComponent<PlayerMovement>()._useableObject = null;
+        }
+
     }
 }

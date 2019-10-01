@@ -11,14 +11,18 @@ namespace GameInput
         [SerializeField] private Vector2 _direction = new Vector2();
         public int DeviceID { get; private set; }
         private Controls controls;
+        [HideInInspector]
+        public GameObject _useableObject;
 
         private void Awake()
         {
             controls = new Controls();
             controls.Player.Move.Enable();
             controls.Player.Pause.Enable();
+            controls.Player.Use.Enable();
             controls.Player.Move.performed += ctx => ReadMovementInput(ctx);
             controls.Player.Pause.performed += ctx => DeviceID = ctx.control.device.deviceId;
+            controls.Player.Use.performed += ctx => Use(ctx);
         }
 
         public void SetDevice(int deviceID = -1, InputDevice device = null)
@@ -40,8 +44,10 @@ namespace GameInput
         {
             controls.Player.Move.performed -= ctx => ReadMovementInput(ctx);
             controls.Player.Pause.performed -= ctx => DeviceID = ctx.control.device.deviceId;
+            controls.Player.Use.performed -= ctx => Use(ctx);
             controls.Player.Move.Disable();
             controls.Player.Pause.Disable();
+            controls.Player.Use.Disable();
             controls = null;
         }
 
@@ -64,5 +70,15 @@ namespace GameInput
             if (DeviceID == context.control.device.deviceId)
                 _direction = context.ReadValue<Vector2>();
         }
+
+        private void Use(InputAction.CallbackContext context)
+        {
+            if (DeviceID == context.control.device.deviceId && _useableObject != null)
+            {
+                _useableObject.GetComponentInParent<PlayerUseable>().Use(gameObject);
+                Debug.Log("ss");
+            }
+        }       
+
     }
 }
