@@ -1,36 +1,28 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using PolyNav;
 using static Managers.BeverageManager;
 
 [CreateAssetMenu(fileName = "New base actions",menuName = "Actions/Base Actions",order = 2)]
 public class BaseActions : Action
 {
-    public void Move(Vector2 pos)
+    /// <summary>
+    /// Moves the AI to the desired location
+    /// </summary>
+    /// <param name="polyNav">PolyNavAgent</param>
+    /// <param name="pos">Move position</param>
+    public void Move(PolyNavAgent polyNav, Vector2 pos)
     {
-        // TODO: Movement Action
-        // TODO: Turning Action
+        polyNav.SetDestination(pos);
     }
 
-    public void Drink(/* add drink */)
+    /// <summary>
+    /// Tells opponent to set state to fight
+    /// </summary>
+    /// <param name="opponent">The selected fight opponent</param>
+    public void Fight(Customer opponent)
     {
-        // TODO: Make drink
-    }
-
-    public void Fight(/*add enemy */)
-    {
-        // TODO: Fight enemy
-    }
-
-    public void PassOut()
-    {
-        // TODO: Passout logic
-        //       Also add piss/vomit reflex
-    }
-
-    public Beverage Order()
-    {
-        // TODO: Place order
-        return 0;
+        opponent.SetState = Managers.AIManager.State.Fighting;
     }
 }
