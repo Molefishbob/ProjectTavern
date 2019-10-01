@@ -12,20 +12,27 @@ public class TableInteractions : AIUseable
         Full = 3
     }
 
-    [SerializeField]
-    private int _totalSeatsCount = 4;
+    protected int _totalSeatsCount;
     private int _freeSeatsCount;
-    public GameObject[] _chairs;
+    protected Transform[] _chairs;
 
     private void Awake()
     {
+        _totalSeatsCount = transform.childCount;
+        _chairs = new Transform[_totalSeatsCount];
+        for (int a = 0; a < _totalSeatsCount; a++)
+        {
+            _chairs[a] = transform.GetChild(a);
+        }
         _freeSeatsCount = _totalSeatsCount;
-        _chairs = new GameObject[_totalSeatsCount];
     }
-    public override void Use()
+    public override void Use() { }
+
+    public void Use(Customer ai)
     {
         if (_freeSeatsCount > 0)
         {
+            ai.Sit(_chairs[_totalSeatsCount - _freeSeatsCount]);
             _freeSeatsCount--;
         }
     }

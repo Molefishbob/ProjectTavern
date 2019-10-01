@@ -4,6 +4,7 @@ using UnityEngine;
 using PolyNav;
 using static Managers.AIManager;
 using static Managers.BeverageManager;
+using System;
 
 public class Customer : MonoBehaviour
 {
@@ -120,6 +121,12 @@ public class Customer : MonoBehaviour
         SetState = State.PassedOut;
         // TODO: PASS OUT
         // Also add excrement reflex
+    }
+
+    public void Sit(Transform trans)
+    {
+        _currentState = State.Waiting;
+        Move(trans.position);
     }
     #endregion
 }
