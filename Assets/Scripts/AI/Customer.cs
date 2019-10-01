@@ -1,10 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using PolyNav;
 using static Managers.AIManager;
 using static Managers.BeverageManager;
-using System;
 
 public class Customer : MonoBehaviour
 {
@@ -19,6 +16,7 @@ public class Customer : MonoBehaviour
     protected Action _specialAct;
     protected PolyNavAgent _polyNav;
     protected int _beverageAmount;
+    protected Vector3 _movePos;
     #endregion
 
     #region Properties
@@ -32,6 +30,8 @@ public class Customer : MonoBehaviour
     {
         _beverageAmount = System.Enum.GetNames(typeof(Beverage)).Length;
         _polyNav = GetComponent<PolyNavAgent>();
+
+        _polyNav.OnDestinationReached += CorrectPosition;
         _race = _behaviour._race;
         if (typeof(BaseActions) == _behaviour._actions[0].GetType())
         {
@@ -44,9 +44,15 @@ public class Customer : MonoBehaviour
             _specialAct = _behaviour._actions[0];
         }
     }
+
     private void Start()
     {
-        _polyNav.SetDestination(new Vector2(5, -3));
+
+    }
+
+    private void OnDestroy()
+    {
+        _polyNav.OnDestinationReached -= CorrectPosition;
     }
     #endregion
 
@@ -56,8 +62,9 @@ public class Customer : MonoBehaviour
     /// Uses base actions to move.
     /// </summary>
     /// <param name="pos"></param>
-    public void Move(Vector2 pos)
+    public void Move(Vector3 pos)
     {
+        _movePos = pos;
         _currentState = State.Moving;
         _act.Move(_polyNav,pos);
     }
@@ -81,7 +88,12 @@ public class Customer : MonoBehaviour
             int ran = Random.Range(1, _beverageAmount + 1);
             order = (Beverage)ran;
         }
+        SetState = State.Ordered;
         return order;
+    }
+    private void CorrectPosition()
+    {
+        transform.position = _movePos;
     }
 
     /// <summary>
