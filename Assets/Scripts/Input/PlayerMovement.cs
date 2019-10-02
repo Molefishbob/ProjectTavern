@@ -62,7 +62,7 @@ namespace GameInput
             controls = null;
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             Move();
         }
