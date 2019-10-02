@@ -22,7 +22,7 @@ public class Customer : MonoBehaviour
     #region Properties
     public State CurrentState { get => _currentState; }
     public AIBehaviour AIBehaviour { get => _behaviour; }
-    public State SetState { set => _currentState = value;}
+    public State SetState { set => _currentState = value; }
     #endregion
 
     #region Unity Methods
@@ -36,7 +36,11 @@ public class Customer : MonoBehaviour
         if (typeof(BaseActions) == _behaviour._actions[0].GetType())
         {
             _act = (BaseActions)_behaviour._actions[0];
-            _specialAct = _behaviour._actions[1];
+            if (_behaviour._actions.Length > 1)
+                _specialAct = _behaviour._actions[1];
+        } else if (_behaviour._actions.Length == 1)
+        {
+            Debug.LogError("Character is missing BaseActions !");
         }
         else
         {
@@ -66,7 +70,7 @@ public class Customer : MonoBehaviour
     {
         _movePos = pos;
         _currentState = State.Moving;
-        _act.Move(_polyNav,pos);
+        _act.Move(_polyNav, pos);
     }
 
 
@@ -91,6 +95,10 @@ public class Customer : MonoBehaviour
         SetState = State.Ordered;
         return order;
     }
+
+    /// <summary>
+    /// Fixes the AIs position to be exact.
+    /// </summary>
     private void CorrectPosition()
     {
         transform.position = _movePos;
@@ -135,6 +143,10 @@ public class Customer : MonoBehaviour
         // Also add excrement reflex
     }
 
+    /// <summary>
+    /// Called when the ai is given a seat to sit at
+    /// </summary>
+    /// <param name="trans">the position of the seat</param>
     public void Sit(Transform trans)
     {
         _currentState = State.Waiting;
