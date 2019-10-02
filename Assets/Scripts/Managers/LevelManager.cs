@@ -13,13 +13,14 @@ namespace Managers
         public List<TableInteractions> _tables;
         public Transform _door;
         [SerializeField]
-        private static int _maxQueueLength;
-        public Customer[] _customerQueue = new Customer[_maxQueueLength];
+        private int _maxQueueLength;
+        public Customer[] _customerQueue ;
         public CustomerPool _customerPoolPrefab;
         public PukePool _pukePoolPrefab;
 
         private void Awake()
         {
+            _customerQueue = new Customer[_maxQueueLength];
             Instantiate(_pukePoolPrefab);
             Instantiate(_customerPoolPrefab);
             _tables.AddRange(FindObjectsOfType<TableInteractions>());
