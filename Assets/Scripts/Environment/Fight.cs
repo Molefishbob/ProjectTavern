@@ -9,7 +9,10 @@ public class Fight : PlayerUseable
         base.Awake();
         _timer.OnTimerCompleted += FightStopped;
     }
-
+    private void OnDestroy()
+    {
+        _timer.OnTimerCompleted -= FightStopped;
+    }
     private void FightStopped()
     {
         Debug.Log("FINISH HIM!");
