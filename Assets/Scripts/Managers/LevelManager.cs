@@ -6,6 +6,7 @@ namespace Managers
 {
     public class LevelManager : MonoBehaviour
     {
+        [HideInInspector]
         public int _currentMoney;
         public int _moneyToWin = 1000;
         public float _playTime = 120f;
@@ -14,7 +15,7 @@ namespace Managers
         public Transform _door;
         [SerializeField]
         private int _maxQueueLength;
-        public Customer[] _customerQueue ;
+        public Customer[] _customerQueue;
         public CustomerPool _customerPoolPrefab;
         public PukePool _pukePoolPrefab;
 
@@ -35,4 +36,5 @@ namespace Managers
             }
         }
     }
+
 }
