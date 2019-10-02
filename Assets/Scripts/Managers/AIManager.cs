@@ -14,7 +14,8 @@ namespace Managers
             Waiting = 2,
             Served = 3,
             PassedOut = 4,
-            Fighting = 5
+            Fighting = 5,
+            Ordered = 6
         }
         protected List<Customer> _activeAgents;
         protected Customer[] _customers;
@@ -56,8 +57,8 @@ namespace Managers
             // TODO: Check for free tables
             // TODO: If no free tables check for free spots in the row
             // TODO: if no free spots in the row Murder the programmer who called this method
-            Customer cust = Instantiate(_customers[0], Vector2.zero, Quaternion.identity);
-            cust.Move(new Vector2(-5, -2));
+            Customer cust = Instantiate(_customers[0], Vector3.zero, Quaternion.identity);
+            cust.Move(new Vector3(1, 1, 0));
             _activeAgents.Add(cust);
         }
         #endregion

@@ -12,7 +12,7 @@ public class BaseActions : Action
     /// </summary>
     /// <param name="polyNav">PolyNavAgent</param>
     /// <param name="pos">Move position</param>
-    public void Move(PolyNavAgent polyNav, Vector2 pos)
+    public void Move(PolyNavAgent polyNav, Vector3 pos)
     {
         polyNav.SetDestination(pos);
     }

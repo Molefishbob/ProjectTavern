@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 6850620676519084673}
   - component: {fileID: 6850620676519084674}
   - component: {fileID: 6850620676519084675}
-  - component: {fileID: 6850620676519084676}
   m_Layer: 0
   m_Name: SpaceShipCustomer
   m_TagString: Untagged
@@ -118,12 +117,12 @@ MonoBehaviour:
   accelerationRate: 2
   decelerationRate: 2
   lookAheadDistance: 1
-  avoidRadius: 1
-  avoidanceConsiderStuckedTime: 3
+  avoidRadius: 0.5
+  avoidanceConsiderStuckedTime: 5
   avoidanceConsiderReachedDistance: 1
   rotateTransform: 1
   rotateSpeed: 350
-  centerOffset: {x: 0, y: 0}
+  centerOffset: {x: -0.3, y: -0.12}
   repath: 1
   restrict: 1
   closerPointOnInvalid: 1
@@ -135,10 +134,10 @@ PolygonCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6850620676519084702}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -157,15 +156,3 @@ PolygonCollider2D:
       - {x: -0.19590855, y: -0.12619066}
       - {x: -0.017294884, y: 0.24396694}
       - {x: 0.041057587, y: 0.24894226}
---- !u!114 &6850620676519084676
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6850620676519084702}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 307ca5cd8da74254ab5d892306f74dc6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

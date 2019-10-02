@@ -171,7 +171,6 @@ GameObject:
   - component: {fileID: 5238217236545673826}
   - component: {fileID: 5238217236545673825}
   - component: {fileID: 5238217236545673827}
-  - component: {fileID: 8643038047663255584}
   - component: {fileID: 7324390237574584403}
   m_Layer: 0
   m_Name: Table
@@ -259,22 +258,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4a3e07ecd8f10542ae65ce8659e1c05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _totalSeatsCount: 4
-  _chairs: []
---- !u!114 &8643038047663255584
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5238217236545673824}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4a3e07ecd8f10542ae65ce8659e1c05, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _totalSeatsCount: 0
-  _chairs: []
 --- !u!58 &7324390237574584403
 CircleCollider2D:
   m_ObjectHideFlags: 0
