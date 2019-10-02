@@ -11,6 +11,8 @@ public class Customer : MonoBehaviour
     protected AIBehaviour _behaviour;
     [SerializeField, Range(0, 100), Tooltip("The percentage chance to take the preferred drink")]
     protected int _preferredDrinkChance = 85;
+    protected Drink _currentDrink;
+    protected int _drunknessPercentage;
     protected Race _race;
     protected BaseActions _act;
     protected Action _specialAct;
@@ -47,11 +49,6 @@ public class Customer : MonoBehaviour
             _act = (BaseActions)_behaviour._actions[1];
             _specialAct = _behaviour._actions[0];
         }
-    }
-
-    private void Start()
-    {
-
     }
 
     private void OnDestroy()
@@ -107,8 +104,10 @@ public class Customer : MonoBehaviour
     /// <summary>
     /// Called when the players serve the correct drink to the AI
     /// </summary>
-    public void Served()
+    /// <param name="drink">The ordered drink</param>
+    public void Served(Drink drink)
     {
+        _currentDrink = drink;
         SetState = State.Served;
         // TODO: Start drinking
     }
@@ -117,8 +116,7 @@ public class Customer : MonoBehaviour
     /// The AI calls this method shortly after receiving the drink
     /// Different drinks take longer to drink
     /// </summary>
-    /// <param name="drink"></param>
-    public void Drink(Beverage drink)
+    public void Drink()
     {
         // TODO: Drink the drink
     }
@@ -126,7 +124,7 @@ public class Customer : MonoBehaviour
     /// <summary>
     /// Start a fight against an opponent
     /// </summary>
-    /// <param name="opponent"></param>
+    /// <param name="opponent">the opponent the ai is fighting against</param>
     public void Fight(Customer opponent)
     {
         SetState = State.Fighting;
