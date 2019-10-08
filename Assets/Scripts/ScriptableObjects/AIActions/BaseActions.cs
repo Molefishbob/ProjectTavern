@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using PolyNav;
-using static Managers.BeverageManager;
+using static Managers.AIManager;
 
 [CreateAssetMenu(fileName = "New base actions",menuName = "Actions/Base Actions",order = 2)]
 public class BaseActions : Action
@@ -23,6 +23,6 @@ public class BaseActions : Action
     /// <param name="opponent">The selected fight opponent</param>
     public void Fight(Customer opponent)
     {
-        opponent.SetState = Managers.AIManager.State.Fighting;
+        opponent.ChangeState(State.Fighting);
     }
 }

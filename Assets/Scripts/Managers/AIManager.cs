@@ -52,8 +52,6 @@ namespace Managers
         /// </summary>
         public void SpawnAI()
         {
-            // TODO: Pool customers
-            // TODO: Randomize customer type
             // TODO: Check for free tables
             // TODO: If no free tables check for free spots in the row
             // TODO: if no free spots in the row Murder the programmer who called this method

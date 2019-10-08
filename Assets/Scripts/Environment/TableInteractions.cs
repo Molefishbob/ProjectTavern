@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class TableInteractions : AIUseable
 {
-    public enum State
+    #region Parameters
+    public enum TableState
     {
         None = 0,
         Empty = 1,
@@ -12,13 +13,22 @@ public class TableInteractions : AIUseable
         Full = 3
     }
 
+    protected TableState _currentState;
     protected int _totalSeatsCount;
     private int _freeSeatsCount;
     protected Transform[] _chairs;
     protected Customer[] _sitters;
+    #endregion
 
+    #region Properties
+    public Transform[] Chairs { get => _chairs; }
+    public Customer[] Sitters { get => _sitters; }
+    #endregion
+
+    #region Unity Methods
     private void Awake()
     {
+        _currentState = TableState.Empty;
         _totalSeatsCount = transform.childCount;
         _chairs = new Transform[_totalSeatsCount];
         for (int a = 0; a < _totalSeatsCount; a++)
@@ -28,6 +38,9 @@ public class TableInteractions : AIUseable
         _freeSeatsCount = _totalSeatsCount;
         _sitters = new Customer[_totalSeatsCount];
     }
+    #endregion
+
+    #region Methods
     public override void Use() { }
 
     /// <summary>
@@ -37,16 +50,20 @@ public class TableInteractions : AIUseable
     /// <returns>True if gains a seat, otherwise false/returns>
     public bool Use(Customer ai)
     {
-        if (_freeSeatsCount > 0)
+        if (_currentState == TableState.Full) return false;
+
+        ai.Sit(_chairs[_totalSeatsCount - _freeSeatsCount]);
+        _sitters[_totalSeatsCount - _freeSeatsCount] = ai;
+        _freeSeatsCount--;
+        if (_freeSeatsCount == 0)
         {
-            ai.Sit(_chairs[_totalSeatsCount - _freeSeatsCount]);
-            _sitters[_totalSeatsCount - _freeSeatsCount] = ai;
-            _freeSeatsCount--;
-            return true;
-        } else
-        {
-            return false;
+            _currentState = TableState.Full;
         }
+        else
+        {
+            _currentState = TableState.Occupied;
+        }
+        return true;
     }
 
     /// <summary>
@@ -58,6 +75,13 @@ public class TableInteractions : AIUseable
     /// <param name="ai">The ai to be removed from the table</param>
     public void RemoveCustomer(Customer ai)
     {
+        _freeSeatsCount++;
+
+        if (_freeSeatsCount != _totalSeatsCount)
+            _currentState = TableState.Occupied;
+        else
+            _currentState = TableState.Empty;
+
         int me = ai.GetInstanceID();
 
         for (int a = 0; a < _sitters.Length; a++)
@@ -75,8 +99,8 @@ public class TableInteractions : AIUseable
                 i++;
             }
         }
-        _freeSeatsCount++;
         _sitters = temp;
     }
+    #endregion
 
 }
