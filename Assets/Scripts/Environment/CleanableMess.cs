@@ -10,7 +10,12 @@ public class CleanableMess : PlayerUseable
         base.Awake();
         _timer.OnTimerCompleted += Cleaned;
     }
-    
+
+    private void OnDestroy()
+    {
+        _timer.OnTimerCompleted -= Cleaned;
+    }
+
     private void Cleaned()
     {
         Debug.Log("You cleaned some rancid puke");

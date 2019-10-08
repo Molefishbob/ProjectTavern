@@ -13,7 +13,10 @@ public class PourBeverage : PlayerUseable
         base.Awake();
         _timer.OnTimerCompleted += DrinkPoured;
     }
-
+    private void OnDestroy()
+    {
+        _timer.OnTimerCompleted -= DrinkPoured;
+    }
     private void DrinkPoured()
     {
         switch (_drink)

@@ -13,6 +13,11 @@ public class Food : PlayerUseable
         _timer.OnTimerCompleted += GetFood;
     }
 
+    private void OnDestroy()
+    {
+        _timer.OnTimerCompleted -= GetFood;
+    }
+
     private void GetFood()
     {
         Debug.Log("You got some yumyum");
