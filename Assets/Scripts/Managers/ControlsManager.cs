@@ -39,12 +39,13 @@ namespace GameInput
         private void Init()
         {
             DontDestroyOnLoad(gameObject);
+            
             if (_playerPrefab == null)
             {
                 _playerPrefab = Resources.Load<PlayerMovement>("Test_Player");
             }
-            Initialized = true;
-            Debug.Log("Control Manager Initialized");
+
+            InputSystem.onDeviceChange += (device, reason) => DeviceChanged(device, reason);
 
             if (SpawnDebugShip)
             {
@@ -56,6 +57,9 @@ namespace GameInput
                 }
                 AddPlayer(1);
             }
+
+            Initialized = true;
+            Debug.Log("Control Manager Initialized");
         }
 
         public void AddPlayer(int deviceID = -1, InputDevice device = null)
@@ -83,6 +87,54 @@ namespace GameInput
         public bool DebugCheck(PlayerMovement player)
         {
             return _activePlayers.Contains(player);
+        }
+
+        /// <summary>
+        /// Disconnect handling.
+        /// Currently if the game is running, when Device is added
+        /// gives the first 0 controlled player control with the added device
+        /// TODO:   Pause the game when disconnect happens, if that device was in use.
+        /// </summary>
+        /// <param name="device"></param>
+        /// <param name="reason"></param>
+        private void DeviceChanged(InputDevice device, InputDeviceChange reason)
+        {
+            if (reason != InputDeviceChange.Added && reason != InputDeviceChange.Removed)
+                Debug.Log("Device " + reason.ToString() + ". ID: " + device.deviceId);
+
+            switch (reason)
+            {
+                // Im going to Use Added instead of reconnected, because device might
+                // get disconnected and be recognised as something else.
+                case InputDeviceChange.Added:
+                    foreach (var item in _activePlayers)
+                    {
+                        if (item.DeviceID == 0)
+                        {
+                            item.SetDevice(device.deviceId);
+                            break;
+                        }
+                    }
+                    break;
+
+                // Going to use removed, if the device is for some reason removed in runtime
+                // Remove != Disconnected
+                case InputDeviceChange.Removed:
+                    foreach (var item in _activePlayers)
+                    {
+                        if (item.DeviceID == device.deviceId)
+                        {
+                            item.SetDevice(0);
+                            item.StopMovement();
+                        }
+                    }
+                    break;
+
+                case InputDeviceChange.Disconnected:
+                    break;
+                case InputDeviceChange.Reconnected:
+                    break;
+            }
         }
     }
 }

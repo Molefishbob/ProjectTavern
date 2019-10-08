@@ -25,6 +25,12 @@ namespace GameInput
             controls.Player.Use.performed += ctx => Use(ctx);
         }
 
+        /// <summary>
+        /// Assing an Input device to this player, if non is given, input will be given to InputDeviceID 1.
+        /// Device is used over DeviceID
+        /// </summary>
+        /// <param name="deviceID"></param>
+        /// <param name="device"></param>
         public void SetDevice(int deviceID = -1, InputDevice device = null)
         {
             if (device == null && deviceID == -1)
@@ -40,6 +46,17 @@ namespace GameInput
             DeviceID = deviceID;
         }
 
+        /// <summary>
+        /// Stops all movement
+        /// </summary>
+        public void StopMovement()
+        {
+            _direction = Vector2.zero;
+        }
+
+        /// <summary>
+        /// Clear and disable unused stuff
+        /// </summary>
         private void OnDestroy()
         {
             controls.Player.Move.performed -= ctx => ReadMovementInput(ctx);
@@ -51,15 +68,17 @@ namespace GameInput
             controls = null;
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             Move();
         }
 
-        public void Move()
+        private void Move()
         {
+            // Something smarter needs to be done
             transform.Translate(_direction * _speed * Time.deltaTime);
 
+            // Move it into center of the level maybe, instead of this
             Vector2 posInCamera = Camera.main.WorldToViewportPoint(transform.position);
             if (posInCamera.x < 0 || posInCamera.x > 1 || posInCamera.y < 0 || posInCamera.y > 1)
                 transform.position = Vector3.zero;
