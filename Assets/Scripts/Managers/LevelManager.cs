@@ -85,6 +85,12 @@ namespace Managers
             return _pukePoolPrefab.GetPooledObject();
         }
 
+        /// <summary>
+        /// Finds the table a specific customer is sitting in.
+        /// 
+        /// </summary>
+        /// <param name="customer">The customer that is being searched for </param>
+        /// <returns>The table the customer is in.</returns>
         public TableInteractions GetTable(Customer customer)
         {
 
@@ -96,6 +102,7 @@ namespace Managers
                 }
             }
 
+            Debug.LogError("Customer has no table");
             return null;
         }
 
