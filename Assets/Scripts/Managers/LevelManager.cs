@@ -10,14 +10,21 @@ namespace Managers
         public int _currentMoney;
         public int _moneyToWin = 1000;
         public float _playTime = 120f;
-        public List<TableInteractions> _tables;
-        public Transform _door;
+        private List<TableInteractions> _tables;
+        [SerializeField]
+        private Transform _door = null;
         [SerializeField]
         private int _maxQueueLength = 5;
-        public Customer[] _customerQueue;
+        private Customer[] _customerQueue;
         public CustomerPool _customerPoolPrefab;
         public PukePool _pukePoolPrefab;
         private ScaledOneShotTimer _levelTimer;
+
+        public List<TableInteractions> Tables { get { return _tables; } }
+
+        public Customer[] CustomerQueue { get { return _customerQueue; } }
+
+        public Transform Door { get { return _door; } }
 
         private void Awake()
         {
@@ -28,7 +35,8 @@ namespace Managers
             if (GameObject.Find("Door") != null)
             {
                 _door = GameObject.Find("Door").transform;
-            }else
+            }
+            else
             {
                 Debug.LogError("No door found.");
             }
@@ -49,6 +57,16 @@ namespace Managers
         private void EndLevel()
         {
             //TODO: end level
+        }
+
+        public Customer GetCustomer()
+        {
+            return _customerPoolPrefab.GetPooledObject();
+        }
+
+        public CleanableMess GetPuke()
+        {
+            return _pukePoolPrefab.GetPooledObject();
         }
 
     }
