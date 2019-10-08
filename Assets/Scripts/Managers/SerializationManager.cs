@@ -220,7 +220,9 @@ public static class SerializationManager
 
     public class SaveData
     {
-
+        public string ProfileName = "";
+        public int LastLevelCleared = 0;
+        public float Money = 0;
     }
     
     #endregion
