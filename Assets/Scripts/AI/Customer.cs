@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using PolyNav;
+using Managers;
 using static Managers.AIManager;
 using static Managers.BeverageManager;
 
@@ -129,11 +130,14 @@ public class Customer : MonoBehaviour
     public void DecideDrunkAction()
     {
         int fightRoll = Mathf.RoundToInt(Random.Range(0f, 20f) + _race._agressiveness);
-        int orderRoll = Mathf.RoundToInt(Random.Range(0f, 20f)/*+ overallhappiness multiplier*/);
-        int passOutRoll =Mathf.RoundToInt(Random.Range(0f, 20f) + _drunknessPercentage / 100f);
+        int orderRoll = Mathf.RoundToInt(Random.Range(0f, 20f) + LevelManager.Instance.Happiness / 100f);
+        int passOutRoll = Mathf.RoundToInt(Random.Range(0f, 20f) + _drunknessPercentage / 100f);
 
         if (fightRoll > orderRoll && fightRoll > passOutRoll)
-            Fight(opponent: null /*TODO: GET opponent*/);
+        {
+            Customer opp = LevelManager.Instance.GetTable(this).GetOpponent(this);
+            Fight(opp);
+        }
         else if (orderRoll > fightRoll && orderRoll > passOutRoll)
             Order();
         else
@@ -184,7 +188,6 @@ public class Customer : MonoBehaviour
     protected void StopDrinking()
     {
         _currentDrink = null;
-        // TODO: remove drink from hand
         _drinkTimer.StopTimer();
         _sipsCount = 0;
         DecideDrunkAction();
@@ -207,7 +210,9 @@ public class Customer : MonoBehaviour
     {
         _currentState = State.PassedOut;
         // TODO: PASS OUT
-        // Also add excrement reflex
+        CleanableMess puke = LevelManager.Instance.GetPuke();
+        puke.transform.parent = this.transform;
+        puke.transform.position = Vector3.zero;
     }
 
     /// <summary>
