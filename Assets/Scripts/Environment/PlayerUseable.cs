@@ -6,8 +6,7 @@ using GameInput;
 public abstract class PlayerUseable : MonoBehaviour, IUseable
 {
     protected ScaledOneShotTimer _timer;
-    [SerializeField]
-    [Tooltip("How long the action takes to finish")]
+    [SerializeField, Tooltip("How long the action takes to finish")]
     protected float _interactionTime = 2;
     public bool IsBeingUsed { get => _timer.IsRunning; }
     public float CopmletePerc { get => _timer.NormalizedTimeElapsed; }
