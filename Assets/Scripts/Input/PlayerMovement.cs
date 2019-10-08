@@ -11,8 +11,7 @@ namespace GameInput
         [SerializeField] private Vector2 _direction = new Vector2();
         public int DeviceID { get; private set; }
         private Controls controls;
-        [HideInInspector]
-        public GameObject _useableObject;
+        private PlayerUseable _useableObject;
 
         private void Awake()
         {
@@ -92,12 +91,32 @@ namespace GameInput
 
         private void Use(InputAction.CallbackContext context)
         {
-            if (DeviceID == context.control.device.deviceId && _useableObject != null)
+            if (DeviceID == context.control.device.deviceId && _useableObject != null && !_useableObject.IsBeingUsed)
             {
-                _useableObject.GetComponentInParent<PlayerUseable>().Use(gameObject);
-                Debug.Log("ss");
+                _useableObject.Use(gameObject);
+                Debug.Log("Action started on " + _useableObject.GetType().ToString());
             }
-        }       
+        }
 
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (collision.gameObject.tag == "PlayerUsable")
+            {
+                _useableObject = collision.GetComponent<PlayerUseable>();
+            }
+        }
+
+        private void OnTriggerExit2D(Collider2D collision)
+        {
+            if (_useableObject?.gameObject == collision.gameObject)
+            {
+                if (_useableObject.IsBeingUsed)
+                {
+                    _useableObject.InterruptAction();
+                    Debug.Log(_useableObject.GetType().ToString() + " action interrupted!");
+                }
+                _useableObject = null;
+            }
+        }
     }
 }
