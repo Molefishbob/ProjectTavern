@@ -11,7 +11,9 @@ namespace GameInput
         [SerializeField] private Vector2 _direction = new Vector2();
         public int DeviceID { get; private set; }
         private Controls controls;
-        private PlayerUseable _useableObject;
+        private PlayerUseable _useableObject = null;
+        private GameObject _actionBar = null;
+        private UnityEngine.UI.Image _actionBarFill = null;
 
         private void Awake()
         {
@@ -22,6 +24,11 @@ namespace GameInput
             controls.Player.Move.performed += ctx => ReadMovementInput(ctx);
             controls.Player.Pause.performed += ctx => DeviceID = ctx.control.device.deviceId;
             controls.Player.Use.performed += ctx => Use(ctx);
+
+            _actionBar = gameObject.transform.GetChild(0).GetChild(0).gameObject;
+            _actionBarFill = _actionBar.transform.GetChild(0).GetChild(0).GetComponentInChildren<UnityEngine.UI.Image>();
+            _actionBarFill.fillAmount = 0;
+            _actionBar.SetActive(false);
         }
 
         /// <summary>
@@ -72,6 +79,22 @@ namespace GameInput
             Move();
         }
 
+        private void Update()
+        {
+            if (_useableObject?.User == gameObject)
+            {
+                _actionBarFill.fillAmount = _useableObject.CopmletePerc;
+            }
+            else if (_actionBar.activeSelf && (_useableObject == null || !_useableObject.IsBeingUsed))
+            {
+                _actionBar.SetActive(false);
+            }
+        }
+
+        /// <summary>
+        /// Uses direction gotten from the controller and moves accordingly
+        /// Also checks if out of screen and resets player
+        /// </summary>
         private void Move()
         {
             // Something smarter needs to be done
@@ -89,11 +112,17 @@ namespace GameInput
                 _direction = context.ReadValue<Vector2>();
         }
 
+        /// <summary>
+        /// Tell the other object that it is being used, Used object is reported from triggers
+        /// </summary>
+        /// <param name="context">Which device did this</param>
         private void Use(InputAction.CallbackContext context)
         {
             if (DeviceID == context.control.device.deviceId && _useableObject != null && !_useableObject.IsBeingUsed)
             {
                 _useableObject.Use(gameObject);
+                _actionBar.SetActive(true);
+                _actionBarFill.fillAmount = 0;
                 Debug.Log("Action started on " + _useableObject.GetType().ToString());
             }
         }
@@ -110,7 +139,7 @@ namespace GameInput
         {
             if (_useableObject?.gameObject == collision.gameObject)
             {
-                if (_useableObject.IsBeingUsed)
+                if (_useableObject.IsBeingUsed && _useableObject.User == gameObject)
                 {
                     _useableObject.InterruptAction();
                     Debug.Log(_useableObject.GetType().ToString() + " action interrupted!");

@@ -10,6 +10,7 @@ public abstract class PlayerUseable : MonoBehaviour, IUseable
     [Tooltip("How long the action takes to finish")]
     protected float _interactionTime = 2;
     public bool IsBeingUsed { get => _timer.IsRunning; }
+    public float CopmletePerc { get => _timer.NormalizedTimeElapsed; }
     public GameObject User { get; private set; }
 
     protected virtual void Awake()
@@ -32,7 +33,7 @@ public abstract class PlayerUseable : MonoBehaviour, IUseable
     public virtual void InterruptAction()
     {
         _timer.StopTimer();
-        User = null;
+        ClearInfo();
     }
 
     private void ClearInfo()
