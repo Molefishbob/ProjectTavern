@@ -7,4 +7,5 @@ public class Drink : ScriptableObject
     public Beverage _drink = Beverage.None;
     public int _alcoholContent;
     public int _price;
+    public int _amountOfUses;
 }

@@ -11,7 +11,10 @@ public class Customer : MonoBehaviour
     protected AIBehaviour _behaviour;
     [SerializeField, Range(0, 100), Tooltip("The percentage chance to take the preferred drink")]
     protected int _preferredDrinkChance = 85;
+    protected float _minDrinkFrequency = 15f;
+    protected float _maxDrinkFrequency = 30f;
     protected Drink _currentDrink;
+    protected int _sipsCount = 0;
     protected int _drunknessPercentage;
     protected Race _race;
     protected BaseActions _act;
@@ -19,12 +22,12 @@ public class Customer : MonoBehaviour
     protected PolyNavAgent _polyNav;
     protected int _beverageAmount;
     protected Vector3 _movePos;
+    protected ScaledOneShotTimer _drinkTimer;
     #endregion
 
     #region Properties
     public State CurrentState { get => _currentState; }
     public AIBehaviour AIBehaviour { get => _behaviour; }
-    public State SetState { set => _currentState = value; }
     #endregion
 
     #region Unity Methods
@@ -32,6 +35,8 @@ public class Customer : MonoBehaviour
     {
         _beverageAmount = System.Enum.GetNames(typeof(Beverage)).Length;
         _polyNav = GetComponent<PolyNavAgent>();
+        _drinkTimer = gameObject.AddComponent<ScaledOneShotTimer>();
+        _drinkTimer.OnTimerCompleted += TimeToDrink;
 
         _polyNav.OnDestinationReached += CorrectPosition;
         _race = _behaviour._race;
@@ -40,9 +45,10 @@ public class Customer : MonoBehaviour
             _act = (BaseActions)_behaviour._actions[0];
             if (_behaviour._actions.Length > 1)
                 _specialAct = _behaviour._actions[1];
-        } else if (_behaviour._actions.Length == 1)
+        }
+        else if (_behaviour._actions.Length == 1)
         {
-            Debug.LogError("Character is missing BaseActions !");
+            Debug.LogError("Character is missing BaseActions!");
         }
         else
         {
@@ -54,6 +60,7 @@ public class Customer : MonoBehaviour
     private void OnDestroy()
     {
         _polyNav.OnDestinationReached -= CorrectPosition;
+        _drinkTimer.OnTimerCompleted -= TimeToDrink;
     }
     #endregion
 
@@ -89,16 +96,48 @@ public class Customer : MonoBehaviour
             int ran = Random.Range(1, _beverageAmount + 1);
             order = (Beverage)ran;
         }
-        SetState = State.Ordered;
+        _currentState = State.Ordered;
         return order;
     }
 
     /// <summary>
-    /// Fixes the AIs position to be exact.
+    /// Fixes the AIs position to be exact
     /// </summary>
     private void CorrectPosition()
     {
         transform.position = _movePos;
+    }
+
+    /// <summary>
+    /// Used when another action interrupts an action.
+    /// </summary>
+    /// <param name="newState"></param>
+    public void ChangeState(State newState)
+    {
+        _currentState = newState;
+        if (_drinkTimer.IsRunning)
+            _drinkTimer.StopTimer();
+
+    }
+
+    /// <summary>
+    /// This method is called after completing a task, once a drink has been ordered
+    /// 
+    /// Decides what the character is going to do depending on how drunk they are
+    /// and according to their other traits
+    /// </summary>
+    public void DecideDrunkAction()
+    {
+        int fightRoll = Mathf.RoundToInt(Random.Range(0f, 20f) + _race._agressiveness);
+        int orderRoll = Mathf.RoundToInt(Random.Range(0f, 20f)/*+ overallhappiness multiplier*/);
+        int passOutRoll =Mathf.RoundToInt(Random.Range(0f, 20f) + _drunknessPercentage / 100f);
+
+        if (fightRoll > orderRoll && fightRoll > passOutRoll)
+            Fight(opponent: null /*TODO: GET opponent*/);
+        else if (orderRoll > fightRoll && orderRoll > passOutRoll)
+            Order();
+        else
+            PassOut();
     }
 
     /// <summary>
@@ -108,8 +147,8 @@ public class Customer : MonoBehaviour
     public void Served(Drink drink)
     {
         _currentDrink = drink;
-        SetState = State.Served;
-        // TODO: Start drinking
+        _currentState = State.Served;
+        Drink();
     }
 
     /// <summary>
@@ -118,7 +157,37 @@ public class Customer : MonoBehaviour
     /// </summary>
     public void Drink()
     {
-        // TODO: Drink the drink
+        _drinkTimer.StartTimer(Random.Range(_minDrinkFrequency, _maxDrinkFrequency));
+    }
+
+    protected void TimeToDrink()
+    {
+        _sipsCount++;
+        float alcoholContent = _currentDrink._alcoholContent;
+        int temp = Mathf.RoundToInt(alcoholContent * (_race._alcoholTolerance / 10));
+        if ((float)temp < (float)alcoholContent / 2)
+        {
+            temp += Mathf.RoundToInt(alcoholContent + alcoholContent * 0.2f);
+        }
+
+        _drunknessPercentage += temp;
+        if (_sipsCount >= _currentDrink._amountOfUses)
+        {
+            StopDrinking();
+        }
+        else
+        {
+            Drink();
+        }
+    }
+
+    protected void StopDrinking()
+    {
+        _currentDrink = null;
+        // TODO: remove drink from hand
+        _drinkTimer.StopTimer();
+        _sipsCount = 0;
+        DecideDrunkAction();
     }
 
     /// <summary>
@@ -127,7 +196,7 @@ public class Customer : MonoBehaviour
     /// <param name="opponent">the opponent the ai is fighting against</param>
     public void Fight(Customer opponent)
     {
-        SetState = State.Fighting;
+        _currentState = State.Fighting;
         _act.Fight(opponent);
     }
 
@@ -136,7 +205,7 @@ public class Customer : MonoBehaviour
     /// </summary>
     public void PassOut()
     {
-        SetState = State.PassedOut;
+        _currentState = State.PassedOut;
         // TODO: PASS OUT
         // Also add excrement reflex
     }
