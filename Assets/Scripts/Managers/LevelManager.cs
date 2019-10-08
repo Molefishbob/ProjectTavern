@@ -6,11 +6,13 @@ namespace Managers
 {
     public class LevelManager : MonoBehaviour
     {
-        [HideInInspector]
-        public int _currentMoney;
+        [SerializeField]
+        [Range(0, 100)]
+        private int _happiness = 50;
+        private int _currentMoney = 0;
         public int _moneyToWin = 1000;
         public float _playTime = 120f;
-        private List<TableInteractions> _tables;
+        private List<TableInteractions> _tables = null;
         [SerializeField]
         private Transform _door = null;
         [SerializeField]
@@ -26,8 +28,21 @@ namespace Managers
 
         public Transform Door { get { return _door; } }
 
+        public int CurrentMoney { get { return _currentMoney; } }
+
+        public int Happiness { get { return _happiness; } }
+
+        public static LevelManager Instance;
+
         private void Awake()
         {
+            if (Instance == null)
+            {
+                Instance = this;
+            }else
+            {
+                Destroy(gameObject);
+            }
             _customerQueue = new Customer[_maxQueueLength];
             Instantiate(_pukePoolPrefab);
             Instantiate(_customerPoolPrefab);
@@ -42,6 +57,7 @@ namespace Managers
             }
             _levelTimer = gameObject.AddComponent<ScaledOneShotTimer>();
             _levelTimer.OnTimerCompleted += EndLevel;
+
         }
 
         private void OnDestroy()
@@ -67,6 +83,20 @@ namespace Managers
         public CleanableMess GetPuke()
         {
             return _pukePoolPrefab.GetPooledObject();
+        }
+
+        public TableInteractions GetTable(Customer customer)
+        {
+
+            foreach (TableInteractions table in _tables)
+            {
+                foreach(Customer cust in table.Sitters)
+                {
+                    if (cust.GetInstanceID() == customer.GetInstanceID()) return table;
+                }
+            }
+
+            return null;
         }
 
     }
