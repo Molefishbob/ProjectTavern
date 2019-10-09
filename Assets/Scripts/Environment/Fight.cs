@@ -9,8 +9,9 @@ public class Fight : PlayerUseable
         base.Awake();
         _timer.OnTimerCompleted += FightStopped;
     }
-    private void OnDestroy()
+    protected override void OnDestroy()
     {
+        base.OnDestroy();
         _timer.OnTimerCompleted -= FightStopped;
     }
     private void FightStopped()
