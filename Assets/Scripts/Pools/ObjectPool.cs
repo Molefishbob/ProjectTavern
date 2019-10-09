@@ -19,7 +19,6 @@ public abstract class ObjectPoolT<T> : MonoBehaviour where T : MonoBehaviour
             T obj = InstantiateObject();
             obj.gameObject.SetActive(false);
         }
-        print(_pool.Count);
     }
 
     protected virtual void OnDisable()
