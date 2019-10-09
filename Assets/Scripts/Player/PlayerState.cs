@@ -59,12 +59,16 @@ public class PlayerState : MonoBehaviour
 
     public void UseUseable()
     {
-        if (CurrentlyHeld == Holdables.Nothing && UseableObject != null && !UseableObject.IsBeingUsed)
+        if (CurrentlyHeld == Holdables.Nothing && UseableObject != null && !UseableObject.IsBeingUsed && !(UseableObject is CounterTop))
         {
             UseableObject.Use(this);
             _actionBar.SetActive(true);
             _actionBarFill.fillAmount = 0;
             Debug.Log("Action started on " + UseableObject.GetType().ToString());
+        }
+        else if (UseableObject is CounterTop)
+        {
+            UseableObject.Use(this);
         }
     }
     
