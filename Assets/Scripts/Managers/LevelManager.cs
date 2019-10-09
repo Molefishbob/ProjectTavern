@@ -18,8 +18,12 @@ namespace Managers
         [SerializeField]
         private int _maxQueueLength = 5;
         private Customer[] _customerQueue;
-        public CustomerPool _customerPoolPrefab;
-        public PukePool _pukePoolPrefab;
+        [SerializeField]
+        private CustomerPool _customerPoolPrefab = null;
+        private CustomerPool _spawnedCustomerPool;
+        [SerializeField]
+        private PukePool _pukePoolPrefab = null;
+        private PukePool _spawnedPukePool;
         private ScaledOneShotTimer _levelTimer;
 
         public List<TableInteractions> Tables { get { return _tables; } }
@@ -45,8 +49,8 @@ namespace Managers
                 Destroy(gameObject);
             }
             _customerQueue = new Customer[_maxQueueLength];
-            Instantiate(_pukePoolPrefab);
-            Instantiate(_customerPoolPrefab);
+            _spawnedCustomerPool = Instantiate(_customerPoolPrefab);
+            _spawnedPukePool = Instantiate(_pukePoolPrefab);
             _tables = new List<TableInteractions>();
             _tables.AddRange(FindObjectsOfType<TableInteractions>());
             if (GameObject.Find("Door") != null)
@@ -79,12 +83,12 @@ namespace Managers
 
         public Customer GetCustomer()
         {
-            return _customerPoolPrefab.GetPooledObject();
+            return _spawnedCustomerPool.GetPooledObject();
         }
 
         public CleanableMess GetPuke()
         {
-            return _pukePoolPrefab.GetPooledObject();
+            return _spawnedPukePool.GetPooledObject();
         }
 
         public void GetSeat(Customer ai)

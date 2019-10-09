@@ -26,6 +26,7 @@ public abstract class ObjectPoolT<T> : MonoBehaviour where T : MonoBehaviour
     {
         foreach(T item in _pool)
         {
+            if (item == null) continue;
             item.gameObject.SetActive(false);
         }
     }
@@ -33,10 +34,9 @@ public abstract class ObjectPoolT<T> : MonoBehaviour where T : MonoBehaviour
     public T GetPooledObject()
     {
         T result = null;
-        print(_pool.Count);
         foreach(T obj in _pool)
         {
-            if (obj == null) continue;
+            if (obj == null) { Debug.Log("NULL!"); continue; } 
             if (!obj.gameObject.activeInHierarchy)
             {
                 result = obj;
@@ -59,7 +59,7 @@ public abstract class ObjectPoolT<T> : MonoBehaviour where T : MonoBehaviour
 
     private T InstantiateObject()
     {
-        T obj = Instantiate(_prefab, transform.position, transform.rotation);
+        T obj = Instantiate(_prefab, transform.position, transform.rotation, transform);
         _pool.Add(obj);
         return obj;
     }
