@@ -43,9 +43,9 @@ namespace Managers
 
         private void Update()
         {
-            if (iterations <= 50)
+            if (iterations <= 2)
             {
-                if (iterations == 50)
+                if (iterations == 2)
                 {
                     SpawnAI();
                 }
