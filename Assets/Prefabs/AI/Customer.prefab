@@ -113,13 +113,13 @@ MonoBehaviour:
   maxSpeed: 3.5
   mass: 20
   stoppingDistance: 0.1
-  slowingDistance: 1
-  accelerationRate: 2
-  decelerationRate: 2
+  slowingDistance: 0
+  accelerationRate: 1
+  decelerationRate: 0
   lookAheadDistance: 1
-  avoidRadius: 0
+  avoidRadius: 0.5
   avoidanceConsiderStuckedTime: 3
-  avoidanceConsiderReachedDistance: 1
+  avoidanceConsiderReachedDistance: 0.2
   rotateTransform: 0
   rotateSpeed: 350
   centerOffset: {x: 0, y: 0}
