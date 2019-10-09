@@ -68,7 +68,7 @@ public class Customer : MonoBehaviour
     #region Base Actions
     /// <summary>
     /// Sets the AIs state to Moving and
-    /// Uses base actions to move.
+    /// uses base actions to move.
     /// </summary>
     /// <param name="pos"></param>
     public void Move(Vector3 pos)
@@ -167,12 +167,8 @@ public class Customer : MonoBehaviour
     protected void TimeToDrink()
     {
         _sipsCount++;
-        float alcoholContent = _currentDrink._alcoholContent;
-        int temp = Mathf.RoundToInt(alcoholContent * (_race._alcoholTolerance / 10));
-        if ((float)temp < (float)alcoholContent / 2)
-        {
-            temp += Mathf.RoundToInt(alcoholContent + alcoholContent * 0.2f);
-        }
+        float alcoholContent = _currentDrink._alcoholContent / _currentDrink._amountOfUses;
+        int temp = Mathf.RoundToInt(alcoholContent - (alcoholContent * _race._alcoholTolerance / 10));
 
         _drunknessPercentage += temp;
         if (_sipsCount >= _currentDrink._amountOfUses)

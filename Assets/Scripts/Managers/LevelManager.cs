@@ -39,13 +39,15 @@ namespace Managers
             if (Instance == null)
             {
                 Instance = this;
-            }else
+            }
+            else
             {
                 Destroy(gameObject);
             }
             _customerQueue = new Customer[_maxQueueLength];
             Instantiate(_pukePoolPrefab);
             Instantiate(_customerPoolPrefab);
+            _tables = new List<TableInteractions>();
             _tables.AddRange(FindObjectsOfType<TableInteractions>());
             if (GameObject.Find("Door") != null)
             {
@@ -85,27 +87,43 @@ namespace Managers
             return _pukePoolPrefab.GetPooledObject();
         }
 
-        /// <summary>
-        /// Finds the table a specific customer is sitting in.
-        /// 
-        /// </summary>
-        /// <param name="customer">The customer that is being searched for </param>
-        /// <returns>The table the customer is in.</returns>
-        public TableInteractions GetTable(Customer customer)
+        public void GetSeat(Customer ai)
         {
-
-            foreach (TableInteractions table in _tables)
+            for (int a = 0; a < _tables.Count; a++)
             {
-                foreach(Customer cust in table.Sitters)
+                if (_tables[a].Use(ai)) return;
+            }
+            for (int a = 0; a < _maxQueueLength; a++)
+            {
+                if (_customerQueue[a] == null)
                 {
-                    if (cust.GetInstanceID() == customer.GetInstanceID()) return table;
+                    _customerQueue[a] = ai;
+                    return;
                 }
             }
+        }
 
-            Debug.LogError("Customer has no table");
-            return null;
+            /// <summary>
+            /// Finds the table a specific customer is sitting in.
+            /// 
+            /// </summary>
+            /// <param name="customer">The customer that is being searched for </param>
+            /// <returns>The table the customer is in.</returns>
+            public TableInteractions GetTable(Customer customer)
+            {
+
+                foreach (TableInteractions table in _tables)
+                {
+                    foreach (Customer cust in table.Sitters)
+                    {
+                        if (cust.GetInstanceID() == customer.GetInstanceID()) return table;
+                    }
+                }
+
+                Debug.LogError("Customer has no table");
+                return null;
+            }
+
         }
 
     }
-
-}

@@ -20,6 +20,7 @@ namespace Managers
         protected List<Customer> _activeAgents;
         protected Customer[] _customers;
         public static AIManager Instance;
+        private int iterations = 0;
         #endregion
 
         #region Properties
@@ -37,7 +38,19 @@ namespace Managers
         }
         private void Start()
         {
-            SpawnAI();
+
+        }
+
+        private void Update()
+        {
+            if (iterations <= 50)
+            {
+                if (iterations == 50)
+                {
+                    SpawnAI();
+                }
+                iterations++;
+            }
         }
         #endregion
 
@@ -55,9 +68,10 @@ namespace Managers
             // TODO: Check for free tables
             // TODO: If no free tables check for free spots in the row
             // TODO: if no free spots in the row Murder the programmer who called this method
-            Customer cust = Instantiate(_customers[0], Vector3.zero, Quaternion.identity);
-            cust.Move(new Vector3(1, 1, 0));
-            _activeAgents.Add(cust);
+            Customer ai = LevelManager.Instance.GetCustomer();
+            ai.transform.position = LevelManager.Instance.Door.position;
+            LevelManager.Instance.GetSeat(ai);
+            _activeAgents.Add(ai);
         }
         #endregion
     }

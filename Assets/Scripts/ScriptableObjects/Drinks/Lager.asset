@@ -15,3 +15,4 @@ MonoBehaviour:
   _drink: 1
   _alcoholContent: 5
   _price: 5
+  _amountOfUses: 5

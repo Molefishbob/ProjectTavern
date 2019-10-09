@@ -6,7 +6,8 @@ public abstract class ObjectPoolT<T> : MonoBehaviour where T : MonoBehaviour
 {
 
     public T _prefab;
-    public int _poolSize;
+    [SerializeField]
+    protected int _poolSize = 10;
     private List<T> _pool;
 
     private void Awake()
@@ -18,7 +19,7 @@ public abstract class ObjectPoolT<T> : MonoBehaviour where T : MonoBehaviour
             T obj = InstantiateObject();
             obj.gameObject.SetActive(false);
         }
-        DontDestroyOnLoad(gameObject);
+        print(_pool.Count);
     }
 
     protected virtual void OnDisable()
@@ -32,8 +33,10 @@ public abstract class ObjectPoolT<T> : MonoBehaviour where T : MonoBehaviour
     public T GetPooledObject()
     {
         T result = null;
+        print(_pool.Count);
         foreach(T obj in _pool)
         {
+            if (obj == null) continue;
             if (!obj.gameObject.activeInHierarchy)
             {
                 result = obj;
@@ -56,7 +59,7 @@ public abstract class ObjectPoolT<T> : MonoBehaviour where T : MonoBehaviour
 
     private T InstantiateObject()
     {
-        T obj = Instantiate(_prefab, transform.position, transform.rotation, transform);
+        T obj = Instantiate(_prefab, transform.position, transform.rotation);
         _pool.Add(obj);
         return obj;
     }
