@@ -12,8 +12,7 @@ GameObject:
   - component: {fileID: 3387701483610655313}
   - component: {fileID: 4522994987455349093}
   - component: {fileID: 3387701483610655314}
-  - component: {fileID: 3387701483610655315}
-  - component: {fileID: 1836591941771585080}
+  - component: {fileID: 2937736092829840270}
   m_Layer: 0
   m_Name: TrashCan
   m_TagString: PlayerUsable
@@ -96,7 +95,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11efecdddfb4f4c45ad369fcf39a3302, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _interactionTime: 1
+  _interactionTime: 0.1
 --- !u!61 &3387701483610655314
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -123,8 +122,8 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.16, y: 0.16}
   m_EdgeRadius: 0
---- !u!61 &3387701483610655315
-BoxCollider2D:
+--- !u!60 &2937736092829840270
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -146,32 +145,17 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.2, y: 0.05}
-  m_EdgeRadius: 0
---- !u!61 &1836591941771585080
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3387701483610655325}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0.049999997, y: 0.049999997, z: 0.049999997, w: 0.049999997}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.16, y: 0.16}
-    newSize: {x: 0.16, y: 0.16}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.05, y: 0.2}
-  m_EdgeRadius: 0
+  m_Points:
+    m_Paths:
+    - - {x: -0.020000001, y: 0.105}
+      - {x: -0.02, y: 0.0086}
+      - {x: -0.13, y: 0.0066}
+      - {x: -0.13, y: -0.023}
+      - {x: -0.02, y: -0.024}
+      - {x: -0.02, y: -0.126}
+      - {x: 0.016, y: -0.125}
+      - {x: 0.016, y: -0.026}
+      - {x: 0.12, y: -0.027}
+      - {x: 0.12, y: 0.0072}
+      - {x: 0.016, y: 0.0078}
+      - {x: 0.012, y: 0.1072}
