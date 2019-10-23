@@ -59,17 +59,18 @@ public class PlayerState : MonoBehaviour
 
     public void UseUseable()
     {
-        if (CurrentlyHeld == Holdables.Nothing && UseableObject != null && !UseableObject.IsBeingUsed 
-            && !(UseableObject is CounterTop || UseableObject is TrashCan))
+        if (UseableObject != null && !UseableObject.IsBeingUsed 
+            && (CurrentlyHeld == Holdables.Nothing || !UseableObject.RequiresEmptyHands))
         {
             UseableObject.Use(this);
-            _actionBar.SetActive(true);
-            _actionBarFill.fillAmount = 0;
+
+            if (UseableObject.ShowProgressBar)
+            {
+                _actionBar.SetActive(true);
+                _actionBarFill.fillAmount = 0;
+            }
+
             Debug.Log("Action started on " + UseableObject.GetType().ToString());
-        }
-        else if (UseableObject is CounterTop || UseableObject is TrashCan)
-        {
-            UseableObject.Use(this);
         }
     }
     

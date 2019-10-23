@@ -96,6 +96,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interactionTime: 0.1
+  _requiresEmptyHands: 0
+  _showProgressBar: 0
 --- !u!61 &3387701483610655314
 BoxCollider2D:
   m_ObjectHideFlags: 0

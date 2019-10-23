@@ -96,6 +96,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interactionTime: 0.1
+  _requiresEmptyHands: 0
+  _showProgressBar: 0
   StuffOnThis: 0
   Beverage: 0
 --- !u!61 &2731894069834734064

@@ -12,6 +12,14 @@ public abstract class PlayerUseable : MonoBehaviour, IUseable
     public float CopmletePerc { get => _timer.NormalizedTimeElapsed; }
     public PlayerState User { get; private set; }
 
+    [SerializeField]
+    protected bool _requiresEmptyHands = true;
+    public bool RequiresEmptyHands { get => _requiresEmptyHands; }
+
+    [SerializeField]
+    protected bool _showProgressBar = true;
+    public bool ShowProgressBar { get => _showProgressBar; }
+
     protected virtual void Awake()
     {
         _timer = gameObject.AddComponent<ScaledOneShotTimer>();
