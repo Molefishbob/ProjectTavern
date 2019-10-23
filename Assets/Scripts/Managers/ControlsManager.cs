@@ -36,6 +36,9 @@ namespace GameInput
             }
         }
 
+        /// <summary>
+        /// Initializes the control manager
+        /// </summary>
         private void Init()
         {
             DontDestroyOnLoad(gameObject);
@@ -62,15 +65,21 @@ namespace GameInput
             Debug.Log("Control Manager Initialized");
         }
 
+        /// <summary>
+        /// Add an active player with some device
+        /// prefers device over deviceID
+        /// </summary>
+        /// <param name="deviceID"></param>
+        /// <param name="device"></param>
         public void AddPlayer(int deviceID = -1, InputDevice device = null)
         {
+            int id = deviceID;
+
+            if (device != null)
+                id = device.deviceId;
+
             foreach (PlayerMovement activePlayer in _activePlayers)
             {
-                int id = deviceID;
-
-                if (device != null)
-                    id = device.deviceId;
-
                 if (activePlayer.DeviceID == id)
                 {
                     Debug.LogError("There is already a player on DeviceID " + id);
@@ -84,6 +93,11 @@ namespace GameInput
             tmp.SetDevice(deviceID, device);
         }
 
+        /// <summary>
+        /// Is the specific player active?
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns></returns>
         public bool DebugCheck(PlayerMovement player)
         {
             return _activePlayers.Contains(player);

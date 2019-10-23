@@ -26,15 +26,33 @@ public class PlayerState : MonoBehaviour
 
     #region Properties
 
+    /// <summary>
+    /// Usable object that is found via collision
+    /// </summary>
     public PlayerUseable UseableObject { get; private set; } = null;
+
+    /// <summary>
+    /// What is currently in our players hand
+    /// </summary>
     public Holdables CurrentlyHeld = Holdables.Nothing;
+
+    /// <summary>
+    /// What drink is in the hand?
+    /// </summary>
     public Beverage HeldDrink = Beverage.None;
+
+    /// <summary>
+    /// How many percents its done
+    /// </summary>
     public float UseProgress { get => UseableObject.CopmletePerc; }
 
     #endregion
 
     #region Unity Methods
 
+    /// <summary>
+    /// Finds the needed references in runtime.
+    /// </summary>
     void Awake()
     {
         _actionBar = gameObject.transform.GetChild(0).GetChild(0).gameObject;
