@@ -20,7 +20,9 @@ namespace Managers
         protected List<Customer> _activeAgents;
         protected Customer[] _customers;
         public static AIManager Instance;
-        private int iterations = 0;
+        private ScaledOneShotTimer _timer;
+        private float _duration;
+        private float _offset;
         #endregion
 
         #region Properties
@@ -33,6 +35,8 @@ namespace Managers
             if (Instance != null && Instance != this) Destroy(gameObject);
             else Instance = this;
 
+            _timer = gameObject.AddComponent<ScaledOneShotTimer>();
+            _timer.OnTimerCompleted += SpawnAI;
             _activeAgents = new List<Customer>();
             _customers = Resources.LoadAll<Customer>("Customers");
         }
@@ -41,21 +45,40 @@ namespace Managers
 
         }
 
-        private void Update()
+        private void OnDestroy()
         {
-            if (iterations <= 60)
-            {
-                if (iterations == 60)
-                {
-                    SpawnAI();
-                    iterations = 0;
-                }
-                iterations++;
-            }
+            _timer.OnTimerCompleted -= SpawnAI;
         }
+
         #endregion
 
         #region Methods
+        /// <summary>
+        /// Starts spawning AI when called
+        /// </summary>
+        /// <param name="interval">The interval in which the AI is spawned</param>
+        /// <param name="offset">The offset of the interval</param>
+        public void StartSpawning(float interval, float offset)
+        {
+            _offset = offset;
+            _duration = interval;
+            _timer.StartTimer(_duration + Random.Range(-_offset, _offset + 1));
+        }
+
+        /// <summary>
+        /// Stops the spawning of the AI
+        /// </summary>
+        public void StopSpawning()
+        {
+            _timer.StopTimer();
+        }
+
+        public void RemoveCustomer(Customer ai)
+        {
+            _activeAgents.Remove(ai);
+            ai.gameObject.SetActive(false);
+        }
+
         /// <summary>
         /// Spawns an AI to the level.
         /// 
@@ -71,8 +94,9 @@ namespace Managers
             // TODO: if no free spots in the row Murder the programmer who called this method
             Customer ai = LevelManager.Instance.GetCustomer();
             ai.transform.position = LevelManager.Instance.Door.position;
-            LevelManager.Instance.GetSeat(ai);
             _activeAgents.Add(ai);
+            LevelManager.Instance.GetSeat(ai);
+            _timer.StartTimer(_duration + Random.Range(-_offset, _offset + 1));
         }
         #endregion
     }
