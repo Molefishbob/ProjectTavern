@@ -20,7 +20,7 @@ namespace Managers
         protected List<Customer> _activeAgents;
         protected Customer[] _customers;
         public static AIManager Instance;
-        private ScaledOneShotTimer _timer;
+        public ScaledOneShotTimer _timer;
         private float _duration;
         private float _offset;
         #endregion
@@ -89,14 +89,11 @@ namespace Managers
         /// </summary>
         public void SpawnAI()
         {
-            // TODO: Check for free tables
-            // TODO: If no free tables check for free spots in the row
-            // TODO: if no free spots in the row Murder the programmer who called this method
             Customer ai = LevelManager.Instance.GetCustomer();
             ai.transform.position = LevelManager.Instance.Door.position;
             _activeAgents.Add(ai);
             LevelManager.Instance.GetSeat(ai);
-            _timer.StartTimer(_duration + Random.Range(-_offset, _offset + 1));
+            //_timer.StartTimer(_duration + Random.Range(-_offset, _offset + 1));
         }
         #endregion
     }
