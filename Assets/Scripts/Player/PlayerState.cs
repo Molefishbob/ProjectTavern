@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 using static Managers.BeverageManager;
 
 public class PlayerState : MonoBehaviour
@@ -19,6 +20,7 @@ public class PlayerState : MonoBehaviour
 
     private GameObject _actionBar = null;
     private UnityEngine.UI.Image _actionBarFill = null;
+    private TextMeshProUGUI _heldText = null;
 
     #endregion
 
@@ -39,6 +41,7 @@ public class PlayerState : MonoBehaviour
         _actionBarFill = _actionBar.transform.GetChild(0).GetChild(0).GetComponentInChildren<UnityEngine.UI.Image>();
         _actionBarFill.fillAmount = 0;
         _actionBar.SetActive(false);
+        _heldText = gameObject.transform.GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>();
     }
 
     private void Update()
@@ -56,7 +59,11 @@ public class PlayerState : MonoBehaviour
     #endregion
 
     #region Methods
-
+    
+    /// <summary>
+    /// This should happen when the use button is pressed.
+    /// Passes necessary info to the useable object
+    /// </summary>
     public void UseUseable()
     {
         if (UseableObject != null && !UseableObject.IsBeingUsed 
@@ -72,8 +79,27 @@ public class PlayerState : MonoBehaviour
 
             Debug.Log("Action started on " + UseableObject.GetType().ToString());
         }
+
     }
     
+    /// <summary>
+    /// Update the held item visually
+    /// </summary>
+    public void UpdateHeld()
+    {
+        if (CurrentlyHeld == Holdables.Nothing)
+        {
+            _heldText.text = "";
+        }
+        else
+        {
+            _heldText.text = CurrentlyHeld.ToString()[0] + "";
+
+            if (HeldDrink != Beverage.None)
+                _heldText.text += "\\" + HeldDrink.ToString()[0];
+        }
+    }
+
     #endregion
 
     #region Collision Detection

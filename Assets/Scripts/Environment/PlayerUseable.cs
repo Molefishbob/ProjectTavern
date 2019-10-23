@@ -29,6 +29,7 @@ public abstract class PlayerUseable : MonoBehaviour, IUseable
     // In case they need to use the User, before data is cleared.
     private void Start()
     {
+        _timer.OnTimerCompleted += UpdateUser;
         _timer.OnTimerCompleted += ClearInfo;
     }
 
@@ -54,8 +55,14 @@ public abstract class PlayerUseable : MonoBehaviour, IUseable
         User = null;
     }
 
+    private void UpdateUser()
+    {
+        User.UpdateHeld();
+    }
+
     protected virtual void OnDestroy()
     {
+        _timer.OnTimerCompleted -= UpdateUser;
         _timer.OnTimerCompleted -= ClearInfo;
     }
 }
