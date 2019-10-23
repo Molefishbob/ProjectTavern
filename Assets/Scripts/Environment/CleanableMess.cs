@@ -11,8 +11,9 @@ public class CleanableMess : PlayerUseable
         _timer.OnTimerCompleted += Cleaned;
     }
 
-    private void OnDestroy()
+    protected override void OnDestroy()
     {
+        base.OnDestroy();
         _timer.OnTimerCompleted -= Cleaned;
     }
 

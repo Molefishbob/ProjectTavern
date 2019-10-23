@@ -13,12 +13,15 @@ public class PourBeverage : PlayerUseable
         base.Awake();
         _timer.OnTimerCompleted += DrinkPoured;
     }
-    private void OnDestroy()
+    protected override void OnDestroy()
     {
+        base.OnDestroy();
         _timer.OnTimerCompleted -= DrinkPoured;
     }
     private void DrinkPoured()
     {
+        User.CurrentlyHeld = PlayerState.Holdables.Drink;
+        User.HeldDrink = _drink;
         switch (_drink)
         {
             case Beverage.PaleLager:
@@ -62,6 +65,8 @@ public class PourBeverage : PlayerUseable
                 }
                 break;
             default:
+                User.CurrentlyHeld = PlayerState.Holdables.Nothing;
+                User.HeldDrink = Beverage.None;
                 Debug.LogError("Error!!! No beverage selected");
                 break;
         }

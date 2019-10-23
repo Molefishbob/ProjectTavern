@@ -13,14 +13,15 @@ public class Food : PlayerUseable
         _timer.OnTimerCompleted += GetFood;
     }
 
-    private void OnDestroy()
+    protected override void OnDestroy()
     {
+        base.OnDestroy();
         _timer.OnTimerCompleted -= GetFood;
     }
 
     private void GetFood()
     {
+        User.CurrentlyHeld = PlayerState.Holdables.Food;
         Debug.Log("You got some yumyum");
     }
-    
 }
