@@ -25,7 +25,7 @@ public abstract class PlayerUseable : MonoBehaviour, IUseable
     public float CopmletePerc { get => _timer.NormalizedTimeElapsed; }
 
     /// <summary>
-    /// Who is uding this?
+    /// Who is using this?
     /// </summary>
     public PlayerState User { get; private set; }
 
