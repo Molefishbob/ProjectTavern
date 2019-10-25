@@ -130,8 +130,8 @@ public class Customer : MonoBehaviour
     public void DecideDrunkAction()
     {
         int fightRoll = Mathf.RoundToInt(Random.Range(0f, 20f) + _race._agressiveness);
-        int orderRoll = Mathf.RoundToInt(Random.Range(0f, 20f) + LevelManager.Instance.Happiness / 100f);
-        int passOutRoll = Mathf.RoundToInt(Random.Range(0f, 20f) + _drunknessPercentage / 100f);
+        int orderRoll = Mathf.RoundToInt(Random.Range(0f, 20f) + LevelManager.Instance.Happiness / 10f);
+        int passOutRoll = Mathf.RoundToInt(Random.Range(0f, 20f) + _drunknessPercentage / 10f);
 
         if (fightRoll > orderRoll && fightRoll > passOutRoll)
         {
