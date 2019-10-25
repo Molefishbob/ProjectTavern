@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7255629140201143500}
   - component: {fileID: 2497150824330804505}
   - component: {fileID: 6336922286752668688}
+  - component: {fileID: -2424117334340245334}
   m_Layer: 0
   m_Name: Customer
   m_TagString: Untagged
@@ -45,6 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _behaviour: {fileID: 11400000, guid: 5d37b72f79ad4b6429e74529ea546604, type: 2}
+  _preferredDrinkChance: 85
 --- !u!212 &6336922286752668688
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -95,3 +97,33 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &-2424117334340245334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3925152023883153628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93cc6a4987f7c684798156c56d545838, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _map: {fileID: 0}
+  maxSpeed: 3.5
+  mass: 20
+  stoppingDistance: 0.1
+  slowingDistance: 0
+  accelerationRate: 1
+  decelerationRate: 0
+  lookAheadDistance: 1
+  avoidRadius: 0.5
+  avoidanceConsiderStuckedTime: 3
+  avoidanceConsiderReachedDistance: 0.2
+  rotateTransform: 0
+  rotateSpeed: 350
+  centerOffset: {x: 0, y: 0}
+  repath: 1
+  restrict: 0
+  closerPointOnInvalid: 1
+  debugPath: 1

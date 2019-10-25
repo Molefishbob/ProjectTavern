@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using PolyNav;
+using Managers;
 using static Managers.AIManager;
 using static Managers.BeverageManager;
 
@@ -67,7 +68,7 @@ public class Customer : MonoBehaviour
     #region Base Actions
     /// <summary>
     /// Sets the AIs state to Moving and
-    /// Uses base actions to move.
+    /// uses base actions to move.
     /// </summary>
     /// <param name="pos"></param>
     public void Move(Vector3 pos)
@@ -129,11 +130,14 @@ public class Customer : MonoBehaviour
     public void DecideDrunkAction()
     {
         int fightRoll = Mathf.RoundToInt(Random.Range(0f, 20f) + _race._agressiveness);
-        int orderRoll = Mathf.RoundToInt(Random.Range(0f, 20f)/*+ overallhappiness multiplier*/);
-        int passOutRoll =Mathf.RoundToInt(Random.Range(0f, 20f) + _drunknessPercentage / 100f);
+        int orderRoll = Mathf.RoundToInt(Random.Range(0f, 20f) + LevelManager.Instance.Happiness / 10f);
+        int passOutRoll = Mathf.RoundToInt(Random.Range(0f, 20f) + _drunknessPercentage / 10f);
 
         if (fightRoll > orderRoll && fightRoll > passOutRoll)
-            Fight(opponent: null /*TODO: GET opponent*/);
+        {
+            Customer opp = LevelManager.Instance.GetTable(this).GetOpponent(this);
+            Fight(opp);
+        }
         else if (orderRoll > fightRoll && orderRoll > passOutRoll)
             Order();
         else
@@ -163,12 +167,8 @@ public class Customer : MonoBehaviour
     protected void TimeToDrink()
     {
         _sipsCount++;
-        float alcoholContent = _currentDrink._alcoholContent;
-        int temp = Mathf.RoundToInt(alcoholContent * (_race._alcoholTolerance / 10));
-        if ((float)temp < (float)alcoholContent / 2)
-        {
-            temp += Mathf.RoundToInt(alcoholContent + alcoholContent * 0.2f);
-        }
+        float alcoholContent = _currentDrink._alcoholContent / _currentDrink._amountOfUses;
+        int temp = Mathf.RoundToInt(alcoholContent - (alcoholContent * _race._alcoholTolerance / 10));
 
         _drunknessPercentage += temp;
         if (_sipsCount >= _currentDrink._amountOfUses)
@@ -184,7 +184,6 @@ public class Customer : MonoBehaviour
     protected void StopDrinking()
     {
         _currentDrink = null;
-        // TODO: remove drink from hand
         _drinkTimer.StopTimer();
         _sipsCount = 0;
         DecideDrunkAction();
@@ -207,7 +206,9 @@ public class Customer : MonoBehaviour
     {
         _currentState = State.PassedOut;
         // TODO: PASS OUT
-        // Also add excrement reflex
+        CleanableMess puke = LevelManager.Instance.GetPuke();
+        puke.transform.parent = this.transform;
+        puke.transform.position = Vector3.zero;
     }
 
     /// <summary>
@@ -215,6 +216,12 @@ public class Customer : MonoBehaviour
     /// </summary>
     /// <param name="trans">the position of the seat</param>
     public void Sit(Transform trans)
+    {
+        _currentState = State.Waiting;
+        Move(trans.position);
+    }
+
+    public void GetInLine(Transform trans) 
     {
         _currentState = State.Waiting;
         Move(trans.position);
