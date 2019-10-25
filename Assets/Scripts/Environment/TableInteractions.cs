@@ -13,7 +13,7 @@ public class TableInteractions : AIUseable
         Full = 3
     }
 
-    protected TableState _currentState;
+    public TableState _currentState;
     protected int _totalSeatsCount;
     private int _freeSeatsCount;
     protected Transform[] _chairs;

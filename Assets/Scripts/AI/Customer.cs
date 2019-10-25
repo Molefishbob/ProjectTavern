@@ -220,5 +220,11 @@ public class Customer : MonoBehaviour
         _currentState = State.Waiting;
         Move(trans.position);
     }
+
+    public void GetInLine(Transform trans) 
+    {
+        _currentState = State.Waiting;
+        Move(trans.position);
+    }
     #endregion
 }

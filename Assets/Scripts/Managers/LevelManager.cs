@@ -15,8 +15,7 @@ namespace Managers
         private List<TableInteractions> _tables = null;
         [SerializeField]
         private Transform _door = null;
-        [SerializeField]
-        private int _maxQueueLength = 5;
+        public int _maxQueueLength = 5;
         private Customer[] _customerQueue;
         [SerializeField]
         private CustomerPool _customerPoolPrefab = null;
@@ -25,6 +24,11 @@ namespace Managers
         private PukePool _pukePoolPrefab = null;
         private PukePool _spawnedPukePool;
         private ScaledOneShotTimer _levelTimer;
+        [SerializeField]
+        private float _spawnInterval = 5;
+        [SerializeField]
+        private float _spawnOffset = 5;
+        private Queue _queue;
 
         public List<TableInteractions> Tables { get { return _tables; } }
 
@@ -53,6 +57,7 @@ namespace Managers
             _spawnedPukePool = Instantiate(_pukePoolPrefab);
             _tables = new List<TableInteractions>();
             _tables.AddRange(FindObjectsOfType<TableInteractions>());
+            _queue = FindObjectOfType<Queue>();
             if (GameObject.Find("Door") != null)
             {
                 _door = GameObject.Find("Door").transform;
@@ -74,6 +79,14 @@ namespace Managers
         private void Start()
         {
             _levelTimer.StartTimer(_playTime);
+        }
+
+        private void Update()
+        {
+            if (CanSpawnAi() && !AIManager.Instance._timer.IsRunning)
+            {
+                AIManager.Instance.StartSpawning(_spawnInterval, _spawnOffset);
+            }
         }
 
         private void EndLevel()
@@ -102,32 +115,57 @@ namespace Managers
                 if (_customerQueue[a] == null)
                 {
                     _customerQueue[a] = ai;
+                    _queue.GoToQueue(ai);
+
                     return;
                 }
             }
+
+            AIManager.Instance.RemoveCustomer(ai);
+
         }
 
-            /// <summary>
-            /// Finds the table a specific customer is sitting in.
-            /// 
-            /// </summary>
-            /// <param name="customer">The customer that is being searched for </param>
-            /// <returns>The table the customer is in.</returns>
-            public TableInteractions GetTable(Customer customer)
+        /// <summary>
+        /// Finds the table a specific customer is sitting in.
+        /// 
+        /// </summary>
+        /// <param name="customer">The customer that is being searched for </param>
+        /// <returns>The table the customer is in.</returns>
+        public TableInteractions GetTable(Customer customer)
+        {
+
+            foreach (TableInteractions table in _tables)
             {
-
-                foreach (TableInteractions table in _tables)
+                foreach (Customer cust in table.Sitters)
                 {
-                    foreach (Customer cust in table.Sitters)
-                    {
-                        if (cust.GetInstanceID() == customer.GetInstanceID()) return table;
-                    }
+                    if (cust.GetInstanceID() == customer.GetInstanceID()) return table;
                 }
-
-                Debug.LogError("Customer has no table");
-                return null;
             }
 
+            Debug.LogError("Customer has no table");
+            return null;
         }
 
+        private bool CanSpawnAi() 
+        {
+            for(int i = 0; i<_tables.Count; i++)
+            {
+                if(_tables[i]._currentState != TableInteractions.TableState.Full)
+                {    
+                    return true;
+                }
+            }
+
+            for(int i = 0; i < _customerQueue.Length; i++)
+            {
+                if (CustomerQueue[i] == null)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
+
+}
