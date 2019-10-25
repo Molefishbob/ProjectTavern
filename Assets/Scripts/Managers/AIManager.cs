@@ -73,6 +73,10 @@ namespace Managers
             _timer.StopTimer();
         }
 
+        /// <summary>
+        /// Despawns a specific customer
+        /// </summary>
+        /// <param name="ai">The customer to be despawned</param>
         public void RemoveCustomer(Customer ai)
         {
             _activeAgents.Remove(ai);
