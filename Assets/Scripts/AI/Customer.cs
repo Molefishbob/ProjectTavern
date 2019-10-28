@@ -24,6 +24,7 @@ public class Customer : MonoBehaviour
     protected int _beverageAmount;
     protected Vector3 _movePos;
     protected ScaledOneShotTimer _drinkTimer;
+    protected Beverage _orderedDrink;
     #endregion
 
     #region Properties
@@ -83,7 +84,7 @@ public class Customer : MonoBehaviour
     /// Decides on a drink to order and informs it
     /// visually to the player.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>The ordered beverage</returns>
     public Beverage Order()
     {
         Beverage order = Beverage.None;
@@ -98,6 +99,7 @@ public class Customer : MonoBehaviour
             order = (Beverage)ran;
         }
         _currentState = State.Ordered;
+        _orderedDrink = order;
         return order;
     }
 
@@ -145,14 +147,19 @@ public class Customer : MonoBehaviour
     }
 
     /// <summary>
-    /// Called when the players serve the correct drink to the AI
+    /// Called when the players serve a drink to the customer
     /// </summary>
-    /// <param name="drink">The ordered drink</param>
-    public void Served(Drink drink)
+    /// <param name="drink">The drink being served</param>
+    /// <returns>true if the correct drink, otherwise false</returns>
+    public bool Served(Drink drink)
     {
+        if (drink._drink != _orderedDrink) return false;
+
         _currentDrink = drink;
         _currentState = State.Served;
         Drink();
+        _orderedDrink = Beverage.None;
+        return true;
     }
 
     /// <summary>
