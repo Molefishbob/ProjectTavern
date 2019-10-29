@@ -128,10 +128,15 @@ namespace Managers
 
         public void LeaveQueue(Customer ai)
         {
-            for (int a = 0; a < _tables.Count; a++)
+            for (int i = 0; i < _tables.Count; i++)
             {
-                if (_tables[a].Use(ai)) return;
+                if (_tables[i].Use(ai))
+                {
+                    _queue._queuedCustomers.RemoveAt(0);
+                    return;
+                }
             }
+
         }
 
         /// <summary>
@@ -155,17 +160,17 @@ namespace Managers
             return null;
         }
 
-        private bool CanSpawnAi() 
+        private bool CanSpawnAi()
         {
-            for(int i = 0; i<_tables.Count; i++)
+            for (int i = 0; i < _tables.Count; i++)
             {
-                if(_tables[i]._currentState != TableInteractions.TableState.Full)
-                {    
+                if (_tables[i]._currentState != TableInteractions.TableState.Full)
+                {
                     return true;
                 }
             }
 
-            for(int i = 0; i < _customerQueue.Length; i++)
+            for (int i = 0; i < _customerQueue.Length; i++)
             {
                 if (CustomerQueue[i] == null)
                 {

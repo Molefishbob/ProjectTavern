@@ -9,7 +9,8 @@ public class Queue : AIUseable
     private int _freeSpots;
     [HideInInspector]
     public Transform[] _queueSpots;
-    private List<Customer> _queuedCustomers = new List<Customer>();
+    [HideInInspector]
+    public List<Customer> _queuedCustomers = new List<Customer>();
 
     private void Awake()
     {
@@ -25,7 +26,8 @@ public class Queue : AIUseable
 
     private void Update()
     {
-        if(_queuedCustomers.Count > 0) {
+        if (_queuedCustomers.Count > 0)
+        {
             LevelManager.Instance.LeaveQueue(_queuedCustomers[0]);
         }
     }

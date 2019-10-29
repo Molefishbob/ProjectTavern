@@ -68,6 +68,14 @@ public class Customer : MonoBehaviour
     }
     #endregion
 
+    private void Update()
+    {
+        if(Vector2.Distance(transform.position, LevelManager.Instance.Door.transform.position) < 0.1f && _hasBeenServed)
+        {
+            AIManager.Instance.RemoveCustomer(this);
+        }
+    }
+
     #region Base Actions
     /// <summary>
     /// Sets the AIs state to Moving and
@@ -170,6 +178,10 @@ public class Customer : MonoBehaviour
         Drink();
         _orderedDrink = Beverage.None;
         _hasBeenServed = true;
+
+        //DEBUG
+        Leave(LevelManager.Instance.Door);
+
         return true;
     }
 
@@ -250,14 +262,6 @@ public class Customer : MonoBehaviour
         LevelManager.Instance.GetTable(this).RemoveCustomer(this);
         _currentState = State.Waiting;
         Move(trans.position);
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if(_hasBeenServed && collision.gameObject.name == "Door")
-        {
-            AIManager.Instance.RemoveCustomer(this);
-        }
     }
 
     #endregion

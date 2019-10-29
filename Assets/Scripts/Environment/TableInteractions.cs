@@ -52,7 +52,15 @@ public class TableInteractions : AIUseable
     {
         if (_currentState == TableState.Full) return false;
 
-        ai.Sit(_chairs[_totalSeatsCount - _freeSeatsCount]);
+        for(int i = 0; i < _totalSeatsCount; i++)
+        {
+            if (_sitters[i] == null)
+            {
+                ai.Sit(_chairs[i].transform);
+                break;
+            }
+        }
+
         _sitters[_totalSeatsCount - _freeSeatsCount] = ai;
         _freeSeatsCount--;
         if (_freeSeatsCount == 0)
@@ -107,7 +115,7 @@ public class TableInteractions : AIUseable
             if (me == _sitters[a].GetInstanceID()) _sitters[a] = null;
         }
 
-        Customer[] temp = new Customer[_sitters.Length];
+        /*Customer[] temp = new Customer[_sitters.Length];
         int i = 0;
         for (int a = 0; a < _sitters.Length; a++)
         {
@@ -117,7 +125,7 @@ public class TableInteractions : AIUseable
                 i++;
             }
         }
-        _sitters = temp;
+        _sitters = temp;*/
     }
     #endregion
 
