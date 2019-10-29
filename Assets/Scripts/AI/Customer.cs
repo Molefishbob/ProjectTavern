@@ -30,6 +30,7 @@ public class Customer : MonoBehaviour
     #region Properties
     public State CurrentState { get => _currentState; }
     public AIBehaviour AIBehaviour { get => _behaviour; }
+    public Beverage OrderedDrink { get => _orderedDrink; }
     #endregion
 
     #region Unity Methods
@@ -233,5 +234,15 @@ public class Customer : MonoBehaviour
         _currentState = State.Waiting;
         Move(trans.position);
     }
+
+    #endregion
+
+    #region DEBUGACTIONS
+
+    public void OrderOverride()
+    {
+        _orderedDrink = Order();
+    }
+
     #endregion
 }

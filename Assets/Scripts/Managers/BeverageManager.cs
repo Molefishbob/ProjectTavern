@@ -13,7 +13,7 @@ namespace Managers
             FruitCocktail = 5,
             Spirit = 6,
             Water = 7,
-            Grog = 8,
+            Grog = 8
 
             // TODO: add more beverages
         }
