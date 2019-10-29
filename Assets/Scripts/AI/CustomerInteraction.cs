@@ -39,13 +39,10 @@ public class CustomerInteraction : PlayerUseable
 
             tmp = tmp.Distinct().ToArray();
 
-            if (tmp.Length == System.Enum.GetNames(typeof(Managers.BeverageManager.Beverage)).Length - 1)
+            if (tmp.Length != System.Enum.GetNames(typeof(Managers.BeverageManager.Beverage)).Length - 1)
             {
-                Debug.Log("All Cool");
-            }
-            else
-            {
-                Debug.Log(tmp.Length + "|" + (System.Enum.GetNames(typeof(Managers.BeverageManager.Beverage)).Length - 1));
+                Debug.LogWarning("There are uneven amounts of drinks between bewerage and drinks!\nDrinks in resources" 
+                    + tmp.Length + "\nDrinks in Beverages" + (System.Enum.GetNames(typeof(Managers.BeverageManager.Beverage)).Length - 1));
             }
         }
     }
