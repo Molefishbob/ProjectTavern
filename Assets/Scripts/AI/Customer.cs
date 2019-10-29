@@ -25,6 +25,7 @@ public class Customer : MonoBehaviour
     protected Vector3 _movePos;
     protected ScaledOneShotTimer _drinkTimer;
     protected Beverage _orderedDrink;
+    private bool _hasBeenServed = false;
     #endregion
 
     #region Properties
@@ -135,16 +136,24 @@ public class Customer : MonoBehaviour
         int fightRoll = Mathf.RoundToInt(Random.Range(0f, 20f) + _race._agressiveness);
         int orderRoll = Mathf.RoundToInt(Random.Range(0f, 20f) + LevelManager.Instance.Happiness / 10f);
         int passOutRoll = Mathf.RoundToInt(Random.Range(0f, 20f) + _drunknessPercentage / 10f);
+        int leaveRoll = 0;
+        if (_drunknessPercentage > 20 && LevelManager.Instance.Happiness > 20)
+        {
+            leaveRoll = Mathf.RoundToInt(Random.Range(0f, 20f) + _drunknessPercentage / 10f);
+        }
 
-        if (fightRoll > orderRoll && fightRoll > passOutRoll)
+        if (fightRoll > orderRoll && fightRoll > passOutRoll && fightRoll > leaveRoll)
         {
             Customer opp = LevelManager.Instance.GetTable(this).GetOpponent(this);
             Fight(opp);
         }
-        else if (orderRoll > fightRoll && orderRoll > passOutRoll)
+        else if (orderRoll > fightRoll && orderRoll > passOutRoll && orderRoll > leaveRoll)
             Order();
-        else
+        else if (passOutRoll > fightRoll && passOutRoll > orderRoll && passOutRoll > leaveRoll)
             PassOut();
+        else
+            Leave(LevelManager.Instance.Door);
+ 
     }
 
     /// <summary>
@@ -160,6 +169,7 @@ public class Customer : MonoBehaviour
         _currentState = State.Served;
         Drink();
         _orderedDrink = Beverage.None;
+        _hasBeenServed = true;
         return true;
     }
 
@@ -233,6 +243,21 @@ public class Customer : MonoBehaviour
     {
         _currentState = State.Waiting;
         Move(trans.position);
+    }
+
+    public void Leave(Transform trans)
+    {
+        LevelManager.Instance.GetTable(this).RemoveCustomer(this);
+        _currentState = State.Waiting;
+        Move(trans.position);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(_hasBeenServed && collision.gameObject.name == "Door")
+        {
+            AIManager.Instance.RemoveCustomer(this);
+        }
     }
 
     #endregion

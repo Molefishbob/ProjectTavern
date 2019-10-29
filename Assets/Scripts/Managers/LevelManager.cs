@@ -28,7 +28,8 @@ namespace Managers
         private float _spawnInterval = 5;
         [SerializeField]
         private float _spawnOffset = 5;
-        private Queue _queue;
+        [HideInInspector]
+        public Queue _queue;
 
         public List<TableInteractions> Tables { get { return _tables; } }
 
@@ -123,6 +124,14 @@ namespace Managers
 
             AIManager.Instance.RemoveCustomer(ai);
 
+        }
+
+        public void LeaveQueue(Customer ai)
+        {
+            for (int a = 0; a < _tables.Count; a++)
+            {
+                if (_tables[a].Use(ai)) return;
+            }
         }
 
         /// <summary>

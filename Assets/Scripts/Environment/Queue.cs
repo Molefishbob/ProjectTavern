@@ -7,7 +7,9 @@ public class Queue : AIUseable
 {
     private int _queueLength;
     private int _freeSpots;
+    [HideInInspector]
     public Transform[] _queueSpots;
+    private List<Customer> _queuedCustomers = new List<Customer>();
 
     private void Awake()
     {
@@ -21,9 +23,16 @@ public class Queue : AIUseable
 
     }
 
+    private void Update()
+    {
+        if(_queuedCustomers.Count > 0) {
+            LevelManager.Instance.LeaveQueue(_queuedCustomers[0]);
+        }
+    }
     public void GoToQueue(Customer ai)
     {
         ai.GetInLine(_queueSpots[_queueLength - _freeSpots].transform);
+        _queuedCustomers.Add(ai);
         _freeSpots--;
     }
 
