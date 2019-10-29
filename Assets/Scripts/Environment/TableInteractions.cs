@@ -13,7 +13,7 @@ public class TableInteractions : AIUseable
         Full = 3
     }
 
-    protected TableState _currentState;
+    public TableState _currentState;
     protected int _totalSeatsCount;
     private int _freeSeatsCount;
     protected Transform[] _chairs;
@@ -64,6 +64,24 @@ public class TableInteractions : AIUseable
             _currentState = TableState.Occupied;
         }
         return true;
+    }
+
+    /// <summary>
+    /// Finds an opponent from the table that is not the given customer
+    /// </summary>
+    /// <param name="notme">The customer that wants to fight</param>
+    /// <returns>An opponent</returns>
+    public Customer GetOpponent(Customer notme)
+    {
+        for (int a = 0; a < _totalSeatsCount - _freeSeatsCount; a++)
+        {
+            if (_sitters[a] != notme)
+            {
+                return _sitters[a];
+            }
+        }
+        Debug.LogError("No other customers on the table! Cannot start a fight");
+        return null;
     }
 
     /// <summary>

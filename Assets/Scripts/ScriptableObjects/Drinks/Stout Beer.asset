@@ -15,3 +15,4 @@ MonoBehaviour:
   _drink: 2
   _alcoholContent: 9
   _price: 5
+  _amountOfUses: 6

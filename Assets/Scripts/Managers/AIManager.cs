@@ -20,6 +20,9 @@ namespace Managers
         protected List<Customer> _activeAgents;
         protected Customer[] _customers;
         public static AIManager Instance;
+        public ScaledOneShotTimer _timer;
+        private float _duration;
+        private float _offset;
         #endregion
 
         #region Properties
@@ -32,16 +35,54 @@ namespace Managers
             if (Instance != null && Instance != this) Destroy(gameObject);
             else Instance = this;
 
+            _timer = gameObject.AddComponent<ScaledOneShotTimer>();
+            _timer.OnTimerCompleted += SpawnAI;
             _activeAgents = new List<Customer>();
             _customers = Resources.LoadAll<Customer>("Customers");
         }
         private void Start()
         {
-            SpawnAI();
+
         }
+
+        private void OnDestroy()
+        {
+            _timer.OnTimerCompleted -= SpawnAI;
+        }
+
         #endregion
 
         #region Methods
+        /// <summary>
+        /// Starts spawning AI when called
+        /// </summary>
+        /// <param name="interval">The interval in which the AI is spawned</param>
+        /// <param name="offset">The offset of the interval</param>
+        public void StartSpawning(float interval, float offset)
+        {
+            _offset = offset;
+            _duration = interval;
+            _timer.StartTimer(_duration + Random.Range(-_offset, _offset + 1));
+        }
+
+        /// <summary>
+        /// Stops the spawning of the AI
+        /// </summary>
+        public void StopSpawning()
+        {
+            _timer.StopTimer();
+        }
+
+        /// <summary>
+        /// Despawns a specific customer
+        /// </summary>
+        /// <param name="ai">The customer to be despawned</param>
+        public void RemoveCustomer(Customer ai)
+        {
+            _activeAgents.Remove(ai);
+            ai.gameObject.SetActive(false);
+        }
+
         /// <summary>
         /// Spawns an AI to the level.
         /// 
@@ -52,12 +93,11 @@ namespace Managers
         /// </summary>
         public void SpawnAI()
         {
-            // TODO: Check for free tables
-            // TODO: If no free tables check for free spots in the row
-            // TODO: if no free spots in the row Murder the programmer who called this method
-            Customer cust = Instantiate(_customers[0], Vector3.zero, Quaternion.identity);
-            cust.Move(new Vector3(1, 1, 0));
-            _activeAgents.Add(cust);
+            Customer ai = LevelManager.Instance.GetCustomer();
+            ai.transform.position = LevelManager.Instance.Door.position;
+            _activeAgents.Add(ai);
+            LevelManager.Instance.GetSeat(ai);
+            //_timer.StartTimer(_duration + Random.Range(-_offset, _offset + 1));
         }
         #endregion
     }

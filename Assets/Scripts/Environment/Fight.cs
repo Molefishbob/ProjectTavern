@@ -16,6 +16,6 @@ public class Fight : PlayerUseable
     }
     private void FightStopped()
     {
-        Debug.Log("FINISH HIM!");
+        Debug.Log("Reima älä räjähdä, me tiedetään miltä susta tuntuu");
     }
 }
