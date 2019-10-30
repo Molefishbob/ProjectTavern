@@ -21,7 +21,7 @@ public class CustomerEditor : Editor
         if (_customer.DrinkTimerRunning)
         {
             GUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField("Drink Time: " + _customer.DrinkTimer);
+            EditorGUILayout.LabelField(string.Format("Drink Time: {0:00.0}", _customer.DrinkTimerElapsed));
             GUILayout.EndHorizontal();
             Repaint();
         }
