@@ -126,16 +126,27 @@ namespace Managers
 
         }
 
-        public void LeaveQueue(Customer ai)
+        public bool LeaveQueue(Customer ai)
         {
             for (int i = 0; i < _tables.Count; i++)
             {
                 if (_tables[i].Use(ai))
                 {
                     _queue._queuedCustomers.RemoveAt(0);
-                    return;
+                    _customerQueue[0] = null;
+                    for (int a = 0; a < _customerQueue.Length; a++)
+                    {
+                        if (_customerQueue[i] == null)
+                        {
+                            _customerQueue[i] = _customerQueue[i + 1];
+                            _customerQueue[i + 1] = null;
+                        }
+
+                    }
+                    return true;
                 }
             }
+            return false;
 
         }
 

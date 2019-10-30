@@ -28,7 +28,12 @@ public class Queue : AIUseable
     {
         if (_queuedCustomers.Count > 0)
         {
-            LevelManager.Instance.LeaveQueue(_queuedCustomers[0]);
+            if (LevelManager.Instance.LeaveQueue(_queuedCustomers[0]))
+            {
+                _freeSpots++;
+                MoveUpInQueue();
+            }
+
         }
     }
     public void GoToQueue(Customer ai)
@@ -36,6 +41,14 @@ public class Queue : AIUseable
         ai.GetInLine(_queueSpots[_queueLength - _freeSpots].transform);
         _queuedCustomers.Add(ai);
         _freeSpots--;
+    }
+
+    public void MoveUpInQueue()
+    {
+        for (int i = 0; i < _queuedCustomers.Count; i++)
+        {
+            _queuedCustomers[i].GetInLine(_queueSpots[i]);
+        }
     }
 
 }

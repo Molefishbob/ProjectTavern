@@ -1088,6 +1088,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: New_Table (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 1602150329316157618, guid: 40e6d250670310b4e82fc35ba5f777fb,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8257914854327982348, guid: 40e6d250670310b4e82fc35ba5f777fb,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2869,6 +2874,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: New_Table (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1602150329316157618, guid: 40e6d250670310b4e82fc35ba5f777fb,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8257914854327982348, guid: 40e6d250670310b4e82fc35ba5f777fb,
         type: 3}

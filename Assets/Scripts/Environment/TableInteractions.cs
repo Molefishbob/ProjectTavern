@@ -52,7 +52,7 @@ public class TableInteractions : AIUseable
     {
         if (_currentState == TableState.Full) return false;
 
-        for(int i = 0; i < _totalSeatsCount; i++)
+        for (int i = 0; i < _totalSeatsCount; i++)
         {
             if (_sitters[i] == null)
             {
@@ -96,7 +96,7 @@ public class TableInteractions : AIUseable
     /// Removes a customer from the table
     /// 
     /// Removes the specified customer from the sitters array
-    /// Rearranges the sitters array after
+    /// Rearranges the sitters array after (Commented out)
     /// </summary>
     /// <param name="ai">The ai to be removed from the table</param>
     public void RemoveCustomer(Customer ai)
