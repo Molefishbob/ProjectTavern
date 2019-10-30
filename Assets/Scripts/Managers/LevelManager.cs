@@ -95,16 +95,33 @@ namespace Managers
             //TODO: end level
         }
 
+        /// <summary>
+        /// Returns first inactive customer from the customer pool.
+        /// 
+        /// </summary>
+        /// <returns>Customer from customer pool</returns>
         public Customer GetCustomer()
         {
             return _spawnedCustomerPool.GetPooledObject();
         }
 
+        /// <summary>
+        /// If you need some puke from the puke pool, you can get it here.
+        /// 
+        /// </summary>
+        /// <returns>Puke from the puke pool</returns>
         public CleanableMess GetPuke()
         {
             return _spawnedPukePool.GetPooledObject();
         }
 
+
+        /// <summary>
+        /// Checks all tables for free seats. If seat is found customer moves to the firs available seat. If no seat is found checks for a free queue spot.
+        /// If no free seats or queue spots are found, deactivates customer.
+        /// 
+        /// </summary>
+        /// <param name="ai"></param>
         public void GetSeat(Customer ai)
         {
             for (int a = 0; a < _tables.Count; a++)
@@ -126,6 +143,13 @@ namespace Managers
 
         }
 
+
+        /// <summary>
+        /// Checks if there is a free seat for the customer in the queue. 
+        /// If free seat is found customer leaves queue and the rest of the queued customers are rearranged.
+        /// </summary>
+        /// <param name="ai"></param>
+        /// <returns>True if a free seat is found. Oterwise false </returns>
         public bool LeaveQueue(Customer ai)
         {
             for (int i = 0; i < _tables.Count; i++)
@@ -174,6 +198,11 @@ namespace Managers
             return null;
         }
 
+
+        /// <summary>
+        /// Checks if a new customer can be spawned if there are any seats in the tables. If no seats are found chekc if there are free spots in queue.
+        /// </summary>
+        /// <returns>True if there are seats in any table or free spots in queue. Otherwise returns false</returns>
         private bool CanSpawnAi()
         {
             for (int i = 0; i < _tables.Count; i++)

@@ -36,6 +36,11 @@ public class Queue : AIUseable
 
         }
     }
+
+    /// <summary>
+    /// Moves spawned customer to the first free spot in the queue.
+    /// </summary>
+    /// <param name="ai"></param>
     public void GoToQueue(Customer ai)
     {
         ai.GetInLine(_queueSpots[_queueLength - _freeSpots].transform);
@@ -43,6 +48,9 @@ public class Queue : AIUseable
         _freeSpots--;
     }
 
+    /// <summary>
+    /// When a customer leaves the queue, moves the rest of the customers up one spot in the queue.
+    /// </summary>
     public void MoveUpInQueue()
     {
         for (int i = 0; i < _queuedCustomers.Count; i++)
