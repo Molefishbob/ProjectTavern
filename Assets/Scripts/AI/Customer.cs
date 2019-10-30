@@ -29,6 +29,8 @@ public class Customer : MonoBehaviour
     protected ScaledOneShotTimer _positionCorrectiontimer;
     protected Beverage _orderedDrink;
     private bool _hasBeenServed = false;
+    [SerializeField]
+    private TMPro.TextMeshProUGUI _orderText = null;
     #endregion
 
     #region Properties
@@ -69,6 +71,13 @@ public class Customer : MonoBehaviour
             _act = (BaseActions)_behaviour._actions[1];
             _specialAct = _behaviour._actions[0];
         }
+
+        if (_orderText == null)
+        {
+            Debug.LogError("Order text has not been set in!");
+        }
+
+        _orderText.text = "";
     }
 
     private void Update()
@@ -124,6 +133,7 @@ public class Customer : MonoBehaviour
         }
         _currentState = State.Ordered;
         _orderedDrink = order;
+        _orderText.text = "D\\" + _orderedDrink.ToString()[0];
         return order;
     }
 
@@ -207,6 +217,7 @@ public class Customer : MonoBehaviour
     public void Drink()
     {
         _drinkTimer.StartTimer(Random.Range(_minDrinkFrequency, _maxDrinkFrequency));
+        _orderText.text = "Drinking!";
     }
 
     protected void TimeToDrink()
@@ -254,6 +265,8 @@ public class Customer : MonoBehaviour
         CleanableMess puke = LevelManager.Instance.GetPuke();
         puke.transform.parent = this.transform;
         puke.transform.position = Vector3.zero;
+
+        _orderText.text = "Passed Out!";
     }
 
     /// <summary>

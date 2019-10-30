@@ -10,6 +10,7 @@ public class CustomerEditor : Editor
     public override void OnInspectorGUI()
     {
         DrawDefaultInspector();
+        if (!EditorApplication.isPlaying) return;
         _customer = (Customer)target;
         if (GUILayout.Button("Order override"))
         {
