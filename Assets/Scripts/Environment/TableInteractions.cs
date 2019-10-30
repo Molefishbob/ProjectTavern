@@ -112,6 +112,7 @@ public class TableInteractions : AIUseable
 
         for (int a = 0; a < _sitters.Length; a++)
         {
+            if (_sitters[a] == null) continue;
             if (me == _sitters[a].GetInstanceID()) _sitters[a] = null;
         }
 

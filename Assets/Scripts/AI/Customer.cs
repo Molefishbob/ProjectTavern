@@ -8,6 +8,7 @@ public class Customer : MonoBehaviour
 {
     #region Members
     protected State _currentState;
+    protected State _afterMoveState;
     [SerializeField]
     protected AIBehaviour _behaviour;
     [SerializeField, Range(0, 100), Tooltip("The percentage chance to take the preferred drink")]
@@ -30,8 +31,12 @@ public class Customer : MonoBehaviour
 
     #region Properties
     public State CurrentState { get => _currentState; }
+    public State NextState { get => _afterMoveState; }
     public AIBehaviour AIBehaviour { get => _behaviour; }
     public Beverage OrderedDrink { get => _orderedDrink; }
+    public int Drunkness { get => _drunknessPercentage; }
+    public float DrinkTimer { get => _drinkTimer.TimeLeft; }
+    public bool DrinkTimerRunning { get => _drinkTimer.IsRunning; }
     #endregion
 
     #region Unity Methods
@@ -43,6 +48,8 @@ public class Customer : MonoBehaviour
         _drinkTimer.OnTimerCompleted += TimeToDrink;
 
         _polyNav.OnDestinationReached += CorrectPosition;
+        _polyNav.OnDestinationReached += AfterMoveActions;
+
         _race = _behaviour._race;
         if (typeof(BaseActions) == _behaviour._actions[0].GetType())
         {
@@ -64,17 +71,10 @@ public class Customer : MonoBehaviour
     private void OnDestroy()
     {
         _polyNav.OnDestinationReached -= CorrectPosition;
+        _polyNav.OnDestinationReached -= AfterMoveActions;
         _drinkTimer.OnTimerCompleted -= TimeToDrink;
     }
     #endregion
-
-    private void Update()
-    {
-        if(Vector2.Distance(transform.position, LevelManager.Instance.Door.transform.position) < 0.1f && _hasBeenServed)
-        {
-            AIManager.Instance.RemoveCustomer(this);
-        }
-    }
 
     #region Base Actions
     /// <summary>
@@ -156,7 +156,7 @@ public class Customer : MonoBehaviour
             Fight(opp);
         }
         else if (orderRoll > fightRoll && orderRoll > passOutRoll && orderRoll > leaveRoll)
-            Order();
+            _orderedDrink = Order();
         else if (passOutRoll > fightRoll && passOutRoll > orderRoll && passOutRoll > leaveRoll)
             PassOut();
         else
@@ -180,7 +180,7 @@ public class Customer : MonoBehaviour
         _hasBeenServed = true;
 
         //DEBUG
-        Leave(LevelManager.Instance.Door);
+        //Leave(LevelManager.Instance.Door);
 
         return true;
     }
@@ -247,21 +247,46 @@ public class Customer : MonoBehaviour
     /// <param name="trans">the position of the seat</param>
     public void Sit(Transform trans)
     {
-        _currentState = State.Waiting;
+        _afterMoveState = State.Ordered;
         Move(trans.position);
     }
 
     public void GetInLine(Transform trans) 
     {
-        _currentState = State.Waiting;
+        _afterMoveState = State.Waiting;
         Move(trans.position);
     }
 
     public void Leave(Transform trans)
     {
         LevelManager.Instance.GetTable(this).RemoveCustomer(this);
-        _currentState = State.Waiting;
+        _afterMoveState = State.None;
         Move(trans.position);
+    }
+
+    private void AfterMoveActions()
+    {
+        switch (_afterMoveState)
+        {
+            case State.None:
+                AIManager.Instance.RemoveCustomer(this);
+                break;
+            case State.Moving:
+                break;
+            case State.Waiting:
+                break;
+            case State.Served:
+                break;
+            case State.PassedOut:
+                break;
+            case State.Fighting:
+                break;
+            case State.Ordered:
+                _orderedDrink = Order();
+                break;
+            default:
+                break;
+        }
     }
 
     #endregion

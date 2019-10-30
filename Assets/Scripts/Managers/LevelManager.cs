@@ -158,11 +158,14 @@ namespace Managers
         /// <returns>The table the customer is in.</returns>
         public TableInteractions GetTable(Customer customer)
         {
+            if (customer == null)
+                return null;
 
             foreach (TableInteractions table in _tables)
             {
                 foreach (Customer cust in table.Sitters)
                 {
+                    if (cust == null) continue;
                     if (cust.GetInstanceID() == customer.GetInstanceID()) return table;
                 }
             }
