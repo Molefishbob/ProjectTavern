@@ -10,6 +10,7 @@ public class CustomerEditor : Editor
     public override void OnInspectorGUI()
     {
         DrawDefaultInspector();
+        if (!EditorApplication.isPlaying) return;
         _customer = (Customer)target;
         if (GUILayout.Button("Order override"))
         {
@@ -18,10 +19,20 @@ public class CustomerEditor : Editor
 
         EditorGUILayout.LabelField("Current state: " + _customer.CurrentState);
 
+        if (_customer.DrinkTimerRunning)
+        {
+            GUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField(string.Format("Drink Time: {0:00.0}", _customer.DrinkTimerElapsed));
+            GUILayout.EndHorizontal();
+            Repaint();
+        }
+        
         if (_customer.CurrentState == Managers.AIManager.State.Ordered)
         {
             EditorGUILayout.LabelField("Current order: " + _customer.OrderedDrink);
         }
 
+        EditorGUILayout.LabelField("Next state: " + _customer.NextState);
+        EditorGUILayout.LabelField("Drunkness: " + _customer.Drunkness);
     }
 }

@@ -8,6 +8,7 @@ public class Customer : MonoBehaviour
 {
     #region Members
     protected State _currentState;
+    protected State _afterMoveState;
     [SerializeField]
     protected AIBehaviour _behaviour;
     [SerializeField, Range(0, 100), Tooltip("The percentage chance to take the preferred drink")]
@@ -23,14 +24,23 @@ public class Customer : MonoBehaviour
     protected PolyNavAgent _polyNav;
     protected int _beverageAmount;
     protected Vector3 _movePos;
+    protected Vector3 _correctStartPos;
     protected ScaledOneShotTimer _drinkTimer;
+    protected ScaledOneShotTimer _positionCorrectiontimer;
     protected Beverage _orderedDrink;
+    private bool _hasBeenServed = false;
+    [SerializeField]
+    private TMPro.TextMeshProUGUI _orderText = null;
     #endregion
 
     #region Properties
     public State CurrentState { get => _currentState; }
+    public State NextState { get => _afterMoveState; }
     public AIBehaviour AIBehaviour { get => _behaviour; }
     public Beverage OrderedDrink { get => _orderedDrink; }
+    public int Drunkness { get => _drunknessPercentage; }
+    public float DrinkTimerElapsed { get => _drinkTimer.TimeLeft; }
+    public bool DrinkTimerRunning { get => _drinkTimer.IsRunning; }
     #endregion
 
     #region Unity Methods
@@ -39,9 +49,12 @@ public class Customer : MonoBehaviour
         _beverageAmount = System.Enum.GetNames(typeof(Beverage)).Length;
         _polyNav = GetComponent<PolyNavAgent>();
         _drinkTimer = gameObject.AddComponent<ScaledOneShotTimer>();
+        _positionCorrectiontimer = gameObject.AddComponent<ScaledOneShotTimer>();
         _drinkTimer.OnTimerCompleted += TimeToDrink;
 
         _polyNav.OnDestinationReached += CorrectPosition;
+        _polyNav.OnDestinationReached += AfterMoveActions;
+
         _race = _behaviour._race;
         if (typeof(BaseActions) == _behaviour._actions[0].GetType())
         {
@@ -58,11 +71,30 @@ public class Customer : MonoBehaviour
             _act = (BaseActions)_behaviour._actions[1];
             _specialAct = _behaviour._actions[0];
         }
+
+        if (_orderText == null)
+        {
+            Debug.LogError("Order text has not been set in!");
+        }
+
+        _orderText.text = "";
+    }
+
+    private void Update()
+    {
+        // Fix the position more smoothly
+        if (_positionCorrectiontimer.IsRunning)
+        {
+            // Easing out for nice stopping
+            float t = _positionCorrectiontimer.NormalizedTimeElapsed;
+            transform.position = Vector3.Lerp(_correctStartPos, _movePos, (--t) * t * t + 1);
+        }
     }
 
     private void OnDestroy()
     {
         _polyNav.OnDestinationReached -= CorrectPosition;
+        _polyNav.OnDestinationReached -= AfterMoveActions;
         _drinkTimer.OnTimerCompleted -= TimeToDrink;
     }
     #endregion
@@ -78,6 +110,7 @@ public class Customer : MonoBehaviour
         _movePos = pos;
         _currentState = State.Moving;
         _act.Move(_polyNav, pos);
+        _orderText.text = "Moving";
     }
 
 
@@ -101,6 +134,7 @@ public class Customer : MonoBehaviour
         }
         _currentState = State.Ordered;
         _orderedDrink = order;
+        _orderText.text = "D\\" + _orderedDrink.ToString()[0];
         return order;
     }
 
@@ -109,7 +143,8 @@ public class Customer : MonoBehaviour
     /// </summary>
     private void CorrectPosition()
     {
-        transform.position = _movePos;
+        _correctStartPos = transform.position;
+        _positionCorrectiontimer.StartTimer(0.5f);
     }
 
     /// <summary>
@@ -135,16 +170,24 @@ public class Customer : MonoBehaviour
         int fightRoll = Mathf.RoundToInt(Random.Range(0f, 20f) + _race._agressiveness);
         int orderRoll = Mathf.RoundToInt(Random.Range(0f, 20f) + LevelManager.Instance.Happiness / 10f);
         int passOutRoll = Mathf.RoundToInt(Random.Range(0f, 20f) + _drunknessPercentage / 10f);
+        int leaveRoll = 0;
+        if (_drunknessPercentage > 20 && LevelManager.Instance.Happiness > 20)
+        {
+            leaveRoll = Mathf.RoundToInt(Random.Range(0f, 20f) + _drunknessPercentage / 10f);
+        }
 
-        if (fightRoll > orderRoll && fightRoll > passOutRoll)
+        if (fightRoll > orderRoll && fightRoll > passOutRoll && fightRoll > leaveRoll)
         {
             Customer opp = LevelManager.Instance.GetTable(this).GetOpponent(this);
             Fight(opp);
         }
-        else if (orderRoll > fightRoll && orderRoll > passOutRoll)
-            Order();
-        else
+        else if (orderRoll > fightRoll && orderRoll > passOutRoll && orderRoll > leaveRoll)
+            _orderedDrink = Order();
+        else if (passOutRoll > fightRoll && passOutRoll > orderRoll && passOutRoll > leaveRoll)
             PassOut();
+        else
+            Leave(LevelManager.Instance.Door);
+ 
     }
 
     /// <summary>
@@ -160,6 +203,11 @@ public class Customer : MonoBehaviour
         _currentState = State.Served;
         Drink();
         _orderedDrink = Beverage.None;
+        _hasBeenServed = true;
+
+        //DEBUG
+        //Leave(LevelManager.Instance.Door);
+
         return true;
     }
 
@@ -170,6 +218,7 @@ public class Customer : MonoBehaviour
     public void Drink()
     {
         _drinkTimer.StartTimer(Random.Range(_minDrinkFrequency, _maxDrinkFrequency));
+        _orderText.text = "Drinking!";
     }
 
     protected void TimeToDrink()
@@ -217,6 +266,8 @@ public class Customer : MonoBehaviour
         CleanableMess puke = LevelManager.Instance.GetPuke();
         puke.transform.parent = this.transform;
         puke.transform.position = Vector3.zero;
+
+        _orderText.text = "Passed Out!";
     }
 
     /// <summary>
@@ -225,14 +276,50 @@ public class Customer : MonoBehaviour
     /// <param name="trans">the position of the seat</param>
     public void Sit(Transform trans)
     {
-        _currentState = State.Waiting;
+        _afterMoveState = State.Ordered;
         Move(trans.position);
     }
 
     public void GetInLine(Transform trans) 
     {
-        _currentState = State.Waiting;
+        _afterMoveState = State.Waiting;
         Move(trans.position);
+    }
+
+    public void Leave(Transform trans)
+    {
+        LevelManager.Instance.GetTable(this).RemoveCustomer(this);
+        _afterMoveState = State.None;
+        Move(trans.position);
+    }
+
+    /// <summary>
+    /// What to do in addition of the correction manuevers
+    /// </summary>
+    private void AfterMoveActions()
+    {
+        switch (_afterMoveState)
+        {
+            case State.None:
+                AIManager.Instance.RemoveCustomer(this);
+                break;
+            case State.Moving:
+                break;
+            case State.Waiting:
+                break;
+            case State.Served:
+                break;
+            case State.PassedOut:
+                break;
+            case State.Fighting:
+                break;
+            case State.Ordered:
+                _orderedDrink = Order();
+                break;
+            default:
+                break;
+        }
+        _afterMoveState = State.None;
     }
 
     #endregion

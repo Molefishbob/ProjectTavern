@@ -28,7 +28,8 @@ namespace Managers
         private float _spawnInterval = 5;
         [SerializeField]
         private float _spawnOffset = 5;
-        private Queue _queue;
+        [HideInInspector]
+        public Queue _queue;
 
         public List<TableInteractions> Tables { get { return _tables; } }
 
@@ -94,16 +95,33 @@ namespace Managers
             //TODO: end level
         }
 
+        /// <summary>
+        /// Returns first inactive customer from the customer pool.
+        /// 
+        /// </summary>
+        /// <returns>Customer from customer pool</returns>
         public Customer GetCustomer()
         {
             return _spawnedCustomerPool.GetPooledObject();
         }
 
+        /// <summary>
+        /// If you need some puke from the puke pool, you can get it here.
+        /// 
+        /// </summary>
+        /// <returns>Puke from the puke pool</returns>
         public CleanableMess GetPuke()
         {
             return _spawnedPukePool.GetPooledObject();
         }
 
+
+        /// <summary>
+        /// Checks all tables for free seats. If seat is found customer moves to the firs available seat. If no seat is found checks for a free queue spot.
+        /// If no free seats or queue spots are found, deactivates customer.
+        /// 
+        /// </summary>
+        /// <param name="ai"></param>
         public void GetSeat(Customer ai)
         {
             for (int a = 0; a < _tables.Count; a++)
@@ -125,6 +143,37 @@ namespace Managers
 
         }
 
+
+        /// <summary>
+        /// Checks if there is a free seat for the customer in the queue. 
+        /// If free seat is found customer leaves queue and the rest of the queued customers are rearranged.
+        /// </summary>
+        /// <param name="ai"></param>
+        /// <returns>True if a free seat is found. Oterwise false </returns>
+        public bool LeaveQueue(Customer ai)
+        {
+            for (int i = 0; i < _tables.Count; i++)
+            {
+                if (_tables[i].Use(ai))
+                {
+                    _queue._queuedCustomers.RemoveAt(0);
+                    _customerQueue[0] = null;
+                    for (int a = 0; a < _customerQueue.Length; a++)
+                    {
+                        if (_customerQueue[i] == null)
+                        {
+                            _customerQueue[i] = _customerQueue[i + 1];
+                            _customerQueue[i + 1] = null;
+                        }
+
+                    }
+                    return true;
+                }
+            }
+            return false;
+
+        }
+
         /// <summary>
         /// Finds the table a specific customer is sitting in.
         /// 
@@ -133,11 +182,14 @@ namespace Managers
         /// <returns>The table the customer is in.</returns>
         public TableInteractions GetTable(Customer customer)
         {
+            if (customer == null)
+                return null;
 
             foreach (TableInteractions table in _tables)
             {
                 foreach (Customer cust in table.Sitters)
                 {
+                    if (cust == null) continue;
                     if (cust.GetInstanceID() == customer.GetInstanceID()) return table;
                 }
             }
@@ -146,17 +198,22 @@ namespace Managers
             return null;
         }
 
-        private bool CanSpawnAi() 
+
+        /// <summary>
+        /// Checks if a new customer can be spawned if there are any seats in the tables. If no seats are found chekc if there are free spots in queue.
+        /// </summary>
+        /// <returns>True if there are seats in any table or free spots in queue. Otherwise returns false</returns>
+        private bool CanSpawnAi()
         {
-            for(int i = 0; i<_tables.Count; i++)
+            for (int i = 0; i < _tables.Count; i++)
             {
-                if(_tables[i]._currentState != TableInteractions.TableState.Full)
-                {    
+                if (_tables[i]._currentState != TableInteractions.TableState.Full)
+                {
                     return true;
                 }
             }
 
-            for(int i = 0; i < _customerQueue.Length; i++)
+            for (int i = 0; i < _customerQueue.Length; i++)
             {
                 if (CustomerQueue[i] == null)
                 {

@@ -52,7 +52,15 @@ public class TableInteractions : AIUseable
     {
         if (_currentState == TableState.Full) return false;
 
-        ai.Sit(_chairs[_totalSeatsCount - _freeSeatsCount]);
+        for (int i = 0; i < _totalSeatsCount; i++)
+        {
+            if (_sitters[i] == null)
+            {
+                ai.Sit(_chairs[i].transform);
+                break;
+            }
+        }
+
         _sitters[_totalSeatsCount - _freeSeatsCount] = ai;
         _freeSeatsCount--;
         if (_freeSeatsCount == 0)
@@ -88,7 +96,7 @@ public class TableInteractions : AIUseable
     /// Removes a customer from the table
     /// 
     /// Removes the specified customer from the sitters array
-    /// Rearranges the sitters array after
+    /// Rearranges the sitters array after (Commented out)
     /// </summary>
     /// <param name="ai">The ai to be removed from the table</param>
     public void RemoveCustomer(Customer ai)
@@ -104,10 +112,11 @@ public class TableInteractions : AIUseable
 
         for (int a = 0; a < _sitters.Length; a++)
         {
+            if (_sitters[a] == null) continue;
             if (me == _sitters[a].GetInstanceID()) _sitters[a] = null;
         }
 
-        Customer[] temp = new Customer[_sitters.Length];
+        /*Customer[] temp = new Customer[_sitters.Length];
         int i = 0;
         for (int a = 0; a < _sitters.Length; a++)
         {
@@ -117,7 +126,7 @@ public class TableInteractions : AIUseable
                 i++;
             }
         }
-        _sitters = temp;
+        _sitters = temp;*/
     }
     #endregion
 
