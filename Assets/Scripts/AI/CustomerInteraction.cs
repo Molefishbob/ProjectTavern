@@ -97,6 +97,7 @@ public class CustomerInteraction : PlayerUseable
             case Managers.AIManager.State.Served:
                 break;
             case Managers.AIManager.State.PassedOut:
+                _customer.Leave(Managers.LevelManager.Instance.Door);
                 break;
             case Managers.AIManager.State.Fighting:
                 break;

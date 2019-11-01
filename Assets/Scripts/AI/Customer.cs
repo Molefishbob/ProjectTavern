@@ -110,6 +110,7 @@ public class Customer : MonoBehaviour
         _movePos = pos;
         _currentState = State.Moving;
         _act.Move(_polyNav, pos);
+        _orderText.text = "Moving";
     }
 
 
