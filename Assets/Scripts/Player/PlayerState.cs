@@ -142,7 +142,7 @@ public class PlayerState : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "PlayerUsable")
+        if (collision.gameObject.tag == "PlayerUsable" && UseableObject == null)
         {
             UseableObject = collision.GetComponent<PlayerUseable>();
         }
@@ -156,8 +156,12 @@ public class PlayerState : MonoBehaviour
             {
                 UseableObject.InterruptAction();
                 Debug.Log(UseableObject.GetType().ToString() + " action interrupted!");
+                UseableObject = null;
             }
-            UseableObject = null;
+            else if (!UseableObject.IsBeingUsed)
+            {
+                UseableObject = null;
+            }
         }
     }
 
