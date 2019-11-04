@@ -91,6 +91,13 @@ namespace Managers
             }
         }
 
+        public void StartLevel()
+        {
+            // TODO: Start level timer
+            _levelTimer.StartTimer(_playTime);
+            Debug.Log("Game time started");
+        }
+
         private void EndLevel()
         {
             //TODO: end level
