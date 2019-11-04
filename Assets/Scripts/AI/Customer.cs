@@ -232,6 +232,7 @@ public class Customer : MonoBehaviour
 
         LevelManager.Instance.ItemSold(drink);
         _currentDrink = drink;
+        _currentHoldable = Holdables.Drink;
         _currentState = State.Served;
         Consume();
         _order._drinkOrder = Beverage.None;
@@ -286,6 +287,7 @@ public class Customer : MonoBehaviour
     protected void StopDrinking()
     {
         _currentDrink = null;
+        _currentHoldable = Holdables.Nothing;
         _drinkTimer.StopTimer();
         _sipsCount = 0;
         DecideDrunkAction();

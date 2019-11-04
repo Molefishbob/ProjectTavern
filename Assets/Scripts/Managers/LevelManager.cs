@@ -125,7 +125,7 @@ namespace Managers
         public void ItemSold(Drink drink)
         {
             int price = drink._price;
-            int tip = Mathf.RoundToInt(drink._price * (_happiness / 100));
+            int tip = Mathf.RoundToInt((float) drink._price * ((float) _happiness / 100f));
             _tipsGained += tip;
             _currentMoney += price + tip;
 
