@@ -92,7 +92,7 @@ public class PlayerState : MonoBehaviour
         {
             // The colliders in the array are sorted in order of distance from the origin point.
             // Thats just perfect
-            List<RaycastHit2D> hitObjects = Physics2D.CircleCastAll(transform.position, _selfCollider.radius, Vector2.down, 0.1f).Where(t => t.collider.gameObject.tag == "PlayerUsable").ToList();
+            List<RaycastHit2D> hitObjects = Physics2D.CircleCastAll(transform.position, _selfCollider.radius, Vector2.down, 0).Where(t => t.collider.gameObject.tag == "PlayerUsable").ToList();
 
             if (hitObjects.Count < 1)
                 return;
@@ -134,6 +134,14 @@ public class PlayerState : MonoBehaviour
             if (HeldDrink != Beverage.None)
                 _heldText.text += "\\" + HeldDrink.ToString()[0];
         }
+    }
+
+    /// <summary>
+    /// Just clear it.
+    /// </summary>
+    public void ClearUsable()
+    {
+        UseableObject = null;
     }
 
     #endregion
