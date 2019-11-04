@@ -130,7 +130,7 @@ public class Customer : MonoBehaviour
         }
         else
         {
-            int ran = Random.Range(1, _beverageAmount + 1);
+            int ran = Random.Range(1, _beverageAmount);
             order = (Beverage)ran;
         }
         _currentState = State.Ordered;
