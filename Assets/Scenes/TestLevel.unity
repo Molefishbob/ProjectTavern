@@ -2177,6 +2177,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: TableObstacle (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 1341123721934724188, guid: 232c294e160929a4f94d05b5cb33cc0f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1341123721934724191, guid: 232c294e160929a4f94d05b5cb33cc0f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3521,6 +3526,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TableObstacle
+      objectReference: {fileID: 0}
+    - target: {fileID: 1341123721934724188, guid: 232c294e160929a4f94d05b5cb33cc0f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1341123721934724191, guid: 232c294e160929a4f94d05b5cb33cc0f,
         type: 3}
