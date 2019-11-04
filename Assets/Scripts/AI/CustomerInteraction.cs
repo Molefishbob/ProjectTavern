@@ -73,7 +73,7 @@ public class CustomerInteraction : PlayerUseable
                 break;
             case Managers.AIManager.State.Fighting:
                 _requiresEmptyHands = true;
-                _interactionTime = 3;
+                _interactionTime = 6;
                 break;
             case Managers.AIManager.State.Ordered:
                 _requiresEmptyHands = false;
@@ -100,6 +100,8 @@ public class CustomerInteraction : PlayerUseable
                 _customer.Leave(Managers.LevelManager.Instance.Door);
                 break;
             case Managers.AIManager.State.Fighting:
+                _customer.Leave(Managers.LevelManager.Instance.Door);
+                _customer.FightOpponent.Leave(Managers.LevelManager.Instance.Door);
                 break;
             case Managers.AIManager.State.Ordered:
                 if (User.CurrentlyHeld == PlayerState.Holdables.Nothing) break;
