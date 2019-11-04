@@ -3,6 +3,7 @@ using PolyNav;
 using Managers;
 using static Managers.AIManager;
 using static Managers.BeverageManager;
+using static PlayerState;
 
 public class Customer : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class Customer : MonoBehaviour
     protected float _minDrinkFrequency = 15f;
     protected float _maxDrinkFrequency = 30f;
     protected Drink _currentDrink;
+    protected Holdables _currentHoldable;
     protected int _sipsCount = 0;
     protected int _drunknessPercentage;
     protected Race _race;
@@ -27,7 +29,7 @@ public class Customer : MonoBehaviour
     protected Vector3 _correctStartPos;
     protected ScaledOneShotTimer _drinkTimer;
     protected ScaledOneShotTimer _positionCorrectiontimer;
-    protected Beverage _orderedDrink;
+    protected MyOrder _order;
     protected Customer _fightOpponent;
     [SerializeField]
     private TMPro.TextMeshProUGUI _orderText = null;
@@ -37,7 +39,7 @@ public class Customer : MonoBehaviour
     public State CurrentState { get => _currentState; }
     public State NextState { get => _afterMoveState; }
     public AIBehaviour AIBehaviour { get => _behaviour; }
-    public Beverage OrderedDrink { get => _orderedDrink; }
+    public MyOrder AIOrder { get => _order; }
     public Customer FightOpponent { get => _fightOpponent; }
     public int Drunkness { get => _drunknessPercentage; }
     public float DrinkTimerElapsed { get => _drinkTimer.TimeLeft; }
@@ -100,6 +102,24 @@ public class Customer : MonoBehaviour
     }
     #endregion
 
+    #region Struct
+    public struct MyOrder
+    {
+        public Holdables _order;
+        public Beverage _drinkOrder;
+
+        public MyOrder(Holdables foodOrder = Holdables.Nothing, Beverage drinkOrder = Beverage.None)
+        {
+            _drinkOrder = drinkOrder;
+
+            if (_drinkOrder != Beverage.None)
+                _order = Holdables.Drink;
+            else
+                _order = foodOrder;
+        }
+    }
+    #endregion
+
     #region Base Actions
     /// <summary>
     /// Sets the AIs state to Moving and
@@ -120,23 +140,33 @@ public class Customer : MonoBehaviour
     /// visually to the player.
     /// </summary>
     /// <returns>The ordered beverage</returns>
-    public Beverage Order()
+    public void Order()
     {
-        Beverage order = Beverage.None;
-        int random = Random.Range(1, 101);
-        if (random <= _preferredDrinkChance)
+        Beverage drinkOrder = Beverage.None;
+        Holdables foodOrder = Holdables.Nothing;
+        int random1 = Random.Range(1, 101);
+
+        if (random1 >= 75)
         {
-            order = _behaviour._race._preferredBeverage;
+            foodOrder = Holdables.Food;
+            _orderText.text = "FUD";
         }
         else
         {
-            int ran = Random.Range(1, _beverageAmount + 1);
-            order = (Beverage)ran;
+            int random = Random.Range(1, 101);
+            if (random <= _preferredDrinkChance)
+            {
+                drinkOrder = _behaviour._race._preferredBeverage;
+            }
+            else
+            {
+                int ran = Random.Range(1, _beverageAmount + 1);
+                drinkOrder = (Beverage)ran;
+            }
+            _orderText.text = "D\\" + drinkOrder.ToString()[0];
         }
         _currentState = State.Ordered;
-        _orderedDrink = order;
-        _orderText.text = "D\\" + _orderedDrink.ToString()[0];
-        return order;
+        _order = new MyOrder(foodOrder, drinkOrder);
     }
 
     /// <summary>
@@ -183,12 +213,12 @@ public class Customer : MonoBehaviour
             Fight(opp);
         }
         else if (orderRoll > fightRoll && orderRoll > passOutRoll && orderRoll > leaveRoll)
-            _orderedDrink = Order();
+            Order();
         else if (passOutRoll > fightRoll && passOutRoll > orderRoll && passOutRoll > leaveRoll)
             PassOut();
         else
             Leave(LevelManager.Instance.Door);
- 
+
     }
 
     /// <summary>
@@ -198,13 +228,31 @@ public class Customer : MonoBehaviour
     /// <returns>true if the correct drink, otherwise false</returns>
     public bool Served(Drink drink)
     {
-        if (drink._drink != _orderedDrink) return false;
+        if (drink == null || drink._drink != _order._drinkOrder) return false;
 
+        LevelManager.Instance.ItemSold(drink);
         _currentDrink = drink;
         _currentState = State.Served;
-        Drink();
-        _orderedDrink = Beverage.None;
+        Consume();
+        _order._drinkOrder = Beverage.None;
 
+        return true;
+    }
+
+    /// <summary>
+    /// Called when the player serves food to the custmers
+    /// </summary>
+    /// <param name="food">The food</param>
+    /// <returns>True if customer wanted food, otherwise false</returns>
+    public bool Served(Holdables food)
+    {
+        if (_order._order != Holdables.Food) return false;
+
+        LevelManager.Instance.ItemSold(food);
+        _currentHoldable = Holdables.Food;
+        _currentState = State.Served;
+        Consume();
+        _order._order = Holdables.Nothing;
         return true;
     }
 
@@ -212,10 +260,10 @@ public class Customer : MonoBehaviour
     /// The AI calls this method shortly after receiving the drink
     /// Different drinks take longer to drink
     /// </summary>
-    public void Drink()
+    public void Consume()
     {
         _drinkTimer.StartTimer(Random.Range(_minDrinkFrequency, _maxDrinkFrequency));
-        _orderText.text = "Drinking!";
+        _orderText.text = "Consuming!";
     }
 
     protected void TimeToDrink()
@@ -231,7 +279,7 @@ public class Customer : MonoBehaviour
         }
         else
         {
-            Drink();
+            Consume();
         }
     }
 
@@ -260,7 +308,6 @@ public class Customer : MonoBehaviour
     public void PassOut()
     {
         _currentState = State.PassedOut;
-        // TODO: PASS OUT
         CleanableMess puke = LevelManager.Instance.GetPuke();
         puke.transform.parent = this.transform;
         puke.transform.position = Vector3.zero;
@@ -278,7 +325,7 @@ public class Customer : MonoBehaviour
         Move(trans.position);
     }
 
-    public void GetInLine(Transform trans) 
+    public void GetInLine(Transform trans)
     {
         _afterMoveState = State.Waiting;
         Move(trans.position);
@@ -312,7 +359,7 @@ public class Customer : MonoBehaviour
             case State.Fighting:
                 break;
             case State.Ordered:
-                _orderedDrink = Order();
+                Order();
                 break;
             default:
                 break;
@@ -326,7 +373,7 @@ public class Customer : MonoBehaviour
 
     public void OrderOverride()
     {
-        _orderedDrink = Order();
+        Order();
     }
 
     #endregion
