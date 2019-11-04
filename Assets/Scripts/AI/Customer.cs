@@ -160,7 +160,7 @@ public class Customer : MonoBehaviour
             }
             else
             {
-                int ran = Random.Range(1, _beverageAmount + 1);
+                int ran = Random.Range(1, _beverageAmount);
                 drinkOrder = (Beverage)ran;
             }
             _orderText.text = "D\\" + drinkOrder.ToString()[0];
