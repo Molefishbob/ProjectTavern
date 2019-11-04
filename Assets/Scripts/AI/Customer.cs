@@ -262,8 +262,7 @@ public class Customer : MonoBehaviour
         _currentState = State.PassedOut;
         // TODO: PASS OUT
         CleanableMess puke = LevelManager.Instance.GetPuke();
-        puke.transform.parent = this.transform;
-        puke.transform.position = Vector3.zero;
+        puke.transform.position = transform.position + new Vector3(Random.Range(0f, 1f), Random.Range(0f, 1f));
 
         _orderText.text = "Passed Out!";
     }

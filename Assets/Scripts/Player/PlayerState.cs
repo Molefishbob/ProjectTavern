@@ -92,7 +92,7 @@ public class PlayerState : MonoBehaviour
         {
             // The colliders in the array are sorted in order of distance from the origin point.
             // Thats just perfect
-            List<RaycastHit2D> hitObjects = Physics2D.CircleCastAll(transform.position, _selfCollider.radius, Vector2.down, 0.1f).Where(t => t.collider.gameObject.tag == "PlayerUsable").ToList();
+            List<RaycastHit2D> hitObjects = Physics2D.CircleCastAll(transform.position, _selfCollider.radius, Vector2.down, 0).Where(t => t.collider.gameObject.tag == "PlayerUsable").ToList();
 
             if (hitObjects.Count < 1)
                 return;
@@ -136,13 +136,21 @@ public class PlayerState : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Just clear it.
+    /// </summary>
+    public void ClearUsable()
+    {
+        UseableObject = null;
+    }
+
     #endregion
 
     #region Collision Detection
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "PlayerUsable")
+        if (collision.gameObject.tag == "PlayerUsable" && UseableObject == null)
         {
             UseableObject = collision.GetComponent<PlayerUseable>();
         }
@@ -156,8 +164,12 @@ public class PlayerState : MonoBehaviour
             {
                 UseableObject.InterruptAction();
                 Debug.Log(UseableObject.GetType().ToString() + " action interrupted!");
+                UseableObject = null;
             }
-            UseableObject = null;
+            else if (!UseableObject.IsBeingUsed)
+            {
+                UseableObject = null;
+            }
         }
     }
 
