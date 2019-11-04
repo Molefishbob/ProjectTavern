@@ -7,9 +7,10 @@ namespace Managers
     public class LevelManager : MonoBehaviour
     {
         [SerializeField]
-        [Range(0, 100)]
+        [Range(-50, 50)]
         private int _happiness = 50;
         private int _currentMoney = 0;
+        private int _tipsGained = 0;
         public int _moneyToWin = 1000;
         public float _playTime = 120f;
         private List<TableInteractions> _tables = null;
@@ -113,6 +114,28 @@ namespace Managers
         public CleanableMess GetPuke()
         {
             return _spawnedPukePool.GetPooledObject();
+        }
+
+        /// <summary>
+        /// Calculates the earned money from selling a drink.
+        /// 
+        /// Earned money is increased or decreased by tip depending on its value.
+        /// </summary>
+        /// <param name="drink">The sold drink</param>
+        public void DrinkBought(Drink drink)
+        {
+            int price = drink._price;
+            int tip = Mathf.RoundToInt(drink._price * (_happiness / 100));
+            _tipsGained += tip;
+            _currentMoney += price + tip;
+
+            if (tip >= 0)
+            {
+                Debug.Log("Money gained: " + price + " + " + tip);
+            } else
+            {
+                Debug.Log("Money gained: " + price + " - " + tip);
+            }
         }
 
 
