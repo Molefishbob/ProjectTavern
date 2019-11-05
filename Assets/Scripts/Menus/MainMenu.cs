@@ -9,6 +9,8 @@ public class MainMenu : MonoBehaviour
     public GameObject _quitMenu;
 
 
+
+
     public void OpenSettingsMenu()
     {
         _settingsMenu.SetActive(true);
@@ -25,4 +27,6 @@ public class MainMenu : MonoBehaviour
     {
         SceneManager.LoadScene(0);
     }
+
+    
 }

@@ -9,17 +9,27 @@ public class SettingsMenu : MonoBehaviour
     public AudioMixer _audioMixer;
     public Slider _masterSlider, _sfxSlider, _musicSlider;
     public Toggle _masterMute, _sfxMute, _musicMute;
+    private const string FILENAME = "Settings.json";
+
+    private void Awake()
+    {
+        SerializationManager.LoadSettings(FILENAME);
+        _masterSlider.value = SerializationManager.LoadedSettings.Volume.Master;
+    }
 
     //TODO: serialize current settings data
     public void CloseSettingsMenu()
     {
         gameObject.SetActive(false);
+        //TODO: Move to gamemanager or make events
+        SerializationManager.SaveSettings(FILENAME);
     }
 
     public void MasterVolumeChange()
     {
         float sliderValue = _masterSlider.value;
         _audioMixer.SetFloat("masterVol", Mathf.Log10(sliderValue) * 20);
+        SerializationManager.LoadedSettings.Volume.Master = _masterSlider.value;
     }
 
     public void SFXVolumeChange()
@@ -51,4 +61,5 @@ public class SettingsMenu : MonoBehaviour
         bool toggleValue = _sfxMute.isOn;
         _audioMixer.SetFloat("sfxVol", -80f);
     }
+
 }
