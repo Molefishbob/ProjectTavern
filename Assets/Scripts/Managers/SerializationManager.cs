@@ -9,22 +9,39 @@ public static class SerializationManager
 {
     /// <summary>
     /// Current on memory Settings
+    /// 
+    /// This holds everything that has been loaded from the file
+    /// Or is going to be saved to the file.
+    /// <c>LoadSettings(filename)</c> overrides this
+    /// <c>SaveSettings(filename)</c> overrides the saved file with this
     /// </summary>
     public static SettingsData LoadedSettings;
+
     /// <summary>
     /// Current on memory save
+    /// 
+    /// This holds everything that has been loaded from the file
+    /// Or is going to be saved to the file.
+    /// <c>LoadSave(filename)</c> overrides this
+    /// <c>SaveSave(filename)</c> overrides the saved file with this
     /// </summary>
     public static SaveData LoadedSave;
 
     private static bool _initialized;
     private static string _path;
 
+    /// <summary>
+    /// Other methods should do this automatically
+    /// Initialize the manager, this should be called before anything else happening
+    /// </summary>
     private static void Init()
     {
         _path = Application.persistentDataPath;
         LoadedSettings = MakeDefaultSettings();
         _initialized = true;
     }
+
+    #region SettingsMethods
 
     /// <summary>
     /// Load the settings from the saved file.
@@ -88,6 +105,76 @@ public static class SerializationManager
         data.FullScreenMode = Screen.fullScreenMode;
         return data;
     }
+
+    #endregion
+
+    #region SaveMethods
+    /// <summary>
+    /// Load the Save from the saved file.
+    /// Loaded save stuff can be found from this.LoadedSave
+    /// If file is not found, loads default save.
+    /// </summary>
+    /// <param name="filename">in the form of <c>NAME.json</c></param>
+    public static void LoadSave(string filename)
+    {
+        if (!_initialized)
+            Init();
+
+        if (File.Exists(_path + Path.DirectorySeparatorChar + filename))
+        {
+            string data = File.ReadAllText(_path + Path.DirectorySeparatorChar + filename);
+            LoadedSave = JsonConvert.DeserializeObject<SaveData>(data);
+
+            // ToDo: Check the data integrity
+            Debug.Log("Save Loaded");
+        }
+        else
+        {
+            Debug.LogWarning(filename + " not found!\nUsing currently loaded Save");
+        }
+    }
+
+    /// <summary>
+    /// Saves the current <c>LoadedSave</c> to a file
+    /// </summary>
+    /// <param name="filename">in the form of <c>NAME.json</c></param>
+    public static void SaveSave(string filename)
+    {
+        if (!_initialized)
+            Init();
+
+        File.WriteAllText(_path + Path.DirectorySeparatorChar + filename, JsonConvert.SerializeObject(LoadedSave, Formatting.Indented));
+    }
+
+    /// <summary>
+    /// Delete the settings file and create a default one
+    /// </summary>
+    /// <param name="filename">in the form of <c>NAME.json</c></param>
+    public static void DeleteAndMakeDefaultSave(string filename)
+    {
+        if (!_initialized)
+            Init();
+
+        if (File.Exists(_path + Path.DirectorySeparatorChar + filename))
+        {
+            LoadedSave = MakeDefaultSave();
+            SaveSettings(filename);
+        }
+    }
+
+    /// <summary>
+    /// Just makes a "dummy"
+    /// </summary>
+    /// <returns>"empty" save</returns>
+    private static SaveData MakeDefaultSave()
+    {
+        SaveData data = new SaveData();
+        data.Money = 0;
+        data.LastLevelCleared = 0;
+        data.ProfileName = "";
+        return data;
+    }
+    #endregion
 
     #region DebugStuff
 
