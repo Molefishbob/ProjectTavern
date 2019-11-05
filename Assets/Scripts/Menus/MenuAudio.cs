@@ -4,16 +4,10 @@ using UnityEngine;
 
 public class MenuAudio : MonoBehaviour
 {
-    private AudioSource _audioSource;
-    public AudioClip _clickSound, _menuMusic;
-
-    private void Awake()
-    {
-        _audioSource = gameObject.GetComponent<AudioSource>();
-    }
+    public AudioSource _musicAudioSource, _clickAudioSource;
 
     public void ClickSound()
     {
-        _audioSource.PlayOneShot(_clickSound);
+        _clickAudioSource.Play();
     }
 }
