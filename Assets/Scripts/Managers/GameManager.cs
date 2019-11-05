@@ -18,15 +18,26 @@ namespace Managers
         #region Parameters
         public static GameManager Instance;
         public event ValueChangedBool OnGamePauseChanged;
+        public AudioClip LevelMusic;
+        public AudioClip MenuMusic;
         [SerializeField]
         private string MainMenu = "MainMenu";
         [SerializeField]
         private GameObject _loadingScreen = null;
         [SerializeField]
-        private GameObject _levelManager = null;
+        private LevelManager _levelManager = null;
+        [SerializeField]
+        private GameObject _player1 = null;
+        [SerializeField]
+        private GameObject _player2 = null;
+        [SerializeField]
+        private GameObject _player3 = null;
+        [SerializeField]
+        private GameObject _player4 = null;
         private int _mainMenuID = 0;
         private int _currentSceneID = 0;
         private float _timeScaleBeforePause = 1.0f;
+        private AudioSource _musicSource;
 
         #endregion
 
@@ -50,7 +61,7 @@ namespace Managers
                 _loadingScreen = value;
             }
         }
-        public GameObject LevelManager
+        public LevelManager LevelManager
         {
             get
             {
@@ -65,6 +76,51 @@ namespace Managers
                 _levelManager = value;
             }
         }
+
+        public GameObject Player1
+        {
+            get
+            {
+                if (_player1 == null)
+                {
+                    Debug.LogError("Player 1 not assigned!");
+                }
+                return _player1;
+            }
+        }
+        public GameObject Player2
+        {
+            get
+            {
+                if (_player2 == null)
+                {
+                    Debug.LogError("Player 2 not assigned!");
+                }
+                return _player2;
+            }
+        }
+        public GameObject Player3
+        {
+            get
+            {
+                if (_player3 == null)
+                {
+                    Debug.LogError("Player 3 not assigned!");
+                }
+                return _player3;
+            }
+        }
+        public GameObject Player4
+        {
+            get
+            {
+                if (_player4 == null)
+                {
+                    Debug.LogError("Player 4 not assigned!");
+                }
+                return _player4;
+            }
+        }
         #endregion
 
         #region Unity Methods
@@ -75,6 +131,7 @@ namespace Managers
             else
                 Instance = this;
 
+            _musicSource = GetComponent<AudioSource>();
             _currentSceneID = SceneManager.GetActiveScene().buildIndex;
             int count = SceneManager.sceneCountInBuildSettings;
 
@@ -89,6 +146,11 @@ namespace Managers
                 {
                     Debug.LogError("MainMenu not in build or it is named incorrectly!");
                 }
+            }
+            if (SceneManager.GetActiveScene().buildIndex != _mainMenuID)
+            {
+                Debug.LogWarning("Not in MainMenu at the start of the game. Switching to MainMenu..");
+                ChangeToMainMenu();
             }
         }
         #endregion
@@ -135,6 +197,13 @@ namespace Managers
             }
         }
 
+        public void ActivateGame(bool active)
+        {
+            // TODO: Ask for player amount and activate required amount
+            if (active) PlayLevelMusic();
+            if (GamePaused) UnPauseGame();
+        }
+
         public void ChangeScene(int id, bool useLoadingScreen)
         {
             // TODO: Change scene, deploy loading screen, etc.
@@ -153,7 +222,7 @@ namespace Managers
         public void SaveData()
         {
             SerializationManager.SaveSettings("Settings");
-            //SerializationManager.SaveLevelData();
+            //TODO: SerializationManager.SaveLevelData();
         }
 
         /// <summary>
@@ -161,7 +230,52 @@ namespace Managers
         /// </summary>
         public void QuitGame()
         {
+            SaveData();
             Application.Quit();
+        }
+
+        /// <summary>
+        /// Loads the first level.
+        /// </summary>
+        public void StartNewGame()
+        {
+            //SerializationManager.DeleteAndMakeDefaultSave();
+            ChangeScene(SerializationManager.LoadedSave.LastLevelCleared + 1, false);
+        }
+
+        /// <summary>
+        /// Continue game from a saved checkpoint.
+        /// </summary>
+        public void ContinueGame()
+        {
+            ChangeScene(SerializationManager.LoadedSave.LastLevelCleared + 1, true);
+        }
+
+        /// <summary>
+        /// Reloads the active scene.
+        /// </summary>
+        public void ReloadScene(bool useLoadingScreen)
+        {
+            ActivateGame(false);
+            //if (useLoadingScreen) LoadingScreen.BeginLoading();
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+
+        public void PlayLevelMusic()
+        {
+            _musicSource.clip = LevelMusic;
+            _musicSource.Play();
+        }
+
+        public void PlayMenuMusic()
+        {
+            _musicSource.clip = MenuMusic;
+            _musicSource.Play();
+        }
+
+        public void StopAllMusic()
+        {
+            _musicSource.Stop();
         }
 
     }
