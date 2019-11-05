@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 
 #region Events
@@ -20,6 +21,8 @@ namespace Managers
         public event ValueChangedBool OnGamePauseChanged;
         public AudioClip LevelMusic;
         public AudioClip MenuMusic;
+        [SerializeField]
+        private AudioMixer _mixer;
         [SerializeField]
         private string MainMenu = "MainMenu";
         [SerializeField]
@@ -153,6 +156,29 @@ namespace Managers
                 ChangeToMainMenu();
             }
         }
+
+        private void Start()
+        {
+            SerializationManager.SettingsData settings = SerializationManager.LoadedSettings;
+            SerializationManager.SaveData save = SerializationManager.LoadedSave;
+
+            SerializationManager.LoadSettings("Settings");
+            //SerializationManager.LoadSave();
+
+
+            _mixer.SetFloat("masterVol", settings.Volume.Master);
+            _mixer.SetFloat("musicVol", settings.Volume.Music);
+            _mixer.SetFloat("sfxVol", settings.Volume.SFX);
+            if (settings.Volume.MasterMute)
+                _mixer.SetFloat("masterVol", -80f);
+            if (settings.Volume.MusicMute)
+                _mixer.SetFloat("musicVol", -80f);
+            if (settings.Volume.SFXMute)
+                _mixer.SetFloat("sfxVol", -80f);
+
+            //TODO: add save data load
+
+        }
         #endregion
 
 
@@ -207,16 +233,36 @@ namespace Managers
         public void ChangeScene(int id, bool useLoadingScreen)
         {
             // TODO: Change scene, deploy loading screen, etc.
+            _musicSource?.Stop();
+            //PauseMenu?.gameObject.SetActive(false);
+            if (id >= SceneManager.sceneCountInBuildSettings)
+            {
+                Debug.LogWarning("No scene with ID: " + id);
+                // TODO: SerializationManager.DeleteAndMakeDefaultSave();
+                ChangeToMainMenu();
+            }
+            else
+            {
+                if (useLoadingScreen)
+                    // TODO: LoadingScreen.BeginLoading();
+                    ActivateGame(false);
+                SceneManager.LoadScene(id);
+                if (GamePaused) UnPauseGame();
+            }
         }
 
         public void NextLevel()
         {
-            // TODO: Change to next level
+            SerializationManager.LoadedSave.LastLevelCleared++;
+            //TODO: SerializationManager.saveLevelData();
+            ChangeScene(SerializationManager.LoadedSave.LastLevelCleared, true);
         }
 
         public void ChangeToMainMenu()
         {
+            ActivateGame(false);
             SceneManager.LoadScene(_mainMenuID);
+            PlayMenuMusic();
         }
 
         public void SaveData()
@@ -240,7 +286,7 @@ namespace Managers
         public void StartNewGame()
         {
             //SerializationManager.DeleteAndMakeDefaultSave();
-            ChangeScene(SerializationManager.LoadedSave.LastLevelCleared + 1, false);
+            ChangeScene(SerializationManager.LoadedSave.LastLevelCleared + 1, true);
         }
 
         /// <summary>
