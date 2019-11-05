@@ -49,6 +49,7 @@ namespace Managers
             if (Instance == null)
             {
                 Instance = this;
+                GameManager.Instance.LevelManager = this;
             }
             else
             {

@@ -10,155 +10,273 @@ public delegate void ValueChangedFloat(float amount);
 public delegate void ValueChangedBool(bool value);
 #endregion
 
-public class GameManager : MonoBehaviour
+
+namespace Managers
 {
-    #region Parameters
-    public static GameManager Instance;
-    public event ValueChangedBool OnGamePauseChanged;
-    [SerializeField]
-    private string MainMenu = "MainMenu";
-    [SerializeField]
-    private GameObject _loadingScreen = null;
-    [SerializeField]
-    private GameObject _levelManager = null;
-    private int _mainMenuID = 0;
-    private int _currentSceneID = 0;
-    private float _timeScaleBeforePause = 1.0f;
-
-    #endregion
-
-    #region Properties
-    /// <summary>
-    /// Is the game currently paused?
-    /// </summary>
-    public bool GamePaused { get; private set; }
-    public GameObject LoadingScreen
+    public class GameManager : MonoBehaviour
     {
-        get
+        #region Parameters
+        public static GameManager Instance;
+        public event ValueChangedBool OnGamePauseChanged;
+        public AudioClip LevelMusic;
+        public AudioClip MenuMusic;
+        [SerializeField]
+        private string MainMenu = "MainMenu";
+        [SerializeField]
+        private GameObject _loadingScreen = null;
+        [SerializeField]
+        private LevelManager _levelManager = null;
+        [SerializeField]
+        private GameObject _player1 = null;
+        [SerializeField]
+        private GameObject _player2 = null;
+        [SerializeField]
+        private GameObject _player3 = null;
+        [SerializeField]
+        private GameObject _player4 = null;
+        private int _mainMenuID = 0;
+        private int _currentSceneID = 0;
+        private float _timeScaleBeforePause = 1.0f;
+        private AudioSource _musicSource;
+
+        #endregion
+
+        #region Properties
+        /// <summary>
+        /// Is the game currently paused?
+        /// </summary>
+        public bool GamePaused { get; private set; }
+        public GameObject LoadingScreen
         {
-            if (_loadingScreen == null)
-                Debug.LogError("Loading Screen not assigned!");
-
-            return _loadingScreen;
-
-        }
-        set
-        {
-            _loadingScreen = value;
-        }
-    }
-    public GameObject LevelManager
-    {
-        get
-        {
-            if (_levelManager == null)
-                Debug.LogError("Level Manager not assigned!");
-
-            return _levelManager;
-
-        }
-        set
-        {
-            _levelManager = value;
-        }
-    }
-    #endregion
-
-    #region Unity Methods
-    private void Awake()
-    {
-        if (Instance != null)
-            Destroy(gameObject);
-        else
-            Instance = this;
-
-        _currentSceneID = SceneManager.GetActiveScene().buildIndex;
-        int count = SceneManager.sceneCountInBuildSettings;
-
-        for (int a = 0; a < count; a++)
-        {
-            if (SceneManager.GetSceneByBuildIndex(a).name == MainMenu)
+            get
             {
-                _mainMenuID = a;
-                break;
+                if (_loadingScreen == null)
+                    Debug.LogError("Loading Screen not assigned!");
+
+                return _loadingScreen;
+
             }
-            if (a == count - 1)
+            set
             {
-                Debug.LogError("MainMenu not in build or it is named incorrectly!");
+                _loadingScreen = value;
             }
         }
-    }
-    #endregion
-
-
-    /// <summary>
-    /// Pauses all in-game objects and sets timescale to 0.
-    /// </summary>
-    public void PauseGame()
-    {
-        if (!GamePaused)
+        public LevelManager LevelManager
         {
-            GamePaused = true;
-            _timeScaleBeforePause = Time.timeScale;
-            Time.timeScale = 0;
-            if (OnGamePauseChanged != null)
+            get
             {
-                OnGamePauseChanged(true);
+                if (_levelManager == null)
+                    Debug.LogError("Level Manager not assigned!");
+
+                return _levelManager;
+
+            }
+            set
+            {
+                _levelManager = value;
             }
         }
-        else
-        {
-            Debug.LogWarning("Game is already paused.");
-        }
-    }
 
-    /// <summary>
-    /// Unpauses all in-game objects and sets timescale back to what it was before pausing.
-    /// </summary>
-    public void UnPauseGame()
-    {
-        if (GamePaused)
+        public GameObject Player1
         {
-            GamePaused = false;
-            Time.timeScale = _timeScaleBeforePause;
-            if (OnGamePauseChanged != null)
+            get
             {
-                OnGamePauseChanged(false);
+                if (_player1 == null)
+                {
+                    Debug.LogError("Player 1 not assigned!");
+                }
+                return _player1;
             }
         }
-        else
+        public GameObject Player2
         {
-            Debug.LogWarning("Game is already unpaused.");
+            get
+            {
+                if (_player2 == null)
+                {
+                    Debug.LogError("Player 2 not assigned!");
+                }
+                return _player2;
+            }
         }
-    }
+        public GameObject Player3
+        {
+            get
+            {
+                if (_player3 == null)
+                {
+                    Debug.LogError("Player 3 not assigned!");
+                }
+                return _player3;
+            }
+        }
+        public GameObject Player4
+        {
+            get
+            {
+                if (_player4 == null)
+                {
+                    Debug.LogError("Player 4 not assigned!");
+                }
+                return _player4;
+            }
+        }
+        #endregion
 
-    public void ChangeScene(int id, bool useLoadingScreen)
-    {
-        // TODO: Change scene, deploy loading screen, etc.
-    }
+        #region Unity Methods
+        private void Awake()
+        {
+            if (Instance != null)
+                Destroy(gameObject);
+            else
+                Instance = this;
 
-    public void NextLevel()
-    {
-        // TODO: Change to next level
-    }
+            _musicSource = GetComponent<AudioSource>();
+            _currentSceneID = SceneManager.GetActiveScene().buildIndex;
+            int count = SceneManager.sceneCountInBuildSettings;
 
-    public void ChangeToMainMenu()
-    {
-        SceneManager.LoadScene(_mainMenuID);
-    }
+            for (int a = 0; a < count; a++)
+            {
+                if (SceneManager.GetSceneByBuildIndex(a).name == MainMenu)
+                {
+                    _mainMenuID = a;
+                    break;
+                }
+                if (a == count - 1)
+                {
+                    Debug.LogError("MainMenu not in build or it is named incorrectly!");
+                }
+            }
+            if (SceneManager.GetActiveScene().buildIndex != _mainMenuID)
+            {
+                Debug.LogWarning("Not in MainMenu at the start of the game. Switching to MainMenu..");
+                ChangeToMainMenu();
+            }
+        }
+        #endregion
 
-    public void SaveData()
-    {
-        SerializationManager.SaveSettings("Settings");
-        //SerializationManager.SaveLevelData();
-    }
 
-    /// <summary>
-    /// Quits the game to desktop.
-    /// </summary>
-    public void QuitGame()
-    {
-        Application.Quit();
-    }
+        /// <summary>
+        /// Pauses all in-game objects and sets timescale to 0.
+        /// </summary>
+        public void PauseGame()
+        {
+            if (!GamePaused)
+            {
+                GamePaused = true;
+                _timeScaleBeforePause = Time.timeScale;
+                Time.timeScale = 0;
+                if (OnGamePauseChanged != null)
+                {
+                    OnGamePauseChanged(true);
+                }
+            }
+            else
+            {
+                Debug.LogWarning("Game is already paused.");
+            }
+        }
 
+        /// <summary>
+        /// Unpauses all in-game objects and sets timescale back to what it was before pausing.
+        /// </summary>
+        public void UnPauseGame()
+        {
+            if (GamePaused)
+            {
+                GamePaused = false;
+                Time.timeScale = _timeScaleBeforePause;
+                if (OnGamePauseChanged != null)
+                {
+                    OnGamePauseChanged(false);
+                }
+            }
+            else
+            {
+                Debug.LogWarning("Game is already unpaused.");
+            }
+        }
+
+        public void ActivateGame(bool active)
+        {
+            // TODO: Ask for player amount and activate required amount
+            if (active) PlayLevelMusic();
+            if (GamePaused) UnPauseGame();
+        }
+
+        public void ChangeScene(int id, bool useLoadingScreen)
+        {
+            // TODO: Change scene, deploy loading screen, etc.
+        }
+
+        public void NextLevel()
+        {
+            // TODO: Change to next level
+        }
+
+        public void ChangeToMainMenu()
+        {
+            SceneManager.LoadScene(_mainMenuID);
+        }
+
+        public void SaveData()
+        {
+            SerializationManager.SaveSettings("Settings");
+            //TODO: SerializationManager.SaveLevelData();
+        }
+
+        /// <summary>
+        /// Quits the game to desktop.
+        /// </summary>
+        public void QuitGame()
+        {
+            SaveData();
+            Application.Quit();
+        }
+
+        /// <summary>
+        /// Loads the first level.
+        /// </summary>
+        public void StartNewGame()
+        {
+            //SerializationManager.DeleteAndMakeDefaultSave();
+            ChangeScene(SerializationManager.LoadedSave.LastLevelCleared + 1, false);
+        }
+
+        /// <summary>
+        /// Continue game from a saved checkpoint.
+        /// </summary>
+        public void ContinueGame()
+        {
+            ChangeScene(SerializationManager.LoadedSave.LastLevelCleared + 1, true);
+        }
+
+        /// <summary>
+        /// Reloads the active scene.
+        /// </summary>
+        public void ReloadScene(bool useLoadingScreen)
+        {
+            ActivateGame(false);
+            //if (useLoadingScreen) LoadingScreen.BeginLoading();
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+
+        public void PlayLevelMusic()
+        {
+            _musicSource.clip = LevelMusic;
+            _musicSource.Play();
+        }
+
+        public void PlayMenuMusic()
+        {
+            _musicSource.clip = MenuMusic;
+            _musicSource.Play();
+        }
+
+        public void StopAllMusic()
+        {
+            _musicSource.Stop();
+        }
+
+    }
 }
