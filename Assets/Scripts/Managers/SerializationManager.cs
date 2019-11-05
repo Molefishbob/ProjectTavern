@@ -9,16 +9,33 @@ public static class SerializationManager
 {
     /// <summary>
     /// Current on memory Settings
+    /// 
+    /// This holds everything that has been loaded from the file
+    /// Or is going to be saved to the file.
+    /// <c>LoadSettings(filename)</c> overrides this
+    /// <c>SaveSettings(filename)</c> overrides the saved file with this
     /// </summary>
     public static SettingsData LoadedSettings;
+
     /// <summary>
     /// Current on memory save
+    /// 
+    /// This holds everything that has been loaded from the file
+    /// Or is going to be saved to the file.
+    /// <c>LoadSave(filename)</c> overrides this
+    /// <c>SaveSave(filename)</c> overrides the saved file with this
     /// </summary>
     public static SaveData LoadedSave;
 
     private static bool _initialized;
     private static string _path;
+    private const string SETTINGS_EXTENSION = ".json";
+    private const string SAVE_EXTENSION = ".sav";
 
+    /// <summary>
+    /// Other methods should do this automatically
+    /// Initialize the manager, this should be called before anything else happening
+    /// </summary>
     private static void Init()
     {
         _path = Application.persistentDataPath;
@@ -27,16 +44,34 @@ public static class SerializationManager
     }
 
     /// <summary>
+    /// Delete that file!
+    /// </summary>
+    /// <param name="filename"></param>
+    /// <param name="extension"></param>
+    public static void DeleteFile(string filename, string extension)
+    {
+        if (!_initialized)
+            Init();
+
+        if (File.Exists(_path + Path.DirectorySeparatorChar + filename + extension))
+            File.Delete(_path + Path.DirectorySeparatorChar + filename + extension);
+    }
+
+    #region SettingsMethods
+
+    /// <summary>
     /// Load the settings from the saved file.
     /// Loaded settings can be found from this.LoadedSettings
     /// This function might change to just return the settings instead
     /// If file is not found, loads default settings.
     /// </summary>
-    /// <param name="filename">in the form of <c>NAME.json</c></param>
+    /// <param name="filename"></param>
     public static void LoadSettings(string filename)
     {
         if (!_initialized)
             Init();
+
+        filename += SETTINGS_EXTENSION;
 
         if (File.Exists(_path + Path.DirectorySeparatorChar + filename))
         {
@@ -55,11 +90,13 @@ public static class SerializationManager
     /// <summary>
     /// Saves the current <c>LoadedSettings</c> to a file
     /// </summary>
-    /// <param name="filename">in the form of <c>NAME.json</c></param>
+    /// <param name="filename"></param>
     public static void SaveSettings(string filename)
     {
         if (!_initialized)
             Init();
+
+        filename += SETTINGS_EXTENSION;
 
         File.WriteAllText(_path + Path.DirectorySeparatorChar + filename, JsonConvert.SerializeObject(LoadedSettings, Formatting.Indented));
     }
@@ -67,11 +104,13 @@ public static class SerializationManager
     /// <summary>
     /// Delete the settings file and create a default one
     /// </summary>
-    /// <param name="filename">in the form of <c>NAME.json</c></param>
+    /// <param name="filename"></param>
     public static void DeleteAndMakeDefaultSettings(string filename)
     {
         if (!_initialized)
             Init();
+
+        filename += SETTINGS_EXTENSION;
 
         if (File.Exists(_path + Path.DirectorySeparatorChar + filename))
         {
@@ -89,9 +128,117 @@ public static class SerializationManager
         return data;
     }
 
+
+    /// <summary>
+    /// Filenames DOES NOT contain extension or path!
+    /// </summary>
+    /// <returns>All filenames in default path</returns>
+    public static string[] GetAllSettingsFilenames()
+    {
+        string[] filenames = Directory.GetFiles(_path, "*" + SETTINGS_EXTENSION);
+        for (int i = 0; i < filenames.Length; i++)
+        {
+            filenames[i] = filenames[i].Remove(0, _path.Length + 1);
+            filenames[i] = filenames[i].Remove(filenames[i].IndexOf('.'), SETTINGS_EXTENSION.Length);
+        }
+        return filenames;
+    }
+
+    #endregion
+
+    #region SaveMethods
+    /// <summary>
+    /// Load the Save from the saved file.
+    /// Loaded save stuff can be found from this.LoadedSave
+    /// If file is not found, loads default save.
+    /// </summary>
+    /// <param name="filename"></param>
+    public static void LoadSave(string filename)
+    {
+        if (!_initialized)
+            Init();
+
+        filename += SAVE_EXTENSION;
+
+        if (File.Exists(_path + Path.DirectorySeparatorChar + filename))
+        {
+            string data = File.ReadAllText(_path + Path.DirectorySeparatorChar + filename);
+            LoadedSave = JsonConvert.DeserializeObject<SaveData>(data);
+
+            // ToDo: Check the data integrity
+            Debug.Log("Save Loaded");
+        }
+        else
+        {
+            Debug.LogWarning(filename + " not found!\nUsing currently loaded Save");
+        }
+    }
+
+    /// <summary>
+    /// Saves the current <c>LoadedSave</c> to a file
+    /// </summary>
+    /// <param name="filename"></param>
+    public static void SaveSave(string filename)
+    {
+        if (!_initialized)
+            Init();
+
+        filename += SAVE_EXTENSION;
+
+        File.WriteAllText(_path + Path.DirectorySeparatorChar + filename, JsonConvert.SerializeObject(LoadedSave, Formatting.Indented));
+    }
+
+    /// <summary>
+    /// Delete the settings file and create a default one
+    /// </summary>
+    /// <param name="filename"></param>
+    public static void DeleteAndMakeDefaultSave(string filename)
+    {
+        if (!_initialized)
+            Init();
+
+        filename += SAVE_EXTENSION;
+
+        if (File.Exists(_path + Path.DirectorySeparatorChar + filename))
+        {
+            LoadedSave = MakeDefaultSave();
+            SaveSave(filename);
+        }
+    }
+
+    /// <summary>
+    /// Just makes a "dummy"
+    /// </summary>
+    /// <returns>"empty" save</returns>
+    private static SaveData MakeDefaultSave()
+    {
+        SaveData data = new SaveData();
+        data.Money = 0;
+        data.LastLevelCleared = 0;
+        data.ProfileName = "";
+        return data;
+    }
+
+    /// <summary>
+    /// Filenames DOES NOT contain extension or path!
+    /// </summary>
+    /// <returns>All filenames in default path</returns>
+    public static string[] GetAllSaveFilenames()
+    {
+        string[] filenames = Directory.GetFiles(_path, "*" + SAVE_EXTENSION);
+        for (int i = 0; i < filenames.Length; i++)
+        {
+            filenames[i] = filenames[i].Remove(0, _path.Length + 1);
+            filenames[i] = filenames[i].Remove(filenames[i].IndexOf('.'), SAVE_EXTENSION.Length);
+        }
+        return filenames;
+    }
+
+    #endregion
+
     #region DebugStuff
 
-    [UnityEditor.MenuItem("Debug", menuItem = "Tools/Serialization/Log Path", priority = 1)]
+    [UnityEditor.MenuItem("Debug", menuItem = "Tools/Serialization/Settings/Log Path", priority = 1)]
     public static void LogPath()
     {
         if (UnityEditor.EditorApplication.isPlaying && !_initialized)
@@ -100,31 +247,56 @@ public static class SerializationManager
             Debug.Log(_path);
     }
 
-    [UnityEditor.MenuItem("Debug", menuItem = "Tools/Serialization/Load Settings", priority = 2)]
+    [UnityEditor.MenuItem("Debug", menuItem = "Tools/Serialization/Settings/Load Settings", priority = 2)]
     public static void DEBUGLoadSettings()
     {
         if (UnityEditor.EditorApplication.isPlaying)
-            LoadSettings("Settings.json");
+            LoadSettings("Settings");
         else
             Debug.LogError("Editor needs to be playing to do this!");
     }
 
-    [UnityEditor.MenuItem("Debug", menuItem = "Tools/Serialization/Save Settings", priority = 3)]
+    [UnityEditor.MenuItem("Debug", menuItem = "Tools/Serialization/Settings/Save Settings", priority = 3)]
     public static void DEBUGSaveSettings()
     {
         if (UnityEditor.EditorApplication.isPlaying)
-            SaveSettings("Settings.json");
+            SaveSettings("Settings");
         else
             Debug.LogError("Editor needs to be playing to do this!");
     }
 
-    [UnityEditor.MenuItem("Debug", menuItem = "Tools/Serialization/Delete Settings", priority = 4)]
+    [UnityEditor.MenuItem("Debug", menuItem = "Tools/Serialization/Settings/Delete Settings", priority = 4)]
     public static void DEBUGDeleteSettings()
     {
         if (UnityEditor.EditorApplication.isPlaying && !_initialized)
             Init();
         if (_initialized)
-            DeleteAndMakeDefaultSettings("Settings.json");
+            DeleteAndMakeDefaultSettings("Settings");
+    }
+
+    [UnityEditor.MenuItem("Debug", menuItem = "Tools/Serialization/Settings/Log all settings filenames", priority = 5)]
+    public static void DEBUGLogAllFiles()
+    {
+        if (UnityEditor.EditorApplication.isPlaying && !_initialized)
+            Init();
+
+        if (_initialized)
+        {
+            foreach (string filename in GetAllSettingsFilenames())
+            {
+                Debug.Log(filename);
+            }
+        }
+    }
+
+    [UnityEditor.MenuItem("Debug", menuItem = "Tools/Serialization/Open Path", priority = 0)]
+    public static void DEBUGOpenFolder()
+    {
+        if (UnityEditor.EditorApplication.isPlaying && !_initialized)
+            Init();
+
+        if (_initialized)
+            System.Diagnostics.Process.Start(@_path);
     }
 
     #endregion

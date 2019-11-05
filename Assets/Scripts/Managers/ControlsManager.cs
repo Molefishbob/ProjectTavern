@@ -58,7 +58,7 @@ namespace GameInput
                     if (device.path.Contains("Keyboard"))
                         tmp = device.deviceId;
                 }
-                AddPlayer(1);
+                AddPlayer(tmp);
             }
 
             Initialized = true;

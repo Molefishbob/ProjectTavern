@@ -163,7 +163,7 @@ public class Customer : MonoBehaviour
                 int ran = Random.Range(1, _beverageAmount);
                 drinkOrder = (Beverage)ran;
             }
-            _orderText.text = "D\\" + drinkOrder.ToString()[0];
+            _orderText.text = "D\\" + drinkOrder.ToString()[0] + drinkOrder.ToString()[1];
         }
         _currentState = State.Ordered;
         _order = new MyOrder(foodOrder, drinkOrder);
@@ -188,6 +188,8 @@ public class Customer : MonoBehaviour
         if (_drinkTimer.IsRunning)
             _drinkTimer.StopTimer();
 
+        if (_currentState == State.Fighting)
+            _orderText.text = "Bullied!";
     }
 
     /// <summary>
@@ -269,12 +271,16 @@ public class Customer : MonoBehaviour
 
     protected void TimeToDrink()
     {
-        _sipsCount++;
-        float alcoholContent = _currentDrink._alcoholContent / _currentDrink._amountOfUses;
-        int temp = Mathf.RoundToInt(alcoholContent - (alcoholContent * _race._alcoholTolerance / 10));
+        if (_currentDrink != null)
+        {
+            _sipsCount++;
+            float alcoholContent = _currentDrink._alcoholContent / _currentDrink._amountOfUses;
+            int temp = Mathf.RoundToInt(alcoholContent - (alcoholContent * _race._alcoholTolerance / 10));
 
-        _drunknessPercentage += temp;
-        if (_sipsCount >= _currentDrink._amountOfUses)
+            _drunknessPercentage += temp;
+        }
+
+        if (_currentDrink == null || _sipsCount >= _currentDrink._amountOfUses)
         {
             StopDrinking();
         }
@@ -301,6 +307,8 @@ public class Customer : MonoBehaviour
     {
         _currentState = State.Fighting;
         _fightOpponent = opponent;
+        opponent._fightOpponent = this;
+        _orderText.text = "Fight!";
         _act.Fight(opponent);
     }
 

@@ -83,7 +83,7 @@ public class TableInteractions : AIUseable
     {
         for (int a = 0; a < _totalSeatsCount - _freeSeatsCount; a++)
         {
-            if (_sitters[a] != notme)
+            if (_sitters[a] != notme && _sitters[a].CurrentState != Managers.AIManager.State.Fighting)
             {
                 return _sitters[a];
             }
