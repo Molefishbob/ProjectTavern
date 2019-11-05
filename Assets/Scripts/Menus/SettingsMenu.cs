@@ -12,7 +12,7 @@ public class SettingsMenu : MonoBehaviour
     public Toggle _masterMute, _sfxMute, _musicMute;
     private const string FILENAME = "Settings";
 
-    private void Awake()
+    private void OnEnable()
     {
         SerializationManager.LoadSettings(FILENAME);
         _masterSlider.value = SerializationManager.LoadedSettings.Volume.Master;
@@ -24,8 +24,7 @@ public class SettingsMenu : MonoBehaviour
     public void CloseSettingsMenu()
     {
         gameObject.SetActive(false);
-        //TODO: Move to gamemanager or make events
-        //GameManager.Instance.SaveData();
+        GameManager.Instance.SaveData();
     }
 
     public void MasterVolumeChange()

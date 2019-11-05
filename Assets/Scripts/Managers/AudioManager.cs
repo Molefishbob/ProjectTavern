@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MenuAudio : MonoBehaviour
+public class AudioManager : MonoBehaviour
 {
-    public AudioSource _musicAudioSource, _clickAudioSource;
-    //TODO: make unified audiomanager
+    public AudioSource _menuMusicAudioSource, _clickAudioSource, _gameMusic;
 
     public void ClickSound()
     {
