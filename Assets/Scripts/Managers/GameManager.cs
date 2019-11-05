@@ -14,14 +14,17 @@ public class GameManager : MonoBehaviour
 {
     #region Parameters
     public static GameManager Instance;
+    public event ValueChangedBool OnGamePauseChanged;
     [SerializeField]
     private string MainMenu = "MainMenu";
-    private int _mainMenuID = 0;
-    private int _currentSceneID = 0;
     [SerializeField]
     private GameObject _loadingScreen = null;
     [SerializeField]
     private GameObject _levelManager = null;
+    private int _mainMenuID = 0;
+    private int _currentSceneID = 0;
+    private float _timeScaleBeforePause = 1.0f;
+
     #endregion
 
     #region Properties
@@ -87,6 +90,48 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
+
+    /// <summary>
+    /// Pauses all in-game objects and sets timescale to 0.
+    /// </summary>
+    public void PauseGame()
+    {
+        if (!GamePaused)
+        {
+            GamePaused = true;
+            _timeScaleBeforePause = Time.timeScale;
+            Time.timeScale = 0;
+            if (OnGamePauseChanged != null)
+            {
+                OnGamePauseChanged(true);
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Game is already paused.");
+        }
+    }
+
+    /// <summary>
+    /// Unpauses all in-game objects and sets timescale back to what it was before pausing.
+    /// </summary>
+    public void UnPauseGame()
+    {
+        if (GamePaused)
+        {
+            GamePaused = false;
+            Time.timeScale = _timeScaleBeforePause;
+            if (OnGamePauseChanged != null)
+            {
+                OnGamePauseChanged(false);
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Game is already unpaused.");
+        }
+    }
+
     public void ChangeScene(int id, bool useLoadingScreen)
     {
         // TODO: Change scene, deploy loading screen, etc.
@@ -102,5 +147,18 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(_mainMenuID);
     }
 
+    public void SaveData()
+    {
+        SerializationManager.SaveSettings("Settings");
+        //SerializationManager.SaveLevelData();
+    }
+
+    /// <summary>
+    /// Quits the game to desktop.
+    /// </summary>
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
 
 }
