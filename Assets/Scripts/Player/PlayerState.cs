@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System.Linq;
 using static Managers.BeverageManager;
 
 public class PlayerState : MonoBehaviour
@@ -21,6 +22,7 @@ public class PlayerState : MonoBehaviour
     private GameObject _actionBar = null;
     private UnityEngine.UI.Image _actionBarFill = null;
     private TextMeshProUGUI _heldText = null;
+    private CircleCollider2D _selfCollider = null;
 
     #endregion
 
@@ -60,6 +62,7 @@ public class PlayerState : MonoBehaviour
         _actionBarFill.fillAmount = 0;
         _actionBar.SetActive(false);
         _heldText = gameObject.transform.GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>();
+        _selfCollider = gameObject.GetComponent<CircleCollider2D>();
     }
 
     private void Update()
@@ -84,6 +87,21 @@ public class PlayerState : MonoBehaviour
     /// </summary>
     public void UseUseable()
     {
+        // Just an extra step to ensure that everything works as intented
+        if (UseableObject == null)
+        {
+            // The colliders in the array are sorted in order of distance from the origin point.
+            // Thats just perfect
+            List<RaycastHit2D> hitObjects = Physics2D.CircleCastAll(transform.position, _selfCollider.radius, Vector2.down, 0).Where(t => t.collider.gameObject.tag == "PlayerUsable").ToList();
+
+            if (hitObjects.Count < 1)
+                return;
+
+            // Get Component badness :---D
+            UseableObject = hitObjects[0].collider.gameObject.GetComponent<PlayerUseable>();
+        }
+        
+
         if (UseableObject != null && !UseableObject.IsBeingUsed 
             && (CurrentlyHeld == Holdables.Nothing || !UseableObject.RequiresEmptyHands))
         {
@@ -118,13 +136,21 @@ public class PlayerState : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Just clear it.
+    /// </summary>
+    public void ClearUsable()
+    {
+        UseableObject = null;
+    }
+
     #endregion
 
     #region Collision Detection
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "PlayerUsable")
+        if (collision.gameObject.tag == "PlayerUsable" && UseableObject == null)
         {
             UseableObject = collision.GetComponent<PlayerUseable>();
         }
@@ -138,8 +164,12 @@ public class PlayerState : MonoBehaviour
             {
                 UseableObject.InterruptAction();
                 Debug.Log(UseableObject.GetType().ToString() + " action interrupted!");
+                UseableObject = null;
             }
-            UseableObject = null;
+            else if (!UseableObject.IsBeingUsed)
+            {
+                UseableObject = null;
+            }
         }
     }
 

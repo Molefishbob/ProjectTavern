@@ -83,6 +83,7 @@ public abstract class PlayerUseable : MonoBehaviour, IUseable
     private void UpdateUser()
     {
         User.UpdateHeld();
+        User.ClearUsable();
     }
 
     protected virtual void OnDestroy()

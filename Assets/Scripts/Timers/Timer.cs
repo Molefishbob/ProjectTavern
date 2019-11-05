@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public delegate void GenericEvent();
-
 public abstract class Timer : MonoBehaviour
 {
     public event GenericEvent OnTimerCompleted;

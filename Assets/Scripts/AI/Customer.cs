@@ -28,7 +28,7 @@ public class Customer : MonoBehaviour
     protected ScaledOneShotTimer _drinkTimer;
     protected ScaledOneShotTimer _positionCorrectiontimer;
     protected Beverage _orderedDrink;
-    private bool _hasBeenServed = false;
+    protected Customer _fightOpponent;
     [SerializeField]
     private TMPro.TextMeshProUGUI _orderText = null;
     #endregion
@@ -38,6 +38,7 @@ public class Customer : MonoBehaviour
     public State NextState { get => _afterMoveState; }
     public AIBehaviour AIBehaviour { get => _behaviour; }
     public Beverage OrderedDrink { get => _orderedDrink; }
+    public Customer FightOpponent { get => _fightOpponent; }
     public int Drunkness { get => _drunknessPercentage; }
     public float DrinkTimerElapsed { get => _drinkTimer.TimeLeft; }
     public bool DrinkTimerRunning { get => _drinkTimer.IsRunning; }
@@ -129,7 +130,7 @@ public class Customer : MonoBehaviour
         }
         else
         {
-            int ran = Random.Range(1, _beverageAmount + 1);
+            int ran = Random.Range(1, _beverageAmount);
             order = (Beverage)ran;
         }
         _currentState = State.Ordered;
@@ -203,10 +204,6 @@ public class Customer : MonoBehaviour
         _currentState = State.Served;
         Drink();
         _orderedDrink = Beverage.None;
-        _hasBeenServed = true;
-
-        //DEBUG
-        //Leave(LevelManager.Instance.Door);
 
         return true;
     }
@@ -253,6 +250,7 @@ public class Customer : MonoBehaviour
     public void Fight(Customer opponent)
     {
         _currentState = State.Fighting;
+        _fightOpponent = opponent;
         _act.Fight(opponent);
     }
 
@@ -264,8 +262,7 @@ public class Customer : MonoBehaviour
         _currentState = State.PassedOut;
         // TODO: PASS OUT
         CleanableMess puke = LevelManager.Instance.GetPuke();
-        puke.transform.parent = this.transform;
-        puke.transform.position = Vector3.zero;
+        puke.transform.position = transform.position + new Vector3(Random.Range(0f, 1f), Random.Range(0f, 1f));
 
         _orderText.text = "Passed Out!";
     }
