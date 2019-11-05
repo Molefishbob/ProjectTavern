@@ -52,7 +52,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _audioMixer: {fileID: 24100000, guid: 99d5a95adbba42f48b3339101a94142a, type: 2}
-  _clickSound: {fileID: 8300000, guid: 535f483528b59aa45b037eb1c2d1c6f4, type: 3}
   _masterSlider: {fileID: 623229880937063047}
   _sfxSlider: {fileID: 4721670741426555093}
   _musicSlider: {fileID: 569258850173802880}
@@ -496,6 +495,11 @@ PrefabInstance:
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 6049872828175779285}
+    - target: {fileID: 6962691404206374247, guid: ad26a4ae4cc0bb64d83d6fc1314b829e,
+        type: 3}
+      propertyPath: m_IsOn
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7885883588095850733, guid: ad26a4ae4cc0bb64d83d6fc1314b829e,
         type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -531,6 +535,11 @@ PrefabInstance:
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 6049872828175779285}
+    - target: {fileID: 5223483970294696808, guid: ad26a4ae4cc0bb64d83d6fc1314b829e,
+        type: 3}
+      propertyPath: m_IsOn
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3103154116214892984, guid: ad26a4ae4cc0bb64d83d6fc1314b829e,
         type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -566,6 +575,11 @@ PrefabInstance:
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 6049872828175779285}
+    - target: {fileID: 845464248643849843, guid: ad26a4ae4cc0bb64d83d6fc1314b829e,
+        type: 3}
+      propertyPath: m_IsOn
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ad26a4ae4cc0bb64d83d6fc1314b829e, type: 3}
 --- !u!224 &6318870056197638989 stripped
