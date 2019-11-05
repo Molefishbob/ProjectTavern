@@ -29,7 +29,12 @@ public class CustomerEditor : Editor
         
         if (_customer.CurrentState == Managers.AIManager.State.Ordered)
         {
-            EditorGUILayout.LabelField("Current order: " + _customer.AIOrder);
+            string wants = "Current order: " + _customer.AIOrder._order;
+            if (_customer.AIOrder._order == PlayerState.Holdables.Drink)
+            {
+                wants += " | " + _customer.AIOrder._drinkOrder;
+            }
+            EditorGUILayout.LabelField(wants);
         }
 
         EditorGUILayout.LabelField("Next state: " + _customer.NextState);

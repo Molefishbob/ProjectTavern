@@ -163,7 +163,7 @@ public class Customer : MonoBehaviour
                 int ran = Random.Range(1, _beverageAmount);
                 drinkOrder = (Beverage)ran;
             }
-            _orderText.text = "D\\" + drinkOrder.ToString()[0];
+            _orderText.text = "D\\" + drinkOrder.ToString()[0] + drinkOrder.ToString()[1];
         }
         _currentState = State.Ordered;
         _order = new MyOrder(foodOrder, drinkOrder);
