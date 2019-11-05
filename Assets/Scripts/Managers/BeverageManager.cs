@@ -14,8 +14,6 @@ namespace Managers
             Spirit = 6,
             Water = 7,
             Grog = 8
-
-            // TODO: add more beverages
         }
     }
 }

@@ -91,6 +91,13 @@ namespace Managers
             }
         }
 
+        public void StartLevel()
+        {
+            // TODO: Start level timer
+            _levelTimer.StartTimer(_playTime);
+            Debug.Log("Game time started");
+        }
+
         private void EndLevel()
         {
             //TODO: end level
@@ -119,13 +126,13 @@ namespace Managers
         /// <summary>
         /// Calculates the earned money from selling a drink.
         /// 
-        /// Earned money is increased or decreased by tip depending on its value.
+        /// Earned money is increased or decreased by tip depending on customer happiness.
         /// </summary>
         /// <param name="drink">The sold drink</param>
-        public void DrinkBought(Drink drink)
+        public void ItemSold(Drink drink)
         {
             int price = drink._price;
-            int tip = Mathf.RoundToInt(drink._price * (_happiness / 100));
+            int tip = Mathf.RoundToInt((float) drink._price * ((float) _happiness / 100f));
             _tipsGained += tip;
             _currentMoney += price + tip;
 
@@ -133,6 +140,29 @@ namespace Managers
             {
                 Debug.Log("Money gained: " + price + " + " + tip);
             } else
+            {
+                Debug.Log("Money gained: " + price + " - " + tip);
+            }
+        }
+
+        /// <summary>
+        /// Calculates the earned money from selling food
+        /// 
+        /// Earned money is increased or decreased by tip depending on customer happiness.
+        /// </summary>
+        /// <param name="food">The sold food</param>
+        public void ItemSold(PlayerState.Holdables food)
+        {
+            int price = 5; // TODO: Add food price somewhere
+            int tip = Mathf.RoundToInt(price * (_happiness / 100));
+            _tipsGained += tip;
+            _currentMoney += price + tip;
+
+            if (tip >= 0)
+            {
+                Debug.Log("Money gained: " + price + " + " + tip);
+            }
+            else
             {
                 Debug.Log("Money gained: " + price + " - " + tip);
             }

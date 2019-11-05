@@ -21,7 +21,7 @@ public class CustomerInteraction : PlayerUseable
             Destroy(this);
             return;
         }
-        
+
         _timer.OnTimerCompleted += Interract;
 
         // Lets get the customer script from parent
@@ -41,7 +41,7 @@ public class CustomerInteraction : PlayerUseable
 
             if (tmp.Length != System.Enum.GetNames(typeof(Managers.BeverageManager.Beverage)).Length - 1)
             {
-                Debug.LogWarning("There are uneven amounts of drinks between bewerage and drinks!\nDrinks in resources" 
+                Debug.LogWarning("There are uneven amounts of drinks between bewerage and drinks!\nDrinks in resources"
                     + tmp.Length + "\nDrinks in Beverages" + (System.Enum.GetNames(typeof(Managers.BeverageManager.Beverage)).Length - 1));
             }
         }
@@ -112,6 +112,12 @@ public class CustomerInteraction : PlayerUseable
                     Debug.Log("CORRECTLY SERVED!");
                     User.CurrentlyHeld = PlayerState.Holdables.Nothing;
                     User.HeldDrink = Managers.BeverageManager.Beverage.None;
+                }
+                else if (_customer.Served(User.CurrentlyHeld))
+                {
+                    // TODO: Tell the customer to drink muchos alcohol
+                    Debug.Log("CORRECTLY SERVED FOOD!");
+                    User.CurrentlyHeld = PlayerState.Holdables.Nothing;
                 }
                 else
                 {
