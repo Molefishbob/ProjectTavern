@@ -19,16 +19,14 @@ namespace Managers
         #region Parameters
         public static GameManager Instance;
         public event ValueChangedBool OnGamePauseChanged;
-        public AudioClip LevelMusic;
-        public AudioClip MenuMusic;
+        public AudioClip _levelMusic;
+        public AudioClip _menuMusic;
         [SerializeField]
-        private AudioMixer _mixer;
+        protected string[] _saveFiles = {"save1","save2","save3"};
         [SerializeField]
         private string MainMenu = "MainMenu";
         [SerializeField]
         private GameObject _loadingScreen = null;
-        [SerializeField]
-        private LevelManager _levelManager = null;
         [SerializeField]
         private GameObject _player1 = null;
         [SerializeField]
@@ -37,8 +35,11 @@ namespace Managers
         private GameObject _player3 = null;
         [SerializeField]
         private GameObject _player4 = null;
+        private LevelManager _levelManager = null;
+        private AudioManager _audio;
         private int _mainMenuID = 0;
         private int _currentSceneID = 0;
+        private string _currentSave;
         private float _timeScaleBeforePause = 1.0f;
         private AudioSource _musicSource;
 
@@ -135,6 +136,7 @@ namespace Managers
                 Instance = this;
 
             _musicSource = GetComponent<AudioSource>();
+            _audio = GetComponent<AudioManager>();
             _currentSceneID = SceneManager.GetActiveScene().buildIndex;
             int count = SceneManager.sceneCountInBuildSettings;
 
@@ -160,25 +162,16 @@ namespace Managers
 
         private void Start()
         {
-            SerializationManager.SettingsData settings = SerializationManager.LoadedSettings;
             SerializationManager.SaveData save = SerializationManager.LoadedSave;
 
-            SerializationManager.LoadSettings("Settings");
-            //SerializationManager.LoadSave();
+            //  TODO: SerializationManager.LoadSave();
+            //  TODO: add save data load
 
+        }
 
-            _mixer.SetFloat("masterVol", settings.Volume.Master);
-            _mixer.SetFloat("musicVol", settings.Volume.Music);
-            _mixer.SetFloat("sfxVol", settings.Volume.SFX);
-            if (settings.Volume.MasterMute)
-                _mixer.SetFloat("masterVol", -80f);
-            if (settings.Volume.MusicMute)
-                _mixer.SetFloat("musicVol", -80f);
-            if (settings.Volume.SFXMute)
-                _mixer.SetFloat("sfxVol", -80f);
-
-            //TODO: add save data load
-
+        private void OnDestroy()
+        {
+            SaveData(_currentSave);
         }
         #endregion
 
@@ -266,10 +259,11 @@ namespace Managers
             PlayMenuMusic();
         }
 
-        public void SaveData()
+        public void SaveData(string levelSave = "")
         {
             SerializationManager.SaveSettings("Settings");
-            //TODO: SerializationManager.SaveLevelData();
+            if (levelSave != "")
+                SerializationManager.SaveSave(levelSave);
         }
 
         /// <summary>
@@ -310,19 +304,17 @@ namespace Managers
 
         public void PlayLevelMusic()
         {
-            _musicSource.clip = LevelMusic;
-            _musicSource.Play();
+            _audio.PlayMusic(_levelMusic);
         }
 
         public void PlayMenuMusic()
         {
-            _musicSource.clip = MenuMusic;
-            _musicSource.Play();
+            _audio.PlayMusic(_menuMusic);
         }
 
         public void StopAllMusic()
         {
-            _musicSource.Stop();
+            _audio.StopMusic();
         }
 
     }
