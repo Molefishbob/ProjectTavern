@@ -1,13 +1,24 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class AudioManager : MonoBehaviour
 {
-    public AudioSource _menuMusicAudioSource, _clickAudioSource, _gameMusic;
+    public AudioSource _sfxAudioSource, _musicAudioSource;
+    public AudioMixerGroup _musicGroup, _sfxGroup;
 
-    public void ClickSound()
+    public void PlaySound(AudioClip clip)
     {
-        _clickAudioSource.Play();
+        _sfxAudioSource.clip = clip;
+        _sfxAudioSource.outputAudioMixerGroup = _sfxGroup;
+        _sfxAudioSource.Play();
+    }
+
+    public void PlayMusic(AudioClip song)
+    {
+        _musicAudioSource.clip = song;
+        _musicAudioSource.outputAudioMixerGroup = _musicGroup;
+        _musicAudioSource.Play();
     }
 }
