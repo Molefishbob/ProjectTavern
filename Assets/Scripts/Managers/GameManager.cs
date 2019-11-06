@@ -155,6 +155,7 @@ namespace Managers
                 Debug.LogWarning("Not in MainMenu at the start of the game. Switching to MainMenu..");
                 ChangeToMainMenu();
             }
+            DontDestroyOnLoad(this);
         }
 
         private void Start()
