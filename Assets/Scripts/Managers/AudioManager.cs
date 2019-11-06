@@ -9,7 +9,19 @@ public class AudioManager : MonoBehaviour
     public AudioMixerGroup _musicGroup, _sfxGroup;
     public AudioMixer _mixer;
 
+    public static AudioManager Instance;
 
+    private void Awake()
+    {
+        if(Instance == null)
+        {
+            Instance = this;
+        }else
+        {
+            Destroy(gameObject);
+        }
+    }
+    
     private void Start()
     {
         SerializationManager.LoadSettings("Settings");

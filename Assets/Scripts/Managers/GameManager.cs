@@ -157,6 +157,7 @@ namespace Managers
                 Debug.LogWarning("Not in MainMenu at the start of the game. Switching to MainMenu..");
                 ChangeToMainMenu();
             }
+            PlayMenuMusic();
             DontDestroyOnLoad(this);
         }
 
@@ -219,6 +220,7 @@ namespace Managers
 
         public void ActivateGame(bool active)
         {
+            Debug.Log("d");
             // TODO: Ask for player amount and activate required amount
             if (active) PlayLevelMusic();
             if (GamePaused) UnPauseGame();
@@ -247,9 +249,14 @@ namespace Managers
 
         public void NextLevel()
         {
+            //Debug
+            SerializationManager.LoadSave("save1");
+            print(SerializationManager.LoadedSave.LastLevelCleared);
+
             SerializationManager.LoadedSave.LastLevelCleared++;
             //TODO: SerializationManager.saveLevelData();
             ChangeScene(SerializationManager.LoadedSave.LastLevelCleared, true);
+            ActivateGame(true);
         }
 
         public void ChangeToMainMenu()
@@ -304,6 +311,7 @@ namespace Managers
 
         public void PlayLevelMusic()
         {
+            Debug.Log("sss");
             _audio.PlayMusic(_levelMusic);
         }
 
