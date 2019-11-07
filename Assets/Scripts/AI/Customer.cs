@@ -31,6 +31,7 @@ public class Customer : MonoBehaviour
     protected ScaledOneShotTimer _positionCorrectiontimer;
     protected MyOrder _order;
     protected Customer _fightOpponent;
+    protected float _passOutDist;
     [SerializeField]
     private TMPro.TextMeshProUGUI _orderText = null;
     #endregion
@@ -54,7 +55,6 @@ public class Customer : MonoBehaviour
         _drinkTimer = gameObject.AddComponent<ScaledOneShotTimer>();
         _positionCorrectiontimer = gameObject.AddComponent<ScaledOneShotTimer>();
         _drinkTimer.OnTimerCompleted += TimeToDrink;
-
         _polyNav.OnDestinationReached += CorrectPosition;
         _polyNav.OnDestinationReached += AfterMoveActions;
 
@@ -83,14 +83,22 @@ public class Customer : MonoBehaviour
         _orderText.text = "";
     }
 
+    private void _polyNav_OnAlertDistance()
+    {
+        throw new System.NotImplementedException();
+    }
+
     private void Update()
     {
         // Fix the position more smoothly
-        if (_positionCorrectiontimer.IsRunning)
+        if (_positionCorrectiontimer.IsRunning && CurrentState != State.PassedOut)
         {
             // Easing out for nice stopping
             float t = _positionCorrectiontimer.NormalizedTimeElapsed;
             transform.position = Vector3.Lerp(_correctStartPos, _movePos, (--t) * t * t + 1);
+        } else if (CurrentState == State.PassedOut)
+        {
+            _positionCorrectiontimer.StopTimer();
         }
     }
 
@@ -99,6 +107,7 @@ public class Customer : MonoBehaviour
         _polyNav.OnDestinationReached -= CorrectPosition;
         _polyNav.OnDestinationReached -= AfterMoveActions;
         _drinkTimer.OnTimerCompleted -= TimeToDrink;
+        _polyNav.OnAlertDistance -= TimeToPassOut;
     }
     #endregion
 
@@ -174,6 +183,7 @@ public class Customer : MonoBehaviour
     /// </summary>
     private void CorrectPosition()
     {
+        if (CurrentState == State.PassedOut) return;
         _correctStartPos = transform.position;
         _positionCorrectiontimer.StartTimer(0.5f);
     }
@@ -249,7 +259,7 @@ public class Customer : MonoBehaviour
     /// <returns>True if customer wanted food, otherwise false</returns>
     public bool Served(Holdables food)
     {
-        if (_order._order != Holdables.Food) return false;
+        if (_order._order != Holdables.Food || food != Holdables.Food) return false;
 
         LevelManager.Instance.ItemSold(food);
         _currentHoldable = Holdables.Food;
@@ -317,10 +327,20 @@ public class Customer : MonoBehaviour
     /// </summary>
     public void PassOut()
     {
-        _currentState = State.PassedOut;
-        CleanableMess puke = LevelManager.Instance.GetPuke();
-        puke.transform.position = transform.position + new Vector3(Random.Range(0f, 1f), Random.Range(0f, 1f));
+        _passOutDist = Vector2.Distance(LevelManager.Instance.Door.transform.position, transform.position) * (float)(Random.Range(0.1f, 0.9f));
+        Leave(LevelManager.Instance.Door);
+        _afterMoveState = State.PassedOut;
+        _polyNav.alertDistance = _passOutDist;
+        _polyNav.OnAlertDistance += TimeToPassOut;
+    }
 
+    private void TimeToPassOut()
+    {
+        CleanableMess puke = LevelManager.Instance.GetPuke();
+        puke.transform.position = transform.position + new Vector3(Random.Range(0f, 0.5f), Random.Range(0f, 0.5f));
+
+        _polyNav.Stop();
+        _polyNav.OnAlertDistance -= TimeToPassOut;
         _orderText.text = "Passed Out!";
     }
 
@@ -342,14 +362,12 @@ public class Customer : MonoBehaviour
 
     public void Leave(Transform trans)
     {
-        LevelManager.Instance.GetTable(this).RemoveCustomer(this);
+        if (_currentState != State.PassedOut)
+            LevelManager.Instance.GetTable(this).RemoveCustomer(this);
         _afterMoveState = State.None;
         Move(trans.position);
     }
 
-    /// <summary>
-    /// What to do in addition of the correction manuevers
-    /// </summary>
     private void AfterMoveActions()
     {
         switch (_afterMoveState)
@@ -358,16 +376,22 @@ public class Customer : MonoBehaviour
                 AIManager.Instance.RemoveCustomer(this);
                 break;
             case State.Moving:
+                _currentState = State.Moving;
                 break;
             case State.Waiting:
+                _currentState = State.Waiting;
                 break;
             case State.Served:
+                _currentState = State.Served;
                 break;
             case State.PassedOut:
+                _currentState = State.PassedOut;
                 break;
             case State.Fighting:
+                _currentState = State.Fighting;
                 break;
             case State.Ordered:
+                _currentState = State.Ordered;
                 Order();
                 break;
             default:

@@ -20,6 +20,7 @@ namespace Managers
         protected List<Customer> _activeAgents;
         protected Customer[] _customers;
         public static AIManager Instance;
+        [HideInInspector]
         public ScaledOneShotTimer _timer;
         private float _duration;
         private float _offset;
