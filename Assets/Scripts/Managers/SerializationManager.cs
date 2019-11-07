@@ -40,6 +40,7 @@ public static class SerializationManager
     {
         _path = Application.persistentDataPath;
         LoadedSettings = MakeDefaultSettings();
+        LoadedSave = MakeDefaultSave();
         _initialized = true;
     }
 
@@ -213,9 +214,6 @@ public static class SerializationManager
     private static SaveData MakeDefaultSave()
     {
         SaveData data = new SaveData();
-        data.Money = 0;
-        data.LastLevelCleared = 0;
-        data.ProfileName = "";
         return data;
     }
 
@@ -237,6 +235,18 @@ public static class SerializationManager
     #endregion
 
     #region DebugStuff
+
+    [UnityEditor.MenuItem("Debug", menuItem = "Tools/Serialization/Open Path", priority = 0)]
+    public static void DEBUGOpenFolder()
+    {
+        if (UnityEditor.EditorApplication.isPlaying && !_initialized)
+            Init();
+
+        if (_initialized)
+            System.Diagnostics.Process.Start(@_path);
+    }
+
+    #region Settings
 
     [UnityEditor.MenuItem("Debug", menuItem = "Tools/Serialization/Settings/Log Path", priority = 1)]
     public static void LogPath()
@@ -288,16 +298,7 @@ public static class SerializationManager
             }
         }
     }
-
-    [UnityEditor.MenuItem("Debug", menuItem = "Tools/Serialization/Open Path", priority = 0)]
-    public static void DEBUGOpenFolder()
-    {
-        if (UnityEditor.EditorApplication.isPlaying && !_initialized)
-            Init();
-
-        if (_initialized)
-            System.Diagnostics.Process.Start(@_path);
-    }
+    #endregion
 
     #endregion
 
@@ -390,12 +391,28 @@ public static class SerializationManager
         public FullScreenMode FullScreenMode = FullScreenMode.FullScreenWindow;
     }
 
+    /// <summary>
+    /// Holds the data for individual saves.
+    /// </summary>
     public class SaveData
     {
+        public int SaveVersion = 1;
         public string ProfileName = "";
         public int LastLevelCleared = 0;
         public float Money = 0;
+
+        public List<LevelData> LevelDatas = new List<LevelData>();
     }
-    
+
+    /// <summary>
+    /// Level data, Work In Progres
+    /// ToDo: add relevant stuff
+    /// </summary>
+    public struct LevelData
+    {
+        public int CollectedTips;
+        public int PlayerCount;
+        public float TimeUsed;
+    }
     #endregion
 }
