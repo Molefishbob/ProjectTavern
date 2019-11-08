@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Managers;
 
 public class MainMenu : MonoBehaviour
 {
@@ -25,7 +26,7 @@ public class MainMenu : MonoBehaviour
 
     public void StartGame()
     {
-        SceneManager.LoadScene(1);
+        GameManager.Instance.ChangeScene(1, false);
     }
 
     
