@@ -46,11 +46,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0032221ca8ce96a48a69cd4cbee5d036, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _levelMusic: {fileID: 8300000, guid: 535f483528b59aa45b037eb1c2d1c6f4, type: 3}
-  _menuMusic: {fileID: 8300000, guid: 9682ccae0d0fdca47be4d208da9c6511, type: 3}
+  _levelMusic: {fileID: 8300000, guid: 9682ccae0d0fdca47be4d208da9c6511, type: 3}
+  _menuMusic: {fileID: 8300000, guid: 5dd0460a94e6049408c0580610cf2737, type: 3}
+  _saveFiles:
+  - save1
+  - save2
+  - save3
   MainMenu: MainMenu
   _loadingScreen: {fileID: 0}
-  _levelManager: {fileID: 0}
   _player1: {fileID: 4733404804551215368, guid: 13dcd861e8840c746833e9535a990c4f,
     type: 3}
   _player2: {fileID: 0}
@@ -164,7 +167,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: -6254936424475668541, guid: 99d5a95adbba42f48b3339101a94142a,
     type: 2}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 535f483528b59aa45b037eb1c2d1c6f4, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1

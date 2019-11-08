@@ -12,6 +12,11 @@ public class Queue : AIUseable
     [HideInInspector]
     public List<Customer> _queuedCustomers = new List<Customer>();
 
+    public int QueueLength
+    {
+        get { return _queueLength; }
+    }
+
     private void Awake()
     {
         _queueLength = transform.childCount;
@@ -56,6 +61,26 @@ public class Queue : AIUseable
         for (int i = 0; i < _queuedCustomers.Count; i++)
         {
             _queuedCustomers[i].GetInLine(_queueSpots[i]);
+        }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+
+        List<Transform> gizmoList = new List<Transform>();
+
+        foreach (Transform child in transform)
+        {
+            if (child != transform)
+            {
+                gizmoList.Add(child);
+            }
+        }
+
+        for (int a = 0; a < gizmoList.Count; a++)
+        {
+            Gizmos.color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f), 1);
+            Gizmos.DrawWireCube(gizmoList[a].position, gizmoList[a].localScale);
         }
     }
 

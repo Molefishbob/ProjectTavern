@@ -15,8 +15,8 @@ namespace Managers
         public float _playTime = 120f;
         private List<TableInteractions> _tables = null;
         [SerializeField]
-        private Transform _door = null;
-        public int _maxQueueLength = 5;
+        private Transform _entrance = null, _exit = null;
+        private int _maxQueueLength = 0;
         private Customer[] _customerQueue;
         [SerializeField]
         private CustomerPool _customerPoolPrefab = null;
@@ -36,7 +36,9 @@ namespace Managers
 
         public Customer[] CustomerQueue { get { return _customerQueue; } }
 
-        public Transform Door { get { return _door; } }
+        public Transform Entrance { get { return _entrance; } }
+
+        public Transform Exit { get { return _exit; } }
 
         public int CurrentMoney { get { return _currentMoney; } }
 
@@ -55,19 +57,29 @@ namespace Managers
             {
                 Destroy(gameObject);
             }
-            _customerQueue = new Customer[_maxQueueLength];
+            
             _spawnedCustomerPool = Instantiate(_customerPoolPrefab);
             _spawnedPukePool = Instantiate(_pukePoolPrefab);
             _tables = new List<TableInteractions>();
             _tables.AddRange(FindObjectsOfType<TableInteractions>());
             _queue = FindObjectOfType<Queue>();
-            if (GameObject.Find("Door") != null)
+            GameObject entrance = GameObject.Find("Entrance");
+            if (entrance != null)
             {
-                _door = GameObject.Find("Door").transform;
+                _entrance = GameObject.Find("Entrance").transform;
             }
             else
             {
-                Debug.LogError("No door found.");
+                Debug.LogError("No entrance found.");
+            }
+            GameObject exit = GameObject.Find("Exit");
+            if (exit != null)
+            {
+                _exit = GameObject.Find("Exit").transform;
+            }
+            else
+            {
+                Debug.LogError("No Exit found.");
             }
             _levelTimer = gameObject.AddComponent<ScaledOneShotTimer>();
             _levelTimer.OnTimerCompleted += EndLevel;
@@ -82,6 +94,8 @@ namespace Managers
         private void Start()
         {
             _levelTimer.StartTimer(_playTime);
+            _maxQueueLength = _queue.QueueLength;
+            _customerQueue = new Customer[_maxQueueLength];
         }
 
         private void Update()
@@ -214,7 +228,7 @@ namespace Managers
                     _customerQueue[0] = null;
                     for (int a = 0; a < _customerQueue.Length; a++)
                     {
-                        if (_customerQueue[i] == null)
+                        if (_customerQueue[i] == null && CustomerQueue.Length > 1)
                         {
                             _customerQueue[i] = _customerQueue[i + 1];
                             _customerQueue[i + 1] = null;
