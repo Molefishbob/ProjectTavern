@@ -15,8 +15,12 @@ namespace GameInput
     {
         #region MemberVariables
 
-        [SerializeField] private float _speed = 10;
-        [SerializeField] private Vector2 _direction = new Vector2();
+        [SerializeField] private float _maxSpeed = 0.1f;
+        [SerializeField] private float _acceleration = 10;
+        [SerializeField] private float _deaccleration = 5;
+        [SerializeField] private Vector2 _inputDirection = new Vector2();
+        private Vector2 _movementVector = new Vector2();
+
         private Controls controls;
         private PlayerState _myState = null;
 
@@ -91,7 +95,8 @@ namespace GameInput
         /// </summary>
         public void StopMovement()
         {
-            _direction = Vector2.zero;
+            _inputDirection = Vector2.zero;
+            _movementVector = Vector2.zero;
         }
 
         /// <summary>
@@ -100,8 +105,14 @@ namespace GameInput
         /// </summary>
         private void Move()
         {
+            _movementVector += _inputDirection * _inputDirection.magnitude * _acceleration * Time.deltaTime;
+
+            _movementVector -= _movementVector * _deaccleration * Time.deltaTime;
+
+            _movementVector = Vector3.ClampMagnitude(_movementVector, _maxSpeed);
+
             // Something smarter needs to be done
-            transform.Translate(_direction * _speed * Time.deltaTime);
+            transform.Translate(_movementVector);
 
             // Move it into center of the level maybe, instead of this
             Vector2 posInCamera = Camera.main.WorldToViewportPoint(transform.position);
@@ -116,7 +127,7 @@ namespace GameInput
         private void ReadMovementInput(InputAction.CallbackContext context)
         {
             if (DeviceID == context.control.device.deviceId)
-                _direction = context.ReadValue<Vector2>();
+                _inputDirection = context.ReadValue<Vector2>();
         }
 
         /// <summary>
@@ -133,5 +144,18 @@ namespace GameInput
 
         #endregion
 
+
+        #region DebugStuff
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.blue;
+            Gizmos.DrawLine(transform.position, transform.position + new Vector3(_inputDirection.x, _inputDirection.y));
+            
+            Gizmos.color = Color.green;
+            Gizmos.DrawLine(transform.position, transform.position + new Vector3(_movementVector.x * 10, _movementVector.y * 10));
+        }
+
+        #endregion
     }
 }
