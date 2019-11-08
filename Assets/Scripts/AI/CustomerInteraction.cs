@@ -97,11 +97,11 @@ public class CustomerInteraction : PlayerUseable
             case Managers.AIManager.State.Served:
                 break;
             case Managers.AIManager.State.PassedOut:
-                _customer.Leave(Managers.LevelManager.Instance.Entrance);
+                _customer.Leave(Managers.LevelManager.Instance.Exit);
                 break;
             case Managers.AIManager.State.Fighting:
-                _customer.Leave(Managers.LevelManager.Instance.Entrance);
-                _customer.FightOpponent.Leave(Managers.LevelManager.Instance.Entrance);
+                _customer.Leave(Managers.LevelManager.Instance.Exit);
+                _customer.FightOpponent.Leave(Managers.LevelManager.Instance.Exit);
                 break;
             case Managers.AIManager.State.Ordered:
                 if (User.CurrentlyHeld == PlayerState.Holdables.Nothing) break;

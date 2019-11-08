@@ -229,7 +229,7 @@ public class Customer : MonoBehaviour
         else if (passOutRoll > fightRoll && passOutRoll > orderRoll && passOutRoll > leaveRoll)
             PassOut();
         else
-            Leave(LevelManager.Instance.Entrance);
+            Leave(LevelManager.Instance.Exit);
 
     }
 
@@ -328,7 +328,7 @@ public class Customer : MonoBehaviour
     public void PassOut()
     {
         _passOutDist = Vector2.Distance(LevelManager.Instance.Entrance.transform.position, transform.position) * (float)(Random.Range(0.1f, 0.9f));
-        Leave(LevelManager.Instance.Entrance);
+        Leave(LevelManager.Instance.Exit);
         _afterMoveState = State.PassedOut;
         _polyNav.alertDistance = _passOutDist;
         _polyNav.OnAlertDistance += TimeToPassOut;
