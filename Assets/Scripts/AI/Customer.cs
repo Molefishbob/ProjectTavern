@@ -14,8 +14,8 @@ public class Customer : MonoBehaviour
     protected AIBehaviour _behaviour;
     [SerializeField, Range(0, 100), Tooltip("The percentage chance to take the preferred drink")]
     protected int _preferredDrinkChance = 85;
-    protected float _minDrinkFrequency = 15f;
-    protected float _maxDrinkFrequency = 30f;
+    protected float _minDrinkFrequency = 5f;
+    protected float _maxDrinkFrequency = 10f;
     protected Drink _currentDrink;
     protected Holdables _currentHoldable;
     protected int _sipsCount = 0;
