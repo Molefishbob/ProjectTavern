@@ -83,11 +83,6 @@ public class Customer : MonoBehaviour
         _orderText.text = "";
     }
 
-    private void _polyNav_OnAlertDistance()
-    {
-        throw new System.NotImplementedException();
-    }
-
     private void Update()
     {
         // Fix the position more smoothly
