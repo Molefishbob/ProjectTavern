@@ -95,7 +95,7 @@ namespace Managers
         public void SpawnAI()
         {
             Customer ai = LevelManager.Instance.GetCustomer();
-            ai.transform.position = LevelManager.Instance.Door.position;
+            ai.transform.position = LevelManager.Instance.Entrance.position;
             _activeAgents.Add(ai);
             LevelManager.Instance.GetSeat(ai);
             //_timer.StartTimer(_duration + Random.Range(-_offset, _offset + 1));

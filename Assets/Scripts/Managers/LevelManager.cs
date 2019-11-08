@@ -15,7 +15,7 @@ namespace Managers
         public float _playTime = 120f;
         private List<TableInteractions> _tables = null;
         [SerializeField]
-        private Transform _door = null;
+        private Transform _entrance = null, _exit = null;
         public int _maxQueueLength = 5;
         private Customer[] _customerQueue;
         [SerializeField]
@@ -36,7 +36,9 @@ namespace Managers
 
         public Customer[] CustomerQueue { get { return _customerQueue; } }
 
-        public Transform Door { get { return _door; } }
+        public Transform Entrance { get { return _entrance; } }
+
+        public Transform Exit { get { return _exit; } }
 
         public int CurrentMoney { get { return _currentMoney; } }
 
@@ -63,7 +65,7 @@ namespace Managers
             _queue = FindObjectOfType<Queue>();
             if (GameObject.Find("Door") != null)
             {
-                _door = GameObject.Find("Door").transform;
+                _entrance = GameObject.Find("Door").transform;
             }
             else
             {
