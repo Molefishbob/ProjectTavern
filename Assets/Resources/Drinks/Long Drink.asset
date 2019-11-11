@@ -10,9 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b5e5484a998a93642b0a9cc474dd9c18, type: 3}
-  m_Name: Stout Beer
+  m_Name: Long Drink
   m_EditorClassIdentifier: 
-  _drink: 2
-  _alcoholContent: 9
-  _price: 5
-  _amountOfUses: 6
+  _drink: 5
+  _ingredients: 0100000004000000
+  _alcoholContent: 5
+  _price: 10
+  _amountOfUses: 3

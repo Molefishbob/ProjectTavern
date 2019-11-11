@@ -24,44 +24,54 @@ public class PourBeverage : PlayerUseable
         User.HeldDrink = _drink;
         switch (_drink)
         {
-            case Beverage.PaleLager:
+            case Beverage.Ale:
                 {
-                    Debug.Log("Poured pale lager");
+                    Debug.Log("Poured Ale");
                 }
                 break;
-            case Beverage.StoutBeer:
+            case Beverage.Whisky:
                 {
-                    Debug.Log("Poured stout beer");
+                    Debug.Log("Poured Whisky");
                 }
                 break;
-            case Beverage.WhiteWine:
+            case Beverage.Vodka:
                 {
-                    Debug.Log("Poured white wine");
+                    Debug.Log("Poured Vodka");
                 }
                 break;
-            case Beverage.RedWine:
+            case Beverage.Wine:
                 {
-                    Debug.Log("Poured red wine");
+                    Debug.Log("Poured Wine");
                 }
                 break;
-            case Beverage.FruitCocktail:
+            case Beverage.LongDrink:
                 {
-                    Debug.Log("Poured fruit cock");
+                    Debug.Log("Poured LongDrink");
                 }
                 break;
-            case Beverage.Spirit:
+            case Beverage.Liquor:
                 {
-                    Debug.Log("Poured spirit");
+                    Debug.Log("Poured Liquor");
                 }
                 break;
-            case Beverage.Water:
+            case Beverage.Cider:
                 {
-                    Debug.Log("Poured water");
+                    Debug.Log("Poured Cider");
+                }
+                break;
+            case Beverage.Martini:
+                {
+                    Debug.Log("Poured Martini");
                 }
                 break;
             case Beverage.Grog:
                 {
                     Debug.Log("Poured Grog");
+                }
+                break;
+            case Beverage.FruitDrink:
+                {
+                    Debug.Log("Poured FruitDrink");
                 }
                 break;
             default:
