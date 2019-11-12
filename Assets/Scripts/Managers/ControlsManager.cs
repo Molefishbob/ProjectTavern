@@ -26,6 +26,8 @@ namespace GameInput
         private List<PlayerMovement> _activePlayers = new List<PlayerMovement>();
         private PlayerMovement _playerPrefab = null;
 
+        public List<int> InUseControllers = new List<int>();
+
         private void Start()
         {
             if (_instance == null)
