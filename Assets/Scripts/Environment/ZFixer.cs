@@ -5,6 +5,7 @@ using UnityEngine;
 public class ZFixer : MonoBehaviour
 {
     [SerializeField, Tooltip("How many frames between changes")] private int _refreshRate = 5;
+    [SerializeField] private int _offset = 0;
     private int _counter = 0;
 
 #pragma warning disable CS0649
@@ -23,7 +24,7 @@ public class ZFixer : MonoBehaviour
         if (_counter <= _refreshRate)
         {
             _counter = 0;
-            _renderer.sortingOrder = Mathf.RoundToInt(-transform.position.y * 10);
+            _renderer.sortingOrder = Mathf.RoundToInt(-transform.position.y * 10) + _offset;
         }
     }
 }
