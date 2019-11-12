@@ -8,6 +8,7 @@ public class MainMenu : MonoBehaviour
 {
     public GameObject _settingsMenu;
     public GameObject _quitMenu;
+    public GameObject _saveSelect;
 
 
 
@@ -15,18 +16,23 @@ public class MainMenu : MonoBehaviour
     public void OpenSettingsMenu()
     {
         _settingsMenu.SetActive(true);
+        _saveSelect.SetActive(false);
         _quitMenu.SetActive(false);
     }
 
     public void OpenQuitMenu()
     {
         _settingsMenu.SetActive(false);
+        _saveSelect.SetActive(false);
         _quitMenu.SetActive(true);
     }
 
     public void StartGame()
     {
-        GameManager.Instance.ChangeScene(1, false);
+        _saveSelect.SetActive(true);
+        _settingsMenu.SetActive(false);
+        _quitMenu.SetActive(false);
+        gameObject.SetActive(false);
     }
 
     
