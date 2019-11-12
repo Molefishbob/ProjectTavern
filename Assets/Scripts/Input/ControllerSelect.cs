@@ -19,6 +19,11 @@ public class ControllerSelect : MonoBehaviour
         {
             playerSlots[i] = transform.GetChild(0).GetChild(i).gameObject;
         }
+
+        for (int i = 0; i < ControlsManager.Instance.InUseControllers.Count; i++)
+        {
+            playerSlots[i].SetActive(true);
+        }
     }
 
     private void AllSet(UnityEngine.InputSystem.InputAction.CallbackContext context)
