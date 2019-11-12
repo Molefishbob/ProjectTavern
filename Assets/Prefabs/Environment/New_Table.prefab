@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 869186618023919124}
   - component: {fileID: 5784202046544276970}
   - component: {fileID: 4756767137584971801}
+  - component: {fileID: 7870807480628341521}
   m_Layer: 0
   m_Name: New_Table
   m_TagString: Untagged
@@ -115,6 +116,20 @@ CapsuleCollider2D:
   m_Offset: {x: 0.05, y: -0.4}
   m_Size: {x: 1.65, y: 0.85}
   m_Direction: 1
+--- !u!114 &7870807480628341521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1602150329316157618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf8b11d563e666b4ebc0b4942afad0a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _refreshRate: 5
+  _renderer: {fileID: 0}
 --- !u!1 &1792517253915826840
 GameObject:
   m_ObjectHideFlags: 0
@@ -125,6 +140,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1031762650464827242}
   - component: {fileID: 2010281573465706510}
+  - component: {fileID: 5164277151668131634}
   m_Layer: 0
   m_Name: New_Chair_R
   m_TagString: Untagged
@@ -195,6 +211,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &5164277151668131634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1792517253915826840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf8b11d563e666b4ebc0b4942afad0a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _refreshRate: 5
+  _renderer: {fileID: 0}
 --- !u!1 &2731330740763922345
 GameObject:
   m_ObjectHideFlags: 0
@@ -205,6 +235,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3473743633571362218}
   - component: {fileID: 1090527070999197981}
+  - component: {fileID: 5472079173107645403}
   m_Layer: 0
   m_Name: New_Chair_R (1)
   m_TagString: Untagged
@@ -275,6 +306,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &5472079173107645403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2731330740763922345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf8b11d563e666b4ebc0b4942afad0a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _refreshRate: 5
+  _renderer: {fileID: 0}
 --- !u!1 &3335267264345546403
 GameObject:
   m_ObjectHideFlags: 0
@@ -285,6 +330,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6790357236649682311}
   - component: {fileID: 7732775083591198008}
+  - component: {fileID: 8376374014043282614}
   m_Layer: 0
   m_Name: New_Chair_L
   m_TagString: Untagged
@@ -355,6 +401,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &8376374014043282614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3335267264345546403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf8b11d563e666b4ebc0b4942afad0a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _refreshRate: 5
+  _renderer: {fileID: 0}
 --- !u!1 &5691716197684568124
 GameObject:
   m_ObjectHideFlags: 0
@@ -365,6 +425,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2613613409314476569}
   - component: {fileID: 9004217573200475407}
+  - component: {fileID: 3673948846966562216}
   m_Layer: 0
   m_Name: New_Chair_L (1)
   m_TagString: Untagged
@@ -435,3 +496,17 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &3673948846966562216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5691716197684568124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf8b11d563e666b4ebc0b4942afad0a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _refreshRate: 5
+  _renderer: {fileID: 0}
