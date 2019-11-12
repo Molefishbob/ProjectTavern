@@ -51,7 +51,11 @@ namespace Managers
             if (Instance == null)
             {
                 Instance = this;
-                GameManager.Instance.LevelManager = this;
+
+                if (GameManager.Instance != null)
+                    GameManager.Instance.LevelManager = this;
+                else
+                    Debug.LogError("GameManagerException: GameManager is missing");
             }
             else
             {
