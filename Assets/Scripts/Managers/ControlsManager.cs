@@ -26,6 +26,8 @@ namespace GameInput
         private List<PlayerMovement> _activePlayers = new List<PlayerMovement>();
         private PlayerMovement _playerPrefab = null;
 
+        public List<int> InUseControllers = new List<int>();
+
         private void Start()
         {
             if (_instance == null)
@@ -42,7 +44,9 @@ namespace GameInput
         private void Init()
         {
             DontDestroyOnLoad(gameObject);
-            
+
+            UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoaded;
+
             if (_playerPrefab == null)
             {
                 _playerPrefab = Resources.Load<PlayerMovement>("Test_Player");
@@ -63,6 +67,23 @@ namespace GameInput
 
             Initialized = true;
             Debug.Log("Control Manager Initialized");
+        }
+
+        private void OnDestroy()
+        {
+            if (_instance == this)
+                UnityEngine.SceneManagement.SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
+
+        private void OnSceneLoaded(UnityEngine.SceneManagement.Scene Scene, UnityEngine.SceneManagement.LoadSceneMode Loadmode)
+        {
+            if (Scene.name.ToLower().Contains("level"))
+            {
+                foreach (int active in InUseControllers)
+                {
+                    AddPlayer(active);
+                }
+            }
         }
 
         /// <summary>
