@@ -22,8 +22,6 @@ namespace Managers
         public AudioClip _levelMusic;
         public AudioClip _menuMusic;
         [SerializeField]
-        protected string[] _saveFiles = {"save1","save2","save3"};
-        [SerializeField]
         private string MainMenu = "MainMenu";
         [SerializeField]
         private GameObject _loadingScreen = null;
@@ -35,7 +33,9 @@ namespace Managers
         private GameObject _player3 = null;
         [SerializeField]
         private GameObject _player4 = null;
+        protected string[] _saveFiles = { "save1", "save2", "save3" };
         private LevelManager _levelManager = null;
+        private PauseMenu _pauseMenu;
         private AudioManager _audio;
         private int _mainMenuID = 0;
         private int _currentSceneID = 0;
@@ -78,6 +78,21 @@ namespace Managers
             set
             {
                 _levelManager = value;
+            }
+        }
+        public PauseMenu PauseMenu
+        {
+            get
+            {
+                if (_pauseMenu == null)
+                    Debug.LogError("Pause menu not assigned!");
+
+                return _pauseMenu;
+
+            }
+            set
+            {
+                _pauseMenu = value;
             }
         }
 
@@ -131,7 +146,9 @@ namespace Managers
         private void Awake()
         {
             if (Instance != null)
+            {
                 Destroy(gameObject);
+            }
             else
                 Instance = this;
 
@@ -152,27 +169,26 @@ namespace Managers
                     Debug.LogError("MainMenu not in build or it is named incorrectly!");
                 }
             }
-            if (SceneManager.GetActiveScene().buildIndex != _mainMenuID)
-            {
-                Debug.LogWarning("Not in MainMenu at the start of the game. Switching to MainMenu..");
-                ChangeToMainMenu();
-            }
-            PlayMenuMusic();
             DontDestroyOnLoad(this);
         }
 
         private void Start()
         {
             SerializationManager.SaveData save = SerializationManager.LoadedSave;
+        }
 
-            //  TODO: SerializationManager.LoadSave();
-            //  TODO: add save data load
-
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                ChangeToMainMenu();
+            }
         }
 
         private void OnDestroy()
         {
-            SaveData(_currentSave);
+            if (_currentSceneID != _mainMenuID)
+                SaveData(_currentSave);
         }
         #endregion
 
@@ -198,6 +214,19 @@ namespace Managers
             }
         }
 
+        public void SelectSave(string save)
+        {
+            for (int a = 0; a < _saveFiles.Length; a++)
+            {
+                if (_saveFiles[a] == save)
+                {
+                    _currentSave = save;
+                    SerializationManager.LoadSave(_currentSave);
+                }
+                ChangeScene(SerializationManager.LoadedSave.LastLevelCleared + 1, true);
+            }
+        }
+
         /// <summary>
         /// Unpauses all in-game objects and sets timescale back to what it was before pausing.
         /// </summary>
@@ -220,7 +249,6 @@ namespace Managers
 
         public void ActivateGame(bool active)
         {
-            Debug.Log("d");
             // TODO: Ask for player amount and activate required amount
             if (active) PlayLevelMusic();
             if (GamePaused) UnPauseGame();
@@ -230,18 +258,22 @@ namespace Managers
         {
             // TODO: Change scene, deploy loading screen, etc.
             _musicSource?.Stop();
-            //PauseMenu?.gameObject.SetActive(false);
+            PauseMenu?.gameObject.SetActive(false);
             if (id >= SceneManager.sceneCountInBuildSettings)
             {
                 Debug.LogWarning("No scene with ID: " + id);
-                // TODO: SerializationManager.DeleteAndMakeDefaultSave();
+                SerializationManager.DeleteAndMakeDefaultSave(_currentSave);
                 ChangeToMainMenu();
             }
             else
             {
                 if (useLoadingScreen)
+                {
                     // TODO: LoadingScreen.BeginLoading();
-                    ActivateGame(false);
+                    ActivateGame(true);
+                }
+                ActivateGame(false);
+                _currentSceneID = id;
                 SceneManager.LoadScene(id);
                 if (GamePaused) UnPauseGame();
             }
@@ -249,13 +281,10 @@ namespace Managers
 
         public void NextLevel()
         {
-            //Debug
-            SerializationManager.LoadSave("save1");
-            print(SerializationManager.LoadedSave.LastLevelCleared);
 
             SerializationManager.LoadedSave.LastLevelCleared++;
-            //TODO: SerializationManager.saveLevelData();
-            ChangeScene(SerializationManager.LoadedSave.LastLevelCleared, true);
+            SerializationManager.SaveSave(_currentSave);
+            ChangeScene(SerializationManager.LoadedSave.LastLevelCleared + 1, true);
             ActivateGame(true);
         }
 
@@ -311,7 +340,6 @@ namespace Managers
 
         public void PlayLevelMusic()
         {
-            Debug.Log("sss");
             _audio.PlayMusic(_levelMusic);
         }
 
