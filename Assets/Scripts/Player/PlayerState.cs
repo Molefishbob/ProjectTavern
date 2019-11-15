@@ -13,7 +13,8 @@ public class PlayerState : MonoBehaviour
         Nothing = 0,
         Drink = 1,
         Food = 2,
-        Corpse = 3
+        Corpse = 3,
+        Glass = 4
     }
     #endregion
 

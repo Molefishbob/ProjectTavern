@@ -1,16 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Managers.IngredientManager;
 
-public class Glass : MonoBehaviour
+public class Glass : PlayerUseable
 {
-    public List<Ingredient.DrinkIngredient> _currentIngredients = new List<Ingredient.DrinkIngredient>();
+    public List<DrinkIngredient> _currentIngredients = new List<DrinkIngredient>();
     private List<Drink> _drinks;
     private Drink[] _possibleDrinks = new Drink[10];
     private Drink _currentDrink;
 
-    private void Start()
+    public Drink CurrentDrink { get { return _currentDrink; } }
+
+    protected override void Start()
     {
+        base.Start();
         _drinks = new List<Drink>();
         int i = 0;
         foreach (Drink drink in Resources.LoadAll<Drink>("Drinks"))
@@ -21,11 +25,28 @@ public class Glass : MonoBehaviour
         }
     }
 
-    public void AddIngredient(Ingredient.DrinkIngredient ingredient)
+    public void TakeGlass(GameObject user)
+    {
+        transform.parent = user.transform;
+    }
+
+    public void PutGlassDown()
+    {
+        gameObject.transform.parent = null;
+    }
+
+    public void AddIngredient(DrinkIngredient ingredient)
     {
         _currentIngredients.Add(ingredient);
 
-        CheckCurrentDrink();
+        if (_currentIngredients.Count < 5)
+        {
+            CheckCurrentDrink();
+        }
+        else
+        {
+            Debug.Log("Too many ingredients. Throw that slop away!");
+        }
     }
 
     public void CheckCurrentDrink()
@@ -64,7 +85,6 @@ public class Glass : MonoBehaviour
         {
             Debug.Log("Warning, no valid drink!");
         }
-        
     }
 
     public void EmptyGlass()
