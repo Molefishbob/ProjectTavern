@@ -234,6 +234,8 @@ public static class SerializationManager
 
     #endregion
 
+#if UNITY_EDITOR
+
     #region DebugStuff
 
     [UnityEditor.MenuItem("Debug", menuItem = "Tools/Serialization/Open Path", priority = 0)]
@@ -302,6 +304,7 @@ public static class SerializationManager
 
     #endregion
 
+#endif
     #region Structures
 
     /// <summary>
