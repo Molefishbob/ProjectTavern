@@ -216,14 +216,22 @@ namespace Managers
 
         public void SelectSave(string save)
         {
+            bool saveFound = false;
             for (int a = 0; a < _saveFiles.Length; a++)
             {
-                if (_saveFiles[a] == save)
+                if (_saveFiles[a] == save && !saveFound)
                 {
                     _currentSave = save;
-                    SerializationManager.LoadSave(_currentSave);
+                    saveFound = SerializationManager.LoadSave(_currentSave);
                 }
                 // ChangeScene(SerializationManager.LoadedSave.LastLevelCleared + 1, true);
+            }
+
+            if (!saveFound)
+            {
+                SerializationManager.LoadedSave = new SerializationManager.SaveData();
+                Debug.Log("Creating empty save");
+                SerializationManager.SaveSave(save);
             }
         }
 
