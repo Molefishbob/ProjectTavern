@@ -48,10 +48,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _levelMusic: {fileID: 8300000, guid: 9682ccae0d0fdca47be4d208da9c6511, type: 3}
   _menuMusic: {fileID: 8300000, guid: 5dd0460a94e6049408c0580610cf2737, type: 3}
-  _saveFiles:
-  - save1
-  - save2
-  - save3
   MainMenu: MainMenu
   _loadingScreen: {fileID: 0}
   _player1: {fileID: 4733404804551215368, guid: 13dcd861e8840c746833e9535a990c4f,
@@ -59,6 +55,7 @@ MonoBehaviour:
   _player2: {fileID: 0}
   _player3: {fileID: 0}
   _player4: {fileID: 0}
+  _gameManager: {fileID: 773585461588933131}
 --- !u!82 &3385450229938972021
 AudioSource:
   m_ObjectHideFlags: 0

@@ -43,14 +43,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7660418c276e0e54394de90a5aaf4908, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _currentMoney: 0
+  _happiness: 0
   _moneyToWin: 1000
   _playTime: 120
-  _tables: []
-  _door: {fileID: 0}
-  _maxQueueLength: 0
-  _customerQueue: []
+  _entrance: {fileID: 0}
+  _exit: {fileID: 0}
+  _ui: {fileID: 0}
   _customerPoolPrefab: {fileID: 1072988576359790456, guid: 80ff28073fff15b42a98ccb8b8628bc5,
     type: 3}
   _pukePoolPrefab: {fileID: 4086042485819754219, guid: 1a210f003d5b1c343810657b6342c3c6,
     type: 3}
+  _spawnInterval: 5
+  _spawnOffset: 5
+  _queue: {fileID: 0}

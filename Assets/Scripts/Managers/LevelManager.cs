@@ -8,14 +8,13 @@ namespace Managers
     {
         [SerializeField]
         [Range(-50, 50)]
-        private int _happiness = 50;
+        private int _happiness = 0;
         private int _currentMoney = 0;
         private int _tipsGained = 0;
         public int _moneyToWin = 1000;
         public float _playTime = 120f;
         public event ValueChangedFloat OnHappinessChanged;
         public event ValueChangedFloat OnMoneyChanged;
-        public event ValueChangedFloat OnTimeChanged;
         private List<TableInteractions> _tables = null;
         [SerializeField]
         private Transform _entrance = null, _exit = null;
@@ -184,7 +183,7 @@ namespace Managers
             int price = drink._price;
             int tip = Mathf.RoundToInt((float)drink._price * ((float)_happiness / 100f));
             _tipsGained += tip;
-            _currentMoney += price + tip;
+            CurrentMoney += price + tip;
 
             if (tip >= 0)
             {
@@ -207,7 +206,7 @@ namespace Managers
             int price = 5; // TODO: Add food price somewhere
             int tip = Mathf.RoundToInt(price * (_happiness / 100));
             _tipsGained += tip;
-            _currentMoney += price + tip;
+            CurrentMoney += price + tip;
 
             if (tip >= 0)
             {

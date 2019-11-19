@@ -145,7 +145,8 @@ namespace Managers
         #region Unity Methods
         private void Awake()
         {
-            if (Instance != null)
+
+            if (Instance != null && Instance != this)
             {
                 Destroy(gameObject);
             }
@@ -191,7 +192,6 @@ namespace Managers
                 SaveData(_currentSave);
         }
         #endregion
-
 
         /// <summary>
         /// Pauses all in-game objects and sets timescale to 0.
