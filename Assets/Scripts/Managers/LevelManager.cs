@@ -13,11 +13,16 @@ namespace Managers
         private int _tipsGained = 0;
         public int _moneyToWin = 1000;
         public float _playTime = 120f;
+        public event ValueChangedFloat OnHappinessChanged;
+        public event ValueChangedFloat OnMoneyChanged;
+        public event ValueChangedFloat OnTimeChanged;
         private List<TableInteractions> _tables = null;
         [SerializeField]
         private Transform _entrance = null, _exit = null;
         private int _maxQueueLength = 0;
         private Customer[] _customerQueue;
+        [SerializeField]
+        protected InGameUI _ui;
         [SerializeField]
         private CustomerPool _customerPoolPrefab = null;
         private CustomerPool _spawnedCustomerPool;
@@ -40,10 +45,35 @@ namespace Managers
 
         public Transform Exit { get { return _exit; } }
 
-        public int CurrentMoney { get { return _currentMoney; } }
+        public float PlayTime { get { return _playTime; } }
+        public ScaledOneShotTimer LevelTime { get { return _levelTimer; } }
 
-        public int Happiness { get { return _happiness; } }
+        public int CurrentMoney
+        {
+            get
+            {
+                return _currentMoney;
+            }
+            set
+            {
+                _currentMoney = value;
+                OnMoneyChanged?.Invoke(_currentMoney);
+            }
+        }
 
+        public int Happiness
+        {
+            get
+            {
+                return _happiness;
+            }
+            set
+            {
+                _happiness = value;
+                OnHappinessChanged?.Invoke(_happiness);
+            }
+        }
+        
         public static LevelManager Instance;
 
         private void Awake()
@@ -61,7 +91,7 @@ namespace Managers
             {
                 Destroy(gameObject);
             }
-            
+
             _spawnedCustomerPool = Instantiate(_customerPoolPrefab);
             _spawnedPukePool = Instantiate(_pukePoolPrefab);
             _tables = new List<TableInteractions>();
@@ -100,6 +130,7 @@ namespace Managers
             _levelTimer.StartTimer(_playTime);
             _maxQueueLength = _queue.QueueLength;
             _customerQueue = new Customer[_maxQueueLength];
+            StartLevel();
         }
 
         private void Update()
@@ -151,14 +182,15 @@ namespace Managers
         public void ItemSold(Drink drink)
         {
             int price = drink._price;
-            int tip = Mathf.RoundToInt((float) drink._price * ((float) _happiness / 100f));
+            int tip = Mathf.RoundToInt((float)drink._price * ((float)_happiness / 100f));
             _tipsGained += tip;
             _currentMoney += price + tip;
 
             if (tip >= 0)
             {
                 Debug.Log("Money gained: " + price + " + " + tip);
-            } else
+            }
+            else
             {
                 Debug.Log("Money gained: " + price + " - " + tip);
             }
