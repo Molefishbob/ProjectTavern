@@ -150,6 +150,20 @@ namespace GameInput
                             break;
                         }
                     }
+
+                    for (int i = 0; i < InUseControllers.Count; i++)
+                    {
+                        if (InUseControllers[i] == 0)
+                        {
+                            InUseControllers[i] = device.deviceId;
+
+                            if (Managers.GameManager.Instance.GamePaused)
+                            {
+                                Debug.Log("UnPausing the game for now this way...");
+                                Managers.GameManager.Instance.UnPauseGame();
+                            }
+                        }
+                    }
                     break;
 
                 // Going to use removed, if the device is for some reason removed in runtime
@@ -163,12 +177,31 @@ namespace GameInput
                             item.StopMovement();
                         }
                     }
+
+                    // ToDo: Add someway to gamemanager to know that the pause was called because of
+                    //       Controller disconnect.
+                    for (int i = 0; i < InUseControllers.Count; i++)
+                    {
+                        if (InUseControllers[i] == device.deviceId)
+                        {
+                            InUseControllers[i] = 0;
+                            if (!Managers.GameManager.Instance.GamePaused)
+                            {
+                                Managers.GameManager.Instance.PauseGame();
+                            }
+                        }
+                    }
                     break;
 
                 case InputDeviceChange.Disconnected:
                     break;
                 case InputDeviceChange.Reconnected:
                     break;
+            }
+
+            if (DisconnectHandler.Instance != null)
+            {
+                DisconnectHandler.Instance.UpdatePlayers();
             }
         }
     }
