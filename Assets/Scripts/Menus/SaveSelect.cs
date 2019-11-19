@@ -42,5 +42,6 @@ public class SaveSelect : MonoBehaviour
     public void SetCurrentSave(string save)
     {
         GameManager.Instance.SelectSave(save);
+        BackToMainMenu();
     }
 }

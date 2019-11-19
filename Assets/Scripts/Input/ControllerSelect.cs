@@ -36,7 +36,7 @@ public class ControllerSelect : MonoBehaviour
     private void AllSet(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
         if (ControlsManager.Instance.InUseControllers.Contains(context.control.device.deviceId))
-            Managers.GameManager.Instance.NextLevel();
+            Managers.GameManager.Instance.StartCurrentLevel();
     }
 
     private void OnDestroy()

@@ -223,7 +223,7 @@ namespace Managers
                     _currentSave = save;
                     SerializationManager.LoadSave(_currentSave);
                 }
-                ChangeScene(SerializationManager.LoadedSave.LastLevelCleared + 1, true);
+                // ChangeScene(SerializationManager.LoadedSave.LastLevelCleared + 1, true);
             }
         }
 
@@ -284,6 +284,12 @@ namespace Managers
 
             SerializationManager.LoadedSave.LastLevelCleared++;
             SerializationManager.SaveSave(_currentSave);
+            ChangeScene(SerializationManager.LoadedSave.LastLevelCleared + 1, true);
+            ActivateGame(true);
+        }
+
+        public void StartCurrentLevel()
+        {
             ChangeScene(SerializationManager.LoadedSave.LastLevelCleared + 1, true);
             ActivateGame(true);
         }

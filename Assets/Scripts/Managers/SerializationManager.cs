@@ -223,6 +223,9 @@ public static class SerializationManager
     /// <returns>All filenames in default path</returns>
     public static string[] GetAllSaveFilenames()
     {
+        if (!_initialized)
+            Init();
+
         string[] filenames = Directory.GetFiles(_path, "*" + SAVE_EXTENSION);
         for (int i = 0; i < filenames.Length; i++)
         {
