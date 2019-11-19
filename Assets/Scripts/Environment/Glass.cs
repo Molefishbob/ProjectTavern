@@ -6,6 +6,7 @@ using static Managers.IngredientManager;
 public class Glass : PlayerUseable
 {
     public List<DrinkIngredient> _currentIngredients = new List<DrinkIngredient>();
+    public float UseTime { get => _interactionTime; set => _interactionTime = value; }
     private List<Drink> _drinks;
     private Drink[] _possibleDrinks = new Drink[10];
     private Drink _currentDrink;
@@ -40,12 +41,13 @@ public class Glass : PlayerUseable
     {
         User.CurrentlyHeld = PlayerState.Holdables.Glass;
         transform.parent = User.transform;
-        User.ClearUsable();
+        gameObject.GetComponent<CircleCollider2D>().enabled = false;
     }
 
-    public void PutGlassDown()
+    public void PutGlassDown(Transform trans)
     {
-        gameObject.transform.parent = null;
+        gameObject.transform.parent = trans;
+        gameObject.transform.position = trans.position;
     }
 
     public void AddIngredient(DrinkIngredient ingredient)
@@ -106,7 +108,6 @@ public class Glass : PlayerUseable
         {
             Debug.Log("Warning, no valid drink!");
         }
-        print("ffffffffffff" + _currentDrink);
     }
 
     public void EmptyGlass()
