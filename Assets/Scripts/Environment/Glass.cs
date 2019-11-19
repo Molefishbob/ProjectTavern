@@ -12,6 +12,17 @@ public class Glass : PlayerUseable
 
     public Drink CurrentDrink { get { return _currentDrink; } }
 
+    protected override void Awake()
+    {
+        base.Awake();
+        _timer.OnTimerCompleted += TakeGlass;
+    }
+    protected override void OnDestroy()
+    {
+        base.OnDestroy();
+        _timer.OnTimerCompleted -= TakeGlass;
+    }
+
     protected override void Start()
     {
         base.Start();
@@ -25,9 +36,11 @@ public class Glass : PlayerUseable
         }
     }
 
-    public void TakeGlass(GameObject user)
+    public void TakeGlass()
     {
-        transform.parent = user.transform;
+        User.CurrentlyHeld = PlayerState.Holdables.Glass;
+        transform.parent = User.transform;
+        User.ClearUsable();
     }
 
     public void PutGlassDown()
@@ -37,10 +50,18 @@ public class Glass : PlayerUseable
 
     public void AddIngredient(DrinkIngredient ingredient)
     {
-        _currentIngredients.Add(ingredient);
+        if (!_currentIngredients.Contains(ingredient))
+        {
+            _currentIngredients.Add(ingredient);
+        }
+        else
+        {
+            Debug.Log("Glass already contains " + ingredient);
+        }
 
         if (_currentIngredients.Count < 5)
         {
+            GetPossibleDrinks();
             CheckCurrentDrink();
         }
         else
@@ -51,11 +72,12 @@ public class Glass : PlayerUseable
 
     public void CheckCurrentDrink()
     {
+        _currentDrink = null;
         for (int i = 0; i < _possibleDrinks.Length; i++)
         {
             if (_possibleDrinks[i] == null) continue;
 
-            if (_possibleDrinks[i]._ingredients.Count > _currentIngredients.Count)
+            if (_possibleDrinks[i]._ingredients.Count != _currentIngredients.Count)
             {
                 _possibleDrinks[i] = null;
             }
@@ -79,15 +101,22 @@ public class Glass : PlayerUseable
                     _currentDrink = _possibleDrinks[i];
                 }
             }
-
         }
-        if(_currentDrink = null)
+        if (_currentDrink == null)
         {
             Debug.Log("Warning, no valid drink!");
         }
+        print("ffffffffffff" + _currentDrink);
     }
 
     public void EmptyGlass()
+    {
+        GetPossibleDrinks();
+        _currentIngredients.Clear();
+        _currentDrink = null;
+    }
+
+    private void GetPossibleDrinks()
     {
         int i = 0;
         foreach (Drink drink in _drinks)
@@ -95,8 +124,6 @@ public class Glass : PlayerUseable
             _possibleDrinks[i] = drink;
             i++;
         }
-        _currentIngredients.Clear();
-        _currentDrink = null;
     }
 
 }

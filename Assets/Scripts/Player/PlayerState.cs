@@ -151,7 +151,7 @@ public class PlayerState : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "PlayerUsable" && UseableObject == null)
+        if (collision.gameObject.tag == "PlayerUsable" && UseableObject == null && collision.gameObject.transform.parent != this)
         {
             UseableObject = collision.GetComponent<PlayerUseable>();
         }
@@ -159,7 +159,7 @@ public class PlayerState : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "PlayerUsable" && collision.GetComponent<PlayerUseable>() == UseableObject)
+        if (collision.gameObject.tag == "PlayerUsable" && collision.GetComponent<PlayerUseable>() == UseableObject && collision.gameObject.transform.parent != this)
         {
             if (UseableObject.IsBeingUsed && UseableObject.User == this)
             {

@@ -11,6 +11,7 @@ public class GetIngredient : PlayerUseable
     protected override void Awake()
     {
         base.Awake();
+        _requiresEmptyHands = false;
         _timer.OnTimerCompleted += TakeIngredient;
     }
     protected override void OnDestroy()
