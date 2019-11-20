@@ -114,6 +114,21 @@ namespace GameInput
             tmp.SetDevice(deviceID, device);
         }
 
+        public void RemoveInActivePlayers()
+        {
+            for (int i = 0; i < _activePlayers.Count; i++)
+            {
+                if (_activePlayers[i].DeviceID == 0)
+                {
+                    Destroy(_activePlayers[i].gameObject);
+                    _activePlayers[i] = null;
+                }
+            }
+
+            InUseControllers.RemoveAll(t => t == 0);
+            _activePlayers.RemoveAll(t => t == null);
+        }
+
         /// <summary>
         /// Is the specific player active?
         /// </summary>
@@ -156,13 +171,14 @@ namespace GameInput
                         if (InUseControllers[i] == 0)
                         {
                             InUseControllers[i] = device.deviceId;
-
-                            if (Managers.GameManager.Instance.GamePaused)
-                            {
-                                Debug.Log("UnPausing the game for now this way...");
-                                Managers.GameManager.Instance.UnPauseGame();
-                            }
+                            break;
                         }
+                    }
+
+                    if (!InUseControllers.Contains(0) && Managers.GameManager.Instance.GamePaused)
+                    {
+                        Debug.Log("UnPausing the game for now this way...");
+                        Managers.GameManager.Instance.UnPauseGame();
                     }
                     break;
 

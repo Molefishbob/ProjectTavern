@@ -627,7 +627,7 @@ public class Controls : IInputActionCollection
                     ""name"": """",
                     ""id"": ""6b8503c9-a184-4ed8-a9b0-2bc5dd411fe0"",
                     ""path"": ""<Joystick>/trigger"",
-                    ""interactions"": ""Press"",
+                    ""interactions"": ""SlowTap"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Start"",
