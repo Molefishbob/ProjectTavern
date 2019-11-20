@@ -23,6 +23,12 @@ public class PauseMenu : MonoBehaviour
         gameObject.SetActive(false);
     }
 
+    private void OnDisable()
+    {
+        _quitMenu.SetActive(false);
+        _settingsMenu.SetActive(false);
+    }
+
     public void ButtonClickSound()
     {
         AudioManager.Instance.PlaySound(_click);
@@ -37,6 +43,11 @@ public class PauseMenu : MonoBehaviour
     {
         _settingsMenu.SetActive(false);
         _quitMenu.SetActive(true);
+    }
+
+    public void ToMainMenu()
+    {
+        GameManager.Instance.ChangeToMainMenu();
     }
 
     public void Continue()

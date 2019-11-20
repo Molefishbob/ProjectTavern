@@ -53,7 +53,7 @@ namespace GameInput
         private void OnDestroy()
         {
             controls.Player.Move.performed -= ctx => ReadMovementInput(ctx);
-            controls.Player.Pause.performed -= ctx => DeviceID = ctx.control.device.deviceId;
+            controls.Player.Pause.performed -= ctx => ReadPauseInput(ctx);
             controls.Player.Use.performed -= ctx => Use(ctx);
             controls.Player.Move.Disable();
             controls.Player.Pause.Disable();
