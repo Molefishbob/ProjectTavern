@@ -10,9 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b5e5484a998a93642b0a9cc474dd9c18, type: 3}
-  m_Name: Lager
+  m_Name: Vodka
   m_EditorClassIdentifier: 
-  _drink: 1
-  _alcoholContent: 5
-  _price: 5
-  _amountOfUses: 5
+  _drink: 3
+  _ingredients: 02000000
+  _alcoholContent: 32
+  _price: 8
+  _amountOfUses: 6

@@ -10,9 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b5e5484a998a93642b0a9cc474dd9c18, type: 3}
-  m_Name: White Wine
+  m_Name: Martini
   m_EditorClassIdentifier: 
-  _drink: 3
-  _alcoholContent: 14
-  _price: 10
-  _amountOfUses: 7
+  _drink: 8
+  _ingredients: 020000000400000007000000
+  _alcoholContent: 18
+  _price: 15
+  _amountOfUses: 6

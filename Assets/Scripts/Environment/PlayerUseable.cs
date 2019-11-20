@@ -52,7 +52,7 @@ public abstract class PlayerUseable : MonoBehaviour, IUseable
 
     // Start is only used to give enough time for other implementations,
     // In case they need to use the User, before data is cleared.
-    private void Start()
+    protected virtual void Start()
     {
         _timer.OnTimerCompleted += UpdateUser;
         _timer.OnTimerCompleted += ClearInfo;
@@ -80,7 +80,7 @@ public abstract class PlayerUseable : MonoBehaviour, IUseable
         User = null;
     }
 
-    private void UpdateUser()
+    protected void UpdateUser()
     {
         User.UpdateHeld();
         User.ClearUsable();

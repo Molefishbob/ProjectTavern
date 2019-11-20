@@ -9,6 +9,7 @@ public class CounterTop : PlayerUseable
     public PlayerState.Holdables StuffOnThis = PlayerState.Holdables.Nothing;
     public Beverage Beverage = Beverage.None;
     private TextMeshProUGUI _nameText = null;
+    private Glass _glass = null;
 
     protected override void Awake()
     {
@@ -31,6 +32,13 @@ public class CounterTop : PlayerUseable
             StuffOnThis = User.CurrentlyHeld;
             Beverage = User.HeldDrink;
 
+            if (User.CurrentlyHeld == PlayerState.Holdables.Glass && User.gameObject.GetComponentInChildren<Glass>() != null)
+            {
+                User.CurrentlyHeld = PlayerState.Holdables.Nothing;
+                _glass = User.gameObject.GetComponentInChildren<Glass>();
+                _glass.PutGlassDown(transform);
+            }
+
             User.CurrentlyHeld = PlayerState.Holdables.Nothing;
             User.HeldDrink = Beverage.None;
 
@@ -39,11 +47,15 @@ public class CounterTop : PlayerUseable
             {
                 _nameText.text += "\\" + Beverage.ToString()[0];
             }
-
         }
         // Take stuff from this
         else if (User.CurrentlyHeld == PlayerState.Holdables.Nothing && StuffOnThis != PlayerState.Holdables.Nothing)
         {
+            if (StuffOnThis == PlayerState.Holdables.Glass)
+            {
+                _glass.Use(User);
+                _glass.UseTime = _interactionTime;
+            }
             User.CurrentlyHeld = StuffOnThis;
             User.HeldDrink = Beverage;
 

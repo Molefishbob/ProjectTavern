@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 9091881668695249304}
   - component: {fileID: 9091881668695249305}
   - component: {fileID: 5502905263760756595}
-  - component: {fileID: 1531832507806438184}
   - component: {fileID: 2742316274357271076}
   - component: {fileID: 6297578178786021441}
+  - component: {fileID: 1761827695454101017}
   m_Layer: 0
   m_Name: Barrel
   m_TagString: PlayerUsable
@@ -110,22 +110,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.5, y: 0.64}
   m_EdgeRadius: 0
---- !u!114 &1531832507806438184
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9091881668695249306}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6a5eee1da0a9c8468630697123b1280, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _interactionTime: 2
-  _requiresEmptyHands: 1
-  _showProgressBar: 1
-  _drink: 0
 --- !u!61 &2742316274357271076
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -165,4 +149,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _refreshRate: 5
+  _offset: 0
   _renderer: {fileID: 0}
+--- !u!114 &1761827695454101017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9091881668695249306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2db850f28d169947a3843e1264e88e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _interactionTime: 2
+  _requiresEmptyHands: 1
+  _showProgressBar: 1
+  _ingredient: 1
