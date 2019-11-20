@@ -17,12 +17,10 @@ namespace Managers
     public class GameManager : MonoBehaviour
     {
         #region Parameters
-        public static GameManager Instance;
+        private static GameManager _instance;
         public event ValueChangedBool OnGamePauseChanged;
         public AudioClip _levelMusic;
         public AudioClip _menuMusic;
-        [SerializeField]
-        protected string[] _saveFiles = {"save1","save2","save3"};
         [SerializeField]
         private string MainMenu = "MainMenu";
         [SerializeField]
@@ -35,7 +33,9 @@ namespace Managers
         private GameObject _player3 = null;
         [SerializeField]
         private GameObject _player4 = null;
+        protected string[] _saveFiles = { "save1", "save2", "save3" };
         private LevelManager _levelManager = null;
+        private PauseMenu _pauseMenu;
         private AudioManager _audio;
         private int _mainMenuID = 0;
         private int _currentSceneID = 0;
@@ -46,10 +46,29 @@ namespace Managers
         #endregion
 
         #region Properties
+        public static GameManager Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = Instantiate(Resources.Load<GameManager>("GameManager"));
+                    _instance.Init();
+                }
+
+                return _instance;
+            }
+            private set
+            {
+                Instance = value;
+            }
+        }
+
         /// <summary>
         /// Is the game currently paused?
         /// </summary>
         public bool GamePaused { get; private set; }
+        public bool MenuActive { get; private set; }
         public GameObject LoadingScreen
         {
             get
@@ -78,6 +97,18 @@ namespace Managers
             set
             {
                 _levelManager = value;
+            }
+        }
+        public PauseMenu PauseMenu
+        {
+            get
+            {
+                return _pauseMenu;
+
+            }
+            set
+            {
+                _pauseMenu = value;
             }
         }
 
@@ -128,54 +159,64 @@ namespace Managers
         #endregion
 
         #region Unity Methods
-        private void Awake()
+        private void Start()
         {
-            if (Instance != null)
-                Destroy(gameObject);
-            else
-                Instance = this;
 
+            if (_instance != null && _instance != this)
+            {
+                Destroy(gameObject);
+            }
+            else if (_instance != this)
+            {
+                _instance = this;
+                Init();
+            }
+            
+            SerializationManager.SaveData save = SerializationManager.LoadedSave;
+        }
+
+        private void Init()
+        {
             _musicSource = GetComponent<AudioSource>();
             _audio = GetComponent<AudioManager>();
             _currentSceneID = SceneManager.GetActiveScene().buildIndex;
-            int count = SceneManager.sceneCountInBuildSettings;
 
+            int count = SceneManager.sceneCountInBuildSettings;
+            bool found = false;
             for (int a = 0; a < count; a++)
             {
-                if (SceneManager.GetSceneByBuildIndex(a).name == MainMenu)
+                string path = SceneUtility.GetScenePathByBuildIndex(a);
+                string sceneName = path.Substring(0, path.Length - 6).Substring(path.LastIndexOf('/') + 1);
+                if (sceneName == MainMenu)
                 {
                     _mainMenuID = a;
+                    found = true;
                     break;
                 }
-                if (a == count - 1)
-                {
-                    Debug.LogError("MainMenu not in build or it is named incorrectly!");
-                }
             }
-            if (SceneManager.GetActiveScene().buildIndex != _mainMenuID)
+            if (!found)
             {
-                Debug.LogWarning("Not in MainMenu at the start of the game. Switching to MainMenu..");
-                ChangeToMainMenu();
+                Debug.LogError("MainMenu not in build or it is named incorrectly");
             }
-            PlayMenuMusic();
+
             DontDestroyOnLoad(this);
-        }
 
-        private void Start()
-        {
-            SerializationManager.SaveData save = SerializationManager.LoadedSave;
-
-            //  TODO: SerializationManager.LoadSave();
-            //  TODO: add save data load
-
+            if (_currentSceneID != _mainMenuID)
+            {
+                MenuActive = false;
+                ActivateGame(true);
+            } else
+            {
+                MenuActive = true;
+            }
         }
 
         private void OnDestroy()
         {
-            SaveData(_currentSave);
+            if (_currentSceneID != _mainMenuID)
+                SaveData(_currentSave);
         }
         #endregion
-
 
         /// <summary>
         /// Pauses all in-game objects and sets timescale to 0.
@@ -197,7 +238,7 @@ namespace Managers
                 Debug.LogWarning("Game is already paused.");
             }
         }
-
+      
         /// <summary>
         /// Unpauses all in-game objects and sets timescale back to what it was before pausing.
         /// </summary>
@@ -218,9 +259,36 @@ namespace Managers
             }
         }
 
+        /// <summary>
+        /// Selects a save to load from memory
+        /// </summary>
+        /// <param name="save">the name of the savefile</param>
+        public void SelectSave(string save)
+        {
+            bool saveFound = false;
+            for (int a = 0; a < _saveFiles.Length; a++)
+            {
+                if (_saveFiles[a] == save && !saveFound)
+                {
+                    _currentSave = save;
+                    saveFound = SerializationManager.LoadSave(_currentSave);
+                }
+            }
+
+            if (!saveFound)
+            {
+                SerializationManager.LoadedSave = new SerializationManager.SaveData();
+                Debug.Log("Creating empty save");
+                SerializationManager.SaveSave(save);
+            }
+        }
+
+        /// <summary>
+        /// Activates the level music and unpauses the game
+        /// </summary>
+        /// <param name="active">Start music</param>
         public void ActivateGame(bool active)
         {
-            Debug.Log("d");
             // TODO: Ask for player amount and activate required amount
             if (active) PlayLevelMusic();
             if (GamePaused) UnPauseGame();
@@ -234,14 +302,18 @@ namespace Managers
             if (id >= SceneManager.sceneCountInBuildSettings)
             {
                 Debug.LogWarning("No scene with ID: " + id);
-                // TODO: SerializationManager.DeleteAndMakeDefaultSave();
+                SerializationManager.DeleteAndMakeDefaultSave(_currentSave);
                 ChangeToMainMenu();
             }
             else
             {
                 if (useLoadingScreen)
+                {
                     // TODO: LoadingScreen.BeginLoading();
-                    ActivateGame(false);
+                    ActivateGame(true);
+                }
+                ActivateGame(false);
+                _currentSceneID = id;
                 SceneManager.LoadScene(id);
                 if (GamePaused) UnPauseGame();
             }
@@ -249,13 +321,16 @@ namespace Managers
 
         public void NextLevel()
         {
-            //Debug
-            SerializationManager.LoadSave("save1");
-            print(SerializationManager.LoadedSave.LastLevelCleared);
 
             SerializationManager.LoadedSave.LastLevelCleared++;
-            //TODO: SerializationManager.saveLevelData();
-            ChangeScene(SerializationManager.LoadedSave.LastLevelCleared, true);
+            SerializationManager.SaveSave(_currentSave);
+            ChangeScene(SerializationManager.LoadedSave.LastLevelCleared + 1, true);
+            ActivateGame(true);
+        }
+
+        public void StartCurrentLevel()
+        {
+            ChangeScene(SerializationManager.LoadedSave.LastLevelCleared + 1, true);
             ActivateGame(true);
         }
 
@@ -287,7 +362,7 @@ namespace Managers
         /// </summary>
         public void StartNewGame()
         {
-            //SerializationManager.DeleteAndMakeDefaultSave();
+            SerializationManager.DeleteAndMakeDefaultSave(_currentSave);
             ChangeScene(SerializationManager.LoadedSave.LastLevelCleared + 1, true);
         }
 
@@ -311,7 +386,6 @@ namespace Managers
 
         public void PlayLevelMusic()
         {
-            Debug.Log("sss");
             _audio.PlayMusic(_levelMusic);
         }
 

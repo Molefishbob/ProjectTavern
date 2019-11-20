@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using Managers;
 
 public class AudioManager : MonoBehaviour
 {
@@ -13,29 +14,34 @@ public class AudioManager : MonoBehaviour
 
     private void Awake()
     {
-        if(Instance == null)
+        if (Instance == null)
         {
             Instance = this;
-        }else
+        }
+        else
         {
             Destroy(gameObject);
         }
     }
-    
+
     private void Start()
     {
         SerializationManager.LoadSettings("Settings");
         SerializationManager.SettingsData settings = SerializationManager.LoadedSettings;
 
-        _mixer.SetFloat("masterVol", settings.Volume.Master);
-        _mixer.SetFloat("musicVol", settings.Volume.Music);
-        _mixer.SetFloat("sfxVol", settings.Volume.SFX);
+        SetMixerValue("musicVol", settings.Volume.Music);
+        SetMixerValue("masterVol", settings.Volume.Master);
+        SetMixerValue("sfxVol", settings.Volume.SFX);
+
         if (settings.Volume.MasterMute)
             _mixer.SetFloat("masterVol", -80f);
         if (settings.Volume.MusicMute)
             _mixer.SetFloat("musicVol", -80f);
         if (settings.Volume.SFXMute)
             _mixer.SetFloat("sfxVol", -80f);
+
+        if (GameManager.Instance.MenuActive)
+            GameManager.Instance.PlayMenuMusic();
     }
     public void PlaySound(AudioClip clip)
     {
@@ -49,6 +55,11 @@ public class AudioManager : MonoBehaviour
         _musicAudioSource.clip = song;
         _musicAudioSource.outputAudioMixerGroup = _musicGroup;
         _musicAudioSource.Play();
+    }
+
+    public void SetMixerValue(string mixerGroup, float value)
+    {
+        _mixer.SetFloat(mixerGroup, Mathf.Log10(value) * 20);
     }
 
     public void StopMusic()

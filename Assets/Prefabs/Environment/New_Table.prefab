@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 869186618023919124}
   - component: {fileID: 5784202046544276970}
   - component: {fileID: 4756767137584971801}
-  m_Layer: 0
+  - component: {fileID: 7870807480628341521}
+  m_Layer: 8
   m_Name: New_Table
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -115,6 +116,21 @@ CapsuleCollider2D:
   m_Offset: {x: 0.05, y: -0.4}
   m_Size: {x: 1.65, y: 0.85}
   m_Direction: 1
+--- !u!114 &7870807480628341521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1602150329316157618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf8b11d563e666b4ebc0b4942afad0a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _refreshRate: 5
+  _offset: 0
+  _renderer: {fileID: 0}
 --- !u!1 &1792517253915826840
 GameObject:
   m_ObjectHideFlags: 0
@@ -125,7 +141,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1031762650464827242}
   - component: {fileID: 2010281573465706510}
-  m_Layer: 0
+  - component: {fileID: 5164277151668131634}
+  - component: {fileID: 8971058300442455298}
+  m_Layer: 8
   m_Name: New_Chair_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -140,7 +158,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1792517253915826840}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.14, y: 0.84, z: 1}
+  m_LocalPosition: {x: -1.224, y: 0.84, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8257914854327982348}
@@ -186,7 +204,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 17f70d7cf41bfa94f972e157e471471f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 3.3, y: 4.61}
@@ -195,6 +213,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &5164277151668131634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1792517253915826840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf8b11d563e666b4ebc0b4942afad0a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _refreshRate: 5
+  _offset: 0
+  _renderer: {fileID: 0}
+--- !u!70 &8971058300442455298
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1792517253915826840}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.107379794, y: -0.09219516}
+  m_Size: {x: 1.0434732, y: 0.37819466}
+  m_Direction: 1
 --- !u!1 &2731330740763922345
 GameObject:
   m_ObjectHideFlags: 0
@@ -205,7 +254,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3473743633571362218}
   - component: {fileID: 1090527070999197981}
-  m_Layer: 0
+  - component: {fileID: 5472079173107645403}
+  - component: {fileID: 3529107807083355582}
+  m_Layer: 8
   m_Name: New_Chair_R (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -220,8 +271,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2731330740763922345}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.15, y: 0.79, z: 1}
-  m_LocalScale: {x: -1, y: 1, z: 1}
+  m_LocalPosition: {x: 1.185, y: 0.829, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8257914854327982348}
   m_RootOrder: 0
@@ -275,6 +326,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &5472079173107645403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2731330740763922345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf8b11d563e666b4ebc0b4942afad0a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _refreshRate: 5
+  _offset: 0
+  _renderer: {fileID: 0}
+--- !u!70 &3529107807083355582
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2731330740763922345}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.10958489, y: -0.09219514}
+  m_Size: {x: 0.97884357, y: 0.37819323}
+  m_Direction: 1
 --- !u!1 &3335267264345546403
 GameObject:
   m_ObjectHideFlags: 0
@@ -285,7 +367,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6790357236649682311}
   - component: {fileID: 7732775083591198008}
-  m_Layer: 0
+  - component: {fileID: 8376374014043282614}
+  - component: {fileID: 7907357326527891085}
+  m_Layer: 8
   m_Name: New_Chair_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -300,7 +384,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3335267264345546403}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.36, y: -0.23, z: 0}
+  m_LocalPosition: {x: 1.14, y: -0.395, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8257914854327982348}
@@ -346,7 +430,7 @@ SpriteRenderer:
   m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 3658b6ccc49eaab469f1f6b3e727d94c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 2.86, y: 4.44}
@@ -355,6 +439,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &8376374014043282614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3335267264345546403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf8b11d563e666b4ebc0b4942afad0a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _refreshRate: 5
+  _offset: 0
+  _renderer: {fileID: 0}
+--- !u!70 &7907357326527891085
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3335267264345546403}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.0012057911, y: -0.092195146}
+  m_Size: {x: 1.0157753, y: 0.37819484}
+  m_Direction: 1
 --- !u!1 &5691716197684568124
 GameObject:
   m_ObjectHideFlags: 0
@@ -365,7 +480,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2613613409314476569}
   - component: {fileID: 9004217573200475407}
-  m_Layer: 0
+  - component: {fileID: 3673948846966562216}
+  - component: {fileID: 7390338594195721890}
+  m_Layer: 8
   m_Name: New_Chair_L (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -380,8 +497,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5691716197684568124}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.99, y: -0.34, z: 0}
-  m_LocalScale: {x: -1, y: 1, z: 1}
+  m_LocalPosition: {x: -1.374, y: -0.447, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8257914854327982348}
   m_RootOrder: 3
@@ -435,3 +552,34 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &3673948846966562216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5691716197684568124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf8b11d563e666b4ebc0b4942afad0a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _refreshRate: 5
+  _offset: 0
+  _renderer: {fileID: 0}
+--- !u!70 &7390338594195721890
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5691716197684568124}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.003410768, y: -0.092195146}
+  m_Size: {x: 0.96961224, y: 0.37819442}
+  m_Direction: 1

@@ -9,6 +9,26 @@ public class PauseMenu : MonoBehaviour
     public GameObject _quitMenu;
     public AudioClip _click;
 
+    private void Start()
+    {
+        if (GameManager.Instance.PauseMenu == null)
+        {
+            GameManager.Instance.PauseMenu = this;
+        } else
+        {
+            Debug.LogWarning("Pause menu already assigned! Removing the new pause menu..");
+            Destroy(gameObject);
+        }
+
+        gameObject.SetActive(false);
+    }
+
+    private void OnDisable()
+    {
+        _quitMenu.SetActive(false);
+        _settingsMenu.SetActive(false);
+    }
+
     public void ButtonClickSound()
     {
         AudioManager.Instance.PlaySound(_click);
@@ -23,6 +43,11 @@ public class PauseMenu : MonoBehaviour
     {
         _settingsMenu.SetActive(false);
         _quitMenu.SetActive(true);
+    }
+
+    public void ToMainMenu()
+    {
+        GameManager.Instance.ChangeToMainMenu();
     }
 
     public void Continue()

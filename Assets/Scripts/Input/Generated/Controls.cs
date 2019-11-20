@@ -545,6 +545,96 @@ public class Controls : IInputActionCollection
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Assinging"",
+            ""id"": ""bf025ba2-4546-42b7-a430-9132db0a5ee6"",
+            ""actions"": [
+                {
+                    ""name"": ""Assing"",
+                    ""type"": ""Button"",
+                    ""id"": ""03a41c60-b862-4222-b587-30d7632b9b19"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Start"",
+                    ""type"": ""Button"",
+                    ""id"": ""7dbac371-a9af-4e47-be83-3bcf7836d6b4"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""7ebda889-6b48-479f-86c8-6166dc606018"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Assing"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""17725ed1-2501-40fa-a103-70e1a1ac8ab6"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Assing"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9a36376e-c020-4b6d-aaee-72ce33876f4a"",
+                    ""path"": ""<Joystick>/trigger"",
+                    ""interactions"": ""Tap"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Assing"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7b8027f2-77c2-4239-8a7f-36c17831a4ab"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Start"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3d896199-76cc-4c0d-986c-396f610672f7"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Start"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6b8503c9-a184-4ed8-a9b0-2bc5dd411fe0"",
+                    ""path"": ""<Joystick>/trigger"",
+                    ""interactions"": ""SlowTap"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Start"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -603,6 +693,10 @@ public class Controls : IInputActionCollection
         m_UI_ScrollWheel = m_UI.FindAction("ScrollWheel", throwIfNotFound: true);
         m_UI_MiddleClick = m_UI.FindAction("MiddleClick", throwIfNotFound: true);
         m_UI_RightClick = m_UI.FindAction("RightClick", throwIfNotFound: true);
+        // Assinging
+        m_Assinging = asset.FindActionMap("Assinging", throwIfNotFound: true);
+        m_Assinging_Assing = m_Assinging.FindAction("Assing", throwIfNotFound: true);
+        m_Assinging_Start = m_Assinging.FindAction("Start", throwIfNotFound: true);
     }
 
     ~Controls()
@@ -786,6 +880,47 @@ public class Controls : IInputActionCollection
         }
     }
     public UIActions @UI => new UIActions(this);
+
+    // Assinging
+    private readonly InputActionMap m_Assinging;
+    private IAssingingActions m_AssingingActionsCallbackInterface;
+    private readonly InputAction m_Assinging_Assing;
+    private readonly InputAction m_Assinging_Start;
+    public struct AssingingActions
+    {
+        private Controls m_Wrapper;
+        public AssingingActions(Controls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Assing => m_Wrapper.m_Assinging_Assing;
+        public InputAction @Start => m_Wrapper.m_Assinging_Start;
+        public InputActionMap Get() { return m_Wrapper.m_Assinging; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(AssingingActions set) { return set.Get(); }
+        public void SetCallbacks(IAssingingActions instance)
+        {
+            if (m_Wrapper.m_AssingingActionsCallbackInterface != null)
+            {
+                Assing.started -= m_Wrapper.m_AssingingActionsCallbackInterface.OnAssing;
+                Assing.performed -= m_Wrapper.m_AssingingActionsCallbackInterface.OnAssing;
+                Assing.canceled -= m_Wrapper.m_AssingingActionsCallbackInterface.OnAssing;
+                Start.started -= m_Wrapper.m_AssingingActionsCallbackInterface.OnStart;
+                Start.performed -= m_Wrapper.m_AssingingActionsCallbackInterface.OnStart;
+                Start.canceled -= m_Wrapper.m_AssingingActionsCallbackInterface.OnStart;
+            }
+            m_Wrapper.m_AssingingActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                Assing.started += instance.OnAssing;
+                Assing.performed += instance.OnAssing;
+                Assing.canceled += instance.OnAssing;
+                Start.started += instance.OnStart;
+                Start.performed += instance.OnStart;
+                Start.canceled += instance.OnStart;
+            }
+        }
+    }
+    public AssingingActions @Assinging => new AssingingActions(this);
     private int m_KeyboardMouseSchemeIndex = -1;
     public InputControlScheme KeyboardMouseScheme
     {
@@ -829,5 +964,10 @@ public class Controls : IInputActionCollection
         void OnScrollWheel(InputAction.CallbackContext context);
         void OnMiddleClick(InputAction.CallbackContext context);
         void OnRightClick(InputAction.CallbackContext context);
+    }
+    public interface IAssingingActions
+    {
+        void OnAssing(InputAction.CallbackContext context);
+        void OnStart(InputAction.CallbackContext context);
     }
 }
