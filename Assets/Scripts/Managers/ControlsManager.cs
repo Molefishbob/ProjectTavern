@@ -114,6 +114,21 @@ namespace GameInput
             tmp.SetDevice(deviceID, device);
         }
 
+        public void RemoveInActivePlayers()
+        {
+            for (int i = 0; i < _activePlayers.Count; i++)
+            {
+                if (_activePlayers[i].DeviceID == 0)
+                {
+                    Destroy(_activePlayers[i].gameObject);
+                    _activePlayers[i] = null;
+                }
+            }
+
+            InUseControllers.RemoveAll(t => t == 0);
+            _activePlayers.RemoveAll(t => t == null);
+        }
+
         /// <summary>
         /// Is the specific player active?
         /// </summary>
@@ -150,6 +165,21 @@ namespace GameInput
                             break;
                         }
                     }
+
+                    for (int i = 0; i < InUseControllers.Count; i++)
+                    {
+                        if (InUseControllers[i] == 0)
+                        {
+                            InUseControllers[i] = device.deviceId;
+                            break;
+                        }
+                    }
+
+                    if (!InUseControllers.Contains(0) && Managers.GameManager.Instance.GamePaused)
+                    {
+                        Debug.Log("UnPausing the game for now this way...");
+                        Managers.GameManager.Instance.UnPauseGame();
+                    }
                     break;
 
                 // Going to use removed, if the device is for some reason removed in runtime
@@ -163,12 +193,31 @@ namespace GameInput
                             item.StopMovement();
                         }
                     }
+
+                    // ToDo: Add someway to gamemanager to know that the pause was called because of
+                    //       Controller disconnect.
+                    for (int i = 0; i < InUseControllers.Count; i++)
+                    {
+                        if (InUseControllers[i] == device.deviceId)
+                        {
+                            InUseControllers[i] = 0;
+                            if (!Managers.GameManager.Instance.GamePaused)
+                            {
+                                Managers.GameManager.Instance.PauseGame();
+                            }
+                        }
+                    }
                     break;
 
                 case InputDeviceChange.Disconnected:
                     break;
                 case InputDeviceChange.Reconnected:
                     break;
+            }
+
+            if (DisconnectHandler.Instance != null)
+            {
+                DisconnectHandler.Instance.UpdatePlayers();
             }
         }
     }
