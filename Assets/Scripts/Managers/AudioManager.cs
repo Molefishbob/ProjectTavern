@@ -40,10 +40,6 @@ public class AudioManager : MonoBehaviour
         if (settings.Volume.SFXMute)
             _mixer.SetFloat("sfxVol", -80f);
 
-        float a = 0;
-        print(_mixer.GetFloat("musicVol", out a));
-        print(a);
-
         GameManager.Instance.PlayMenuMusic();
     }
     public void PlaySound(AudioClip clip)

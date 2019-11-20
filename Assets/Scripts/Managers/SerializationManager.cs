@@ -154,7 +154,7 @@ public static class SerializationManager
     /// If file is not found, loads default save.
     /// </summary>
     /// <param name="filename"></param>
-    public static void LoadSave(string filename)
+    public static bool LoadSave(string filename)
     {
         if (!_initialized)
             Init();
@@ -168,10 +168,12 @@ public static class SerializationManager
 
             // ToDo: Check the data integrity
             Debug.Log("Save Loaded");
+            return true;
         }
         else
         {
             Debug.LogWarning(filename + " not found!\nUsing currently loaded Save");
+            return false;
         }
     }
 
@@ -223,6 +225,9 @@ public static class SerializationManager
     /// <returns>All filenames in default path</returns>
     public static string[] GetAllSaveFilenames()
     {
+        if (!_initialized)
+            Init();
+
         string[] filenames = Directory.GetFiles(_path, "*" + SAVE_EXTENSION);
         for (int i = 0; i < filenames.Length; i++)
         {
