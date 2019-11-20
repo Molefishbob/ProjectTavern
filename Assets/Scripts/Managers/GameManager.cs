@@ -103,9 +103,6 @@ namespace Managers
         {
             get
             {
-                if (_pauseMenu == null)
-                    Debug.LogWarning("Pause menu not assigned!");
-
                 return _pauseMenu;
 
             }
@@ -294,7 +291,7 @@ namespace Managers
         {
             // TODO: Change scene, deploy loading screen, etc.
             _musicSource?.Stop();
-            PauseMenu?.gameObject.SetActive(false);
+            //PauseMenu?.gameObject.SetActive(false);
             if (id >= SceneManager.sceneCountInBuildSettings)
             {
                 Debug.LogWarning("No scene with ID: " + id);

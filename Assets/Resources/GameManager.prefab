@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1846964528476479928}
   - component: {fileID: 7134424812578453113}
+  - component: {fileID: 5122885083500479075}
   - component: {fileID: 3385450229938972021}
   - component: {fileID: 1025160410134933307}
-  - component: {fileID: 5122885083500479075}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -55,7 +55,25 @@ MonoBehaviour:
   _player2: {fileID: 0}
   _player3: {fileID: 0}
   _player4: {fileID: 0}
-  _gameManager: {fileID: 773585461588933131}
+--- !u!114 &5122885083500479075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 773585461588933131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acd8be3885693624abd629df73591edf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sfxAudioSource: {fileID: 1025160410134933307}
+  _musicAudioSource: {fileID: 3385450229938972021}
+  _musicGroup: {fileID: -3119747591459459583, guid: 99d5a95adbba42f48b3339101a94142a,
+    type: 2}
+  _sfxGroup: {fileID: -6254936424475668541, guid: 99d5a95adbba42f48b3339101a94142a,
+    type: 2}
+  _mixer: {fileID: 24100000, guid: 99d5a95adbba42f48b3339101a94142a, type: 2}
 --- !u!82 &3385450229938972021
 AudioSource:
   m_ObjectHideFlags: 0
@@ -250,22 +268,3 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &5122885083500479075
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 773585461588933131}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: acd8be3885693624abd629df73591edf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _sfxAudioSource: {fileID: 1025160410134933307}
-  _musicAudioSource: {fileID: 3385450229938972021}
-  _musicGroup: {fileID: -3119747591459459583, guid: 99d5a95adbba42f48b3339101a94142a,
-    type: 2}
-  _sfxGroup: {fileID: -6254936424475668541, guid: 99d5a95adbba42f48b3339101a94142a,
-    type: 2}
-  _mixer: {fileID: 24100000, guid: 99d5a95adbba42f48b3339101a94142a, type: 2}
