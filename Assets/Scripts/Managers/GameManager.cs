@@ -23,7 +23,6 @@ namespace Managers
         public AudioClip _menuMusic;
         [SerializeField]
         private string MainMenu = "MainMenu";
-        [SerializeField]
         private GameObject _loadingScreen = null;
         [SerializeField]
         private GameObject _player1 = null;
@@ -172,7 +171,11 @@ namespace Managers
                 Init();
             }
             
-            SerializationManager.SaveData save = SerializationManager.LoadedSave;
+            if (_loadingScreen == null)
+            {
+                _loadingScreen = Instantiate(Resources.Load<LoadingScreen>("LoadingScreen")).gameObject;
+                DontDestroyOnLoad(_loadingScreen);
+            }
         }
 
         private void Init()
@@ -309,9 +312,10 @@ namespace Managers
             {
                 if (useLoadingScreen)
                 {
-                    // TODO: LoadingScreen.BeginLoading();
+                    LoadingScreen.GetComponent<LoadingScreen>().BeginLoading();
                     ActivateGame(true);
                 }
+                if (id != _mainMenuID) MenuActive = false;
                 ActivateGame(false);
                 _currentSceneID = id;
                 SceneManager.LoadScene(id);
@@ -348,6 +352,19 @@ namespace Managers
                 SerializationManager.SaveSave(levelSave);
         }
 
+        public void TemporaryMute()
+        {
+            _audio.SetMixerValue("masterVol", 0f);
+        }
+
+        public void TemporaryMuteOff()
+        {
+            if (!SerializationManager.LoadedSettings.Volume.MasterMute)
+                _audio.SetMixerValue("masterVol", SerializationManager.LoadedSettings.Volume.Master);
+
+            _audio.SetMixerValue("masterVol", 0f);
+        }
+
         /// <summary>
         /// Quits the game to desktop.
         /// </summary>
@@ -380,7 +397,7 @@ namespace Managers
         public void ReloadScene(bool useLoadingScreen)
         {
             ActivateGame(false);
-            //if (useLoadingScreen) LoadingScreen.BeginLoading();
+            if (useLoadingScreen) LoadingScreen.GetComponent<LoadingScreen>().BeginLoading();
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
 
