@@ -3,7 +3,16 @@ guid: 0032221ca8ce96a48a69cd4cbee5d036
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - _levelMusic: {instanceID: 0}
+  - _menuMusic: {instanceID: 0}
+  - _loadingScreen: {instanceID: 0}
+  - _player1: {instanceID: 0}
+  - _player2: {instanceID: 0}
+  - _player3: {instanceID: 0}
+  - _player4: {instanceID: 0}
+  - _gameManager: {fileID: 773585461588933131, guid: db63192a0b637f742b9add6d0d311186,
+      type: 3}
   executionOrder: -50
   icon: {instanceID: 0}
   userData: 
