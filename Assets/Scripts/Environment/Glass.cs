@@ -44,6 +44,10 @@ public class Glass : PlayerUseable
         _timer.OnTimerCompleted -= UpdateUser;
     }
 
+    /// <summary>
+    /// Picks up glass, makes it users child, positions the glass into position and disables glasses trigger. 
+    /// Trigger should only be activated when glass is not a useable gameobject
+    /// </summary>
     public void TakeGlass()
     {
         User.CurrentlyHeld = PlayerState.Holdables.Glass;
@@ -52,12 +56,20 @@ public class Glass : PlayerUseable
         gameObject.GetComponent<CircleCollider2D>().enabled = false;
     }
 
+    /// <summary>
+    /// Puts glass away from uesrs hands to given gameobjects transform and glass the targets child object.
+    /// </summary>
+    /// <param name="trans">Target transform to give glass to</param>
     public void PutGlassDown(Transform trans)
     {
         gameObject.transform.parent = trans;
         gameObject.transform.position = trans.position;
     }
 
+    /// <summary>
+    /// Adds ingredient to the list of ingredients that are currently in the glass.
+    /// </summary>
+    /// <param name="ingredient">Ingredient to be added</param>
     public void AddIngredient(DrinkIngredient ingredient)
     {
         if (!_currentIngredients.Contains(ingredient))
@@ -80,6 +92,9 @@ public class Glass : PlayerUseable
         }
     }
 
+    /// <summary>
+    /// Goes through all ingredients in all possible drinks, and compares them to what ingredients are in the glass to see if they make an actual drink.
+    /// </summary>
     public void CheckCurrentDrink()
     {
         _currentDrink = null;
@@ -120,6 +135,9 @@ public class Glass : PlayerUseable
         }
     }
 
+    /// <summary>
+    /// Visually updates users held drink.
+    /// </summary>
     public void GetDrinkName()
     {
 
@@ -151,6 +169,9 @@ public class Glass : PlayerUseable
         }
     }
 
+    /// <summary>
+    /// Empties glass...duh
+    /// </summary>
     public void EmptyGlass()
     {
         GetPossibleDrinks();
@@ -158,6 +179,9 @@ public class Glass : PlayerUseable
         _currentDrink = null;
     }
 
+    /// <summary>
+    /// Goes through all possible drinks in the game, and puts them in an array.
+    /// </summary>
     private void GetPossibleDrinks()
     {
         int i = 0;
