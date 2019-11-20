@@ -238,7 +238,7 @@ namespace Managers
                 Debug.LogWarning("Game is already paused.");
             }
         }
-
+      
         /// <summary>
         /// Unpauses all in-game objects and sets timescale back to what it was before pausing.
         /// </summary>
@@ -265,14 +265,21 @@ namespace Managers
         /// <param name="save">the name of the savefile</param>
         public void SelectSave(string save)
         {
+            bool saveFound = false;
             for (int a = 0; a < _saveFiles.Length; a++)
             {
-                if (_saveFiles[a] == save)
+                if (_saveFiles[a] == save && !saveFound)
                 {
                     _currentSave = save;
-                    SerializationManager.LoadSave(_currentSave);
+                    saveFound = SerializationManager.LoadSave(_currentSave);
                 }
-                ChangeScene(SerializationManager.LoadedSave.LastLevelCleared + 1, true);
+            }
+
+            if (!saveFound)
+            {
+                SerializationManager.LoadedSave = new SerializationManager.SaveData();
+                Debug.Log("Creating empty save");
+                SerializationManager.SaveSave(save);
             }
         }
 
@@ -317,6 +324,12 @@ namespace Managers
 
             SerializationManager.LoadedSave.LastLevelCleared++;
             SerializationManager.SaveSave(_currentSave);
+            ChangeScene(SerializationManager.LoadedSave.LastLevelCleared + 1, true);
+            ActivateGame(true);
+        }
+
+        public void StartCurrentLevel()
+        {
             ChangeScene(SerializationManager.LoadedSave.LastLevelCleared + 1, true);
             ActivateGame(true);
         }
