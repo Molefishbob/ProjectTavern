@@ -33,10 +33,18 @@ public class ControllerSelect : MonoBehaviour
         }
     }
 
-    private void AllSet(UnityEngine.InputSystem.InputAction.CallbackContext context)
+    private void Update()
     {
-        if (ControlsManager.Instance.InUseControllers.Contains(context.control.device.deviceId))
-            Managers.GameManager.Instance.StartCurrentLevel();
+        if (ControlsManager.Instance.InUseControllers.Contains(0))
+        {
+            ControlsManager.Instance.InUseControllers.RemoveAll(t => t == 0);
+
+            for (int i = ControlsManager.Instance.InUseControllers.Count; i < _playerSlots.Length; i++)
+            {
+                if (_playerSlots[i].activeSelf)
+                    _playerSlots[i].SetActive(false);
+            }
+        }
     }
 
     private void OnDestroy()
@@ -45,6 +53,12 @@ public class ControllerSelect : MonoBehaviour
         _controls.Assinging.Assing.performed -= AllSet;
         _controls.Assinging.Disable();
         _controls = null;
+    }
+
+    private void AllSet(UnityEngine.InputSystem.InputAction.CallbackContext context)
+    {
+        if (ControlsManager.Instance.InUseControllers.Contains(context.control.device.deviceId))
+            Managers.GameManager.Instance.StartCurrentLevel();
     }
 
     private void TryAddDevice(UnityEngine.InputSystem.InputAction.CallbackContext context)
