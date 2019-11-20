@@ -1,7 +1,8 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using static Managers.IngredientManager;
+using static Managers.BeverageManager;
 
 public class Glass : PlayerUseable
 {
@@ -9,7 +10,9 @@ public class Glass : PlayerUseable
     public float UseTime { get => _interactionTime; set => _interactionTime = value; }
     private List<Drink> _drinks;
     private Drink[] _possibleDrinks = new Drink[10];
-    private Drink _currentDrink;
+    private Drink _currentDrink = null;
+    private string _drinkName = "";
+    private string[] _beverageNames;
 
     public Drink CurrentDrink { get { return _currentDrink; } }
 
@@ -18,15 +21,9 @@ public class Glass : PlayerUseable
         base.Awake();
         _timer.OnTimerCompleted += TakeGlass;
     }
-    protected override void OnDestroy()
-    {
-        base.OnDestroy();
-        _timer.OnTimerCompleted -= TakeGlass;
-    }
 
     protected override void Start()
     {
-        base.Start();
         _drinks = new List<Drink>();
         int i = 0;
         foreach (Drink drink in Resources.LoadAll<Drink>("Drinks"))
@@ -35,12 +32,23 @@ public class Glass : PlayerUseable
             _possibleDrinks[i] = drink;
             i++;
         }
+        _beverageNames = Enum.GetNames(typeof(Beverage));
+        _timer.OnTimerCompleted += UpdateUser;
+
+    }
+
+    protected override void OnDestroy()
+    {
+        
+        _timer.OnTimerCompleted -= TakeGlass;
+        _timer.OnTimerCompleted -= UpdateUser;
     }
 
     public void TakeGlass()
     {
         User.CurrentlyHeld = PlayerState.Holdables.Glass;
         transform.parent = User.transform;
+        transform.position = transform.parent.position + new Vector3(0, 0.4f, 0);
         gameObject.GetComponent<CircleCollider2D>().enabled = false;
     }
 
@@ -101,12 +109,45 @@ public class Glass : PlayerUseable
                 if (doesContain)
                 {
                     _currentDrink = _possibleDrinks[i];
+                    GetDrinkName();
                 }
             }
         }
         if (_currentDrink == null)
         {
             Debug.Log("Warning, no valid drink!");
+            GetDrinkName();
+        }
+    }
+
+    public void GetDrinkName()
+    {
+
+        if (_currentDrink != null)
+        {
+            _drinkName = _currentDrink.ToString();
+        }
+        else
+        {
+            _drinkName = "";
+        }
+
+        if(!_drinkName.Equals("")) _drinkName = _drinkName.Remove(_drinkName.Length - 8, 8);
+
+        Beverage bev = Beverage.None;
+
+        for (int i = 0; i < _beverageNames.Length; i++)
+        {
+            if (_beverageNames[i].Trim().Equals(_drinkName.Trim()))
+            {
+                bev = (Beverage)Enum.Parse(typeof(Beverage), _drinkName);
+                User.HeldDrink = bev;
+                break;
+            }
+            else
+            {
+                User.HeldDrink = Beverage.None;
+            }
         }
     }
 

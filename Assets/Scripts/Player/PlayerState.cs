@@ -131,7 +131,6 @@ public class PlayerState : MonoBehaviour
         else
         {
             _heldText.text = CurrentlyHeld.ToString()[0] + "";
-
             if (HeldDrink != Beverage.None)
                 _heldText.text += "\\" + HeldDrink.ToString()[0] + HeldDrink.ToString()[1];
         }

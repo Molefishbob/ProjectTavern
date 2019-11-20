@@ -80,7 +80,7 @@ public abstract class PlayerUseable : MonoBehaviour, IUseable
         User = null;
     }
 
-    private void UpdateUser()
+    protected void UpdateUser()
     {
         User.UpdateHeld();
         User.ClearUsable();
