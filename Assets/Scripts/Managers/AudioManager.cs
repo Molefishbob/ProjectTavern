@@ -44,7 +44,8 @@ public class AudioManager : MonoBehaviour
         print(_mixer.GetFloat("musicVol", out a));
         print(a);
 
-        GameManager.Instance.PlayMenuMusic();
+        if (GameManager.Instance.MenuActive)
+            GameManager.Instance.PlayMenuMusic();
     }
     public void PlaySound(AudioClip clip)
     {

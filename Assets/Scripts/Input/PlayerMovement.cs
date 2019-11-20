@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Managers;
 
 namespace GameInput
 {
@@ -40,7 +41,7 @@ namespace GameInput
             controls.Player.Pause.Enable();
             controls.Player.Use.Enable();
             controls.Player.Move.performed += ctx => ReadMovementInput(ctx);
-            controls.Player.Pause.performed += ctx => DeviceID = ctx.control.device.deviceId;
+            controls.Player.Pause.performed += ctx => ReadPauseInput(ctx);
             controls.Player.Use.performed += ctx => Use(ctx);
 
             _myState = GetComponent<PlayerState>();
@@ -130,6 +131,19 @@ namespace GameInput
                 _inputDirection = context.ReadValue<Vector2>();
         }
 
+        private void ReadPauseInput(InputAction.CallbackContext context)
+        {
+            if (DeviceID == context.control.device.deviceId)
+            {
+                bool active = GameManager.Instance.PauseMenu.gameObject.activeSelf;
+                GameManager.Instance.PauseMenu.gameObject.SetActive(!active);
+                if (!active)
+                    GameManager.Instance.PauseGame();
+                else
+                    GameManager.Instance.UnPauseGame();
+            }
+        }
+
         /// <summary>
         /// Tell the other object that it is being used, Used object is reported from triggers
         /// </summary>
@@ -151,7 +165,7 @@ namespace GameInput
         {
             Gizmos.color = Color.blue;
             Gizmos.DrawLine(transform.position, transform.position + new Vector3(_inputDirection.x, _inputDirection.y));
-            
+
             Gizmos.color = Color.green;
             Gizmos.DrawLine(transform.position, transform.position + new Vector3(_movementVector.x * 10, _movementVector.y * 10));
         }

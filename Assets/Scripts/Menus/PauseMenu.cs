@@ -19,6 +19,8 @@ public class PauseMenu : MonoBehaviour
             Debug.LogWarning("Pause menu already assigned! Removing the new pause menu..");
             Destroy(gameObject);
         }
+
+        gameObject.SetActive(false);
     }
 
     public void ButtonClickSound()
