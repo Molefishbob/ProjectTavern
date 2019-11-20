@@ -175,9 +175,8 @@ namespace GameInput
                         }
                     }
 
-                    if (!InUseControllers.Contains(0) && Managers.GameManager.Instance.GamePaused)
+                    if (!InUseControllers.Contains(0) && !Managers.GameManager.Instance.MenuActive && Managers.GameManager.Instance.GamePaused)
                     {
-                        Debug.Log("UnPausing the game for now this way...");
                         Managers.GameManager.Instance.UnPauseGame();
                     }
                     break;
@@ -201,7 +200,7 @@ namespace GameInput
                         if (InUseControllers[i] == device.deviceId)
                         {
                             InUseControllers[i] = 0;
-                            if (!Managers.GameManager.Instance.GamePaused)
+                            if (!Managers.GameManager.Instance.GamePaused && !Managers.GameManager.Instance.MenuActive)
                             {
                                 Managers.GameManager.Instance.PauseGame();
                             }
