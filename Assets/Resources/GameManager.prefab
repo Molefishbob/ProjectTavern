@@ -49,7 +49,8 @@ MonoBehaviour:
   _levelMusic: {fileID: 8300000, guid: 9682ccae0d0fdca47be4d208da9c6511, type: 3}
   _menuMusic: {fileID: 8300000, guid: 5dd0460a94e6049408c0580610cf2737, type: 3}
   MainMenu: MainMenu
-  _loadingScreen: {fileID: 0}
+  _loadingScreen: {fileID: 7864305350796427400, guid: 8f51fbd12a2a42846a42d1003e0c10be,
+    type: 3}
   _player1: {fileID: 4733404804551215368, guid: 13dcd861e8840c746833e9535a990c4f,
     type: 3}
   _player2: {fileID: 0}
