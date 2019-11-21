@@ -28,6 +28,8 @@ namespace GameInput
 
         public List<int> InUseControllers = new List<int>();
 
+        public static bool DoesExist { get => _instance != null; }
+
         private void Start()
         {
             if (_instance == null)
@@ -127,6 +129,12 @@ namespace GameInput
 
             InUseControllers.RemoveAll(t => t == 0);
             _activePlayers.RemoveAll(t => t == null);
+        }
+
+        public void RemovePlayer(int deviceID)
+        {
+            _activePlayers.RemoveAll(t => t.DeviceID == deviceID);
+            InUseControllers.RemoveAll(t => t == deviceID);
         }
 
         /// <summary>

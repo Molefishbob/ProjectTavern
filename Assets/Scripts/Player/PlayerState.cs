@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using System.Linq;
 using static Managers.BeverageManager;
+using UnityEngine.InputSystem;
 
 public class PlayerState : MonoBehaviour
 {
@@ -75,6 +76,11 @@ public class PlayerState : MonoBehaviour
         else if (_actionBar.activeSelf && (UseableObject == null || !UseableObject.IsBeingUsed))
         {
             _actionBar.SetActive(false);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha0))
+        {
+            Managers.GameManager.Instance.ChangeToMainMenu();
         }
     }
 

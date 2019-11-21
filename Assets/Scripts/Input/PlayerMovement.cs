@@ -59,6 +59,9 @@ namespace GameInput
             controls.Player.Pause.Disable();
             controls.Player.Use.Disable();
             controls = null;
+
+            if (ControlsManager.DoesExist)
+                ControlsManager.Instance.RemovePlayer(DeviceID);
         }
 
         private void FixedUpdate()
