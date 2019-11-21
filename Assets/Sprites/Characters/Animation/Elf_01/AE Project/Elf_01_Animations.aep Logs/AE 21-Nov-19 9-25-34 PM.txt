@@ -1,0 +1,17 @@
+Adobe After Effects v16.1.1 Windows 64 render log for project “Elf_01_Animations.aep”
+
+Rendering started on 21-Nov-19 at 9:25:34 PM
+
+  21-Nov-19 9:25:34 PM: Starting composition “Elf_01_Walk_Cycle”.
+
+  Output To: C:\Users\Lee\OneDrive - TUNI.fi\TAMK\Games Academy 1 Autumn 2019\Game Project\Tavern\Animation\Elf_01\Elf_01_With_Apron\Elf_01_Apron_Walk_Cycle\Elf_01_Apron_Walk_Cycle_[#####].png    21-Nov-19 9:25:38 PM: Finished composition “Elf_01_Walk_Cycle”.
+
+
+  21-Nov-19 9:25:38 PM: Starting composition “Elf_01_Pickup_Drink”.
+
+  Output To: C:\Users\Lee\OneDrive - TUNI.fi\TAMK\Games Academy 1 Autumn 2019\Game Project\Tavern\Animation\Elf_01\Elf_01_With_Apron\Elf_01_Apron_Pickup_Drink\Elf_01_Apron_Pickup_Drink_[#####].png    21-Nov-19 9:25:39 PM: Finished composition “Elf_01_Pickup_Drink”.
+
+
+  Total Time Elapsed: 5 Seconds
+Log closed on 21-Nov-19 at 9:25:39 PM
+
