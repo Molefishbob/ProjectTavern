@@ -1,0 +1,22 @@
+Adobe After Effects v16.1.1 Windows 64 render log for project “Dwarf_01_Animations.aep”
+
+Rendering started on 21-Nov-19 at 11:41:02 PM
+
+  21-Nov-19 11:41:02 PM: Starting composition “Dwarf_01_Apron_Walk_With_Drink”.
+
+  Output To: C:\Users\Lee\OneDrive - TUNI.fi\TAMK\Games Academy 1 Autumn 2019\Game Project\Tavern\Animation\Dwarf_01\Dwarf_01_With_Apron\Dwarf_01_Apron_Walk_With_Drink\Dwarf_01_Apron_Walk_With_Drink_[#####].png    21-Nov-19 11:41:06 PM: Finished composition “Dwarf_01_Apron_Walk_With_Drink”.
+
+
+  21-Nov-19 11:41:06 PM: Starting composition “Dwarf_01_Apron_Walk_Cycle”.
+
+  Output To: C:\Users\Lee\OneDrive - TUNI.fi\TAMK\Games Academy 1 Autumn 2019\Game Project\Tavern\Animation\Dwarf_01\Dwarf_01_With_Apron\Dwarf_01_Apron_Walk_Cycle\Dwarf_01_Apron_Walk_Cycle_[#####].png    21-Nov-19 11:41:10 PM: Finished composition “Dwarf_01_Apron_Walk_Cycle”.
+
+
+  21-Nov-19 11:41:10 PM: Starting composition “Dwarf_01_Apron_Pickup_Drink”.
+
+  Output To: C:\Users\Lee\OneDrive - TUNI.fi\TAMK\Games Academy 1 Autumn 2019\Game Project\Tavern\Animation\Dwarf_01\Dwarf_01_With_Apron\Dwarf_01_Apron_Pickup_Drink\Dwarf_01_Apron_Pickup_Drink_[#####].png    21-Nov-19 11:41:11 PM: Finished composition “Dwarf_01_Apron_Pickup_Drink”.
+
+
+  Total Time Elapsed: 9 Seconds
+Log closed on 21-Nov-19 at 11:41:11 PM
+

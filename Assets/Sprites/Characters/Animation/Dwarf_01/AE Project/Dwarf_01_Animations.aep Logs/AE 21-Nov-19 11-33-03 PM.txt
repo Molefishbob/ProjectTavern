@@ -1,0 +1,32 @@
+Adobe After Effects v16.1.1 Windows 64 render log for project “Dwarf_01_Animations.aep”
+
+Rendering started on 21-Nov-19 at 11:33:03 PM
+
+  21-Nov-19 11:33:03 PM: Starting composition “Dwarf_01_Walk_Cycle”.
+
+  Output To: C:\Users\Lee\OneDrive - TUNI.fi\TAMK\Games Academy 1 Autumn 2019\Game Project\Tavern\Animation\Dwarf_01\Dwarf_01_Walk_Cycle\Dwarf_01_Walk_Cycle_[#####].png    21-Nov-19 11:33:07 PM: Finished composition “Dwarf_01_Walk_Cycle”.
+
+
+  21-Nov-19 11:33:07 PM: Starting composition “Dwarf_01_Pickup_Drink”.
+
+  Output To: C:\Users\Lee\OneDrive - TUNI.fi\TAMK\Games Academy 1 Autumn 2019\Game Project\Tavern\Animation\Dwarf_01\Dwarf_01_Pickup_Drink\Dwarf_01_Pickup_Drink_[#####].png    21-Nov-19 11:33:11 PM: Finished composition “Dwarf_01_Pickup_Drink”.
+
+
+  21-Nov-19 11:33:11 PM: Starting composition “Dwarf_01_Drinking”.
+
+  Output To: C:\Users\Lee\OneDrive - TUNI.fi\TAMK\Games Academy 1 Autumn 2019\Game Project\Tavern\Animation\Dwarf_01\Dwarf_01_Drinking\Dwarf_01_Drinking_[#####].png    21-Nov-19 11:33:18 PM: Finished composition “Dwarf_01_Drinking”.
+
+
+  21-Nov-19 11:33:18 PM: Starting composition “Dwarf_01_Fight_Ready”.
+
+  Output To: C:\Users\Lee\OneDrive - TUNI.fi\TAMK\Games Academy 1 Autumn 2019\Game Project\Tavern\Animation\Dwarf_01\Dwarf_01_Fight_Ready\Dwarf_01_Fight_Ready_[#####].png    21-Nov-19 11:33:22 PM: Finished composition “Dwarf_01_Fight_Ready”.
+
+
+  21-Nov-19 11:33:22 PM: Starting composition “Dwarf_01_Walk_With_Drink”.
+
+  Output To: C:\Users\Lee\OneDrive - TUNI.fi\TAMK\Games Academy 1 Autumn 2019\Game Project\Tavern\Animation\Dwarf_01\Dwarf_01_Walk_With_Drink\Dwarf_01_Walk_With_Drink_[#####].png    21-Nov-19 11:33:25 PM: Finished composition “Dwarf_01_Walk_With_Drink”.
+
+
+  Total Time Elapsed: 22 Seconds
+Log closed on 21-Nov-19 at 11:33:25 PM
+
