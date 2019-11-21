@@ -1,0 +1,17 @@
+Adobe After Effects v16.1.1 Windows 64 render log for project “Orc_01_Walk_Cycle_01.aep”
+
+Rendering started on 21-Nov-19 at 1:18:40 AM
+
+  21-Nov-19 1:18:40 AM: Starting composition “Orc_01_Drinking”.
+
+  Output To: C:\Users\Lee\OneDrive - TUNI.fi\TAMK\Games Academy 1 Autumn 2019\Game Project\Tavern\Animation\Orc_01_Drinking\Orc_01_Drinking_[#####].png    21-Nov-19 1:18:48 AM: Finished composition “Orc_01_Drinking”.
+
+
+  21-Nov-19 1:18:48 AM: Starting composition “Orc_01_Pickup_Drink”.
+
+  Output To: C:\Users\Lee\OneDrive - TUNI.fi\TAMK\Games Academy 1 Autumn 2019\Game Project\Tavern\Animation\Orc_01_Pickup_Drink\Orc_01_Pickup_Drink_[#####].png    21-Nov-19 1:18:50 AM: Finished composition “Orc_01_Pickup_Drink”.
+
+
+  Total Time Elapsed: 10 Seconds
+Log closed on 21-Nov-19 at 1:18:50 AM
+

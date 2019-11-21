@@ -1,0 +1,27 @@
+Adobe After Effects v16.1.1 Windows 64 render log for project “Orc_01_Animations.aep”
+
+Rendering started on 21-Nov-19 at 3:12:48 PM
+
+  21-Nov-19 3:12:48 PM: Starting composition “Orc_01_Walk_Cycle”.
+
+  Output To: C:\Users\Lee\OneDrive - TUNI.fi\TAMK\Games Academy 1 Autumn 2019\Game Project\Tavern\Animation\Orc_01\Orc_01_With_Apron\Orc_01_Walk_Cycle\Orc_01_Apron_Walk_Cycle_[#####].png    21-Nov-19 3:12:53 PM: Finished composition “Orc_01_Walk_Cycle”.
+
+
+  21-Nov-19 3:12:54 PM: Starting composition “Orc_01_Walk_With_Drink”.
+
+  Output To: C:\Users\Lee\OneDrive - TUNI.fi\TAMK\Games Academy 1 Autumn 2019\Game Project\Tavern\Animation\Orc_01\Orc_01_With_Apron\Orc_01_Walk_With_Drink\Orc_01_Apron_Walk_With_Drink_[#####].png    21-Nov-19 3:12:57 PM: Finished composition “Orc_01_Walk_With_Drink”.
+
+
+  21-Nov-19 3:12:57 PM: Starting composition “Orc_01_Pickup_Drink”.
+
+  Output To: C:\Users\Lee\OneDrive - TUNI.fi\TAMK\Games Academy 1 Autumn 2019\Game Project\Tavern\Animation\Orc_01\Orc_01_With_Apron\Orc_01_Pickup_Drink\Orc_01_Apron_Pickup_Drink_[#####].png    21-Nov-19 3:13:02 PM: Finished composition “Orc_01_Pickup_Drink”.
+
+
+  21-Nov-19 3:13:02 PM: Starting composition “Orc_01_Drinking”.
+
+  Output To: C:\Users\Lee\OneDrive - TUNI.fi\TAMK\Games Academy 1 Autumn 2019\Game Project\Tavern\Animation\Orc_01\Orc_01_With_Apron\Orc_01_Drinking\Orc_01_Apron_Drinking_[#####].png    21-Nov-19 3:13:05 PM: Finished composition “Orc_01_Drinking”.
+
+
+  Total Time Elapsed: 17 Seconds
+Log closed on 21-Nov-19 at 3:13:05 PM
+
