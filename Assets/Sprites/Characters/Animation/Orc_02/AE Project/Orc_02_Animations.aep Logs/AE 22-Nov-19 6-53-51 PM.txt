@@ -1,0 +1,22 @@
+Adobe After Effects v16.1.1 Windows 64 render log for project “Orc_02_Animations.aep”
+
+Rendering started on 22-Nov-19 at 6:53:51 PM
+
+  22-Nov-19 6:53:51 PM: Starting composition “Orc_02_Apron_Walk_With_Drink”.
+
+  Output To: C:\Users\Lee\OneDrive - TUNI.fi\TAMK\Games Academy 1 Autumn 2019\Game Project\Tavern\Animation\Orc_02\Orc_02_Apron\Orc_02_Apron_Walk_With_Drink\Orc_02_Apron_Walk_With_Drink_[#####].png    22-Nov-19 6:53:55 PM: Finished composition “Orc_02_Apron_Walk_With_Drink”.
+
+
+  22-Nov-19 6:53:55 PM: Starting composition “Orc_02_Apron_Pickup_Drink”.
+
+  Output To: C:\Users\Lee\OneDrive - TUNI.fi\TAMK\Games Academy 1 Autumn 2019\Game Project\Tavern\Animation\Orc_02\Orc_02_Apron\Orc_02_Apron_Pickup_Drink\Orc_02_Apron_Pickup_Drink_[#####].png    22-Nov-19 6:53:59 PM: Finished composition “Orc_02_Apron_Pickup_Drink”.
+
+
+  22-Nov-19 6:53:59 PM: Starting composition “Orc_02_Apron_Walk_Cycle”.
+
+  Output To: C:\Users\Lee\OneDrive - TUNI.fi\TAMK\Games Academy 1 Autumn 2019\Game Project\Tavern\Animation\Orc_02\Orc_02_Apron\Orc_02_Apron_Walk_Cycle\Orc_02_Apron_Walk_Cycle_[#####].png    22-Nov-19 6:54:00 PM: Finished composition “Orc_02_Apron_Walk_Cycle”.
+
+
+  Total Time Elapsed: 9 Seconds
+Log closed on 22-Nov-19 at 6:54:00 PM
+
