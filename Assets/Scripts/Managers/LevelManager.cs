@@ -31,6 +31,9 @@ namespace Managers
         [SerializeField]
         private GlassPool _glassPoolPrefab = null;
         private GlassPool _spawnedGlassPool;
+        [SerializeField]
+        private SfxSoundPool _sfxSoundPoolPrefab = null;
+        private SfxSoundPool _spawnedSfxSoundPool;
         private ScaledOneShotTimer _levelTimer;
         [SerializeField]
         private float _spawnInterval = 5;
@@ -97,6 +100,7 @@ namespace Managers
             _spawnedCustomerPool = Instantiate(_customerPoolPrefab);
             _spawnedPukePool = Instantiate(_pukePoolPrefab);
             _spawnedGlassPool = Instantiate(_glassPoolPrefab);
+            _spawnedSfxSoundPool = Instantiate(_sfxSoundPoolPrefab);
             _tables = new List<TableInteractions>();
             _tables.AddRange(FindObjectsOfType<TableInteractions>());
             _queue = FindObjectOfType<Queue>();
@@ -174,6 +178,15 @@ namespace Managers
         public CleanableMess GetPuke()
         {
             return _spawnedPukePool.GetPooledObject();
+        }
+
+        /// <summary>
+        /// Used to play any sfx sound in level
+        /// </summary>
+        /// <returns>Returns a reference to the sfx soundplayer</returns>
+        public SFXSound GetSfxPlayer()
+        {
+            return _spawnedSfxSoundPool.GetPooledObject();
         }
 
         /// <summary>

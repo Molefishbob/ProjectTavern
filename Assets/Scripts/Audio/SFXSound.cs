@@ -21,6 +21,12 @@ public class SFXSound : MonoBehaviour
         _timer.OnTimerCompleted -= CommitSudoku;
     }
 
+    /// <summary>
+    /// Configures the player to play a given sound.
+    /// After it has played the sound, it will disable itself.
+    /// </summary>
+    /// <param name="clip">The clip to be played</param>
+    /// <param name="loop">Loop the sound? Defaults to false</param>
     public void PlaySFXSound(AudioClip clip, bool loop = false)
     {
         _audio.clip = clip;
