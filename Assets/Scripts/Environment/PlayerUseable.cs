@@ -82,7 +82,6 @@ public abstract class PlayerUseable : MonoBehaviour, IUseable
 
     protected void UpdateUser()
     {
-        print("ss");
         User.UpdateHeld();
         User.ClearUsable();
     }
