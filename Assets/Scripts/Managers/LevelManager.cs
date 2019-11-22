@@ -17,6 +17,9 @@ namespace Managers
         public event ValueChangedFloat OnMoneyChanged;
         private List<TableInteractions> _tables = null;
         [SerializeField]
+        protected GetIngredient[] _barrels;
+        private List<Drink> _possibleDrinks = new List<Drink>();
+        [SerializeField]
         private Transform _entrance = null, _exit = null;
         private int _maxQueueLength = 0;
         private Customer[] _customerQueue;
@@ -45,6 +48,7 @@ namespace Managers
         public List<TableInteractions> Tables { get { return _tables; } }
 
         public Customer[] CustomerQueue { get { return _customerQueue; } }
+        public List<Drink> PossibleDrinks { get; private set; }
 
         public Transform Entrance { get { return _entrance; } }
 
@@ -78,7 +82,13 @@ namespace Managers
                 OnHappinessChanged?.Invoke(_happiness);
             }
         }
-        
+
+        private void OnValidate()
+        {
+            _barrels = FindObjectsOfType<GetIngredient>();
+            Debug.Log("Barrel list updated");
+        }
+
         public static LevelManager Instance;
 
         private void Awake()
@@ -137,6 +147,7 @@ namespace Managers
             _levelTimer.StartTimer(_playTime);
             _maxQueueLength = _queue.QueueLength;
             _customerQueue = new Customer[_maxQueueLength];
+            GetAvailableDrinks();
             StartLevel();
         }
 
@@ -146,6 +157,75 @@ namespace Managers
             {
                 AIManager.Instance.StartSpawning(_spawnInterval, _spawnOffset);
             }
+        }
+
+        private void GetAvailableDrinks()
+        {
+            List<IngredientManager.DrinkIngredient> ingredients = new List<IngredientManager.DrinkIngredient>();
+            List<Drink> drinks = new List<Drink>();
+            foreach (GetIngredient barrel in _barrels)
+            {
+                ingredients.Add(barrel._ingredient);
+            }
+
+            foreach (Drink drink in Resources.LoadAll<Drink>("Drinks"))
+            {
+                drinks.Add(drink);
+            }
+
+            for (int a = 0; a < drinks.Count; a++)
+            {
+                int count = 0;
+                for (int b = 0; b < drinks[a]._ingredients.Count; b++)
+                {
+                    for (int c = 0; c < ingredients.Count; c++)
+                    {
+                        if (drinks[a]._ingredients[b] == ingredients[c])
+                        {
+                            count++;
+                        }
+                    }
+                }
+                if (count == drinks[a]._ingredients.Count) _possibleDrinks.Add(drinks[a]);
+            }
+        }
+
+        /// <summary>
+        /// Checks if the given beverage is possible to make in the level.
+        /// </summary>
+        /// <param name="bev">The given beverage</param>
+        /// <returns>True if possible to make, false if not.</returns>
+        public bool BeverageAvailable(BeverageManager.Beverage bev)
+        {
+            foreach (Drink drink in _possibleDrinks)
+            {
+                if (drink._drink == bev) return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Checks if the given Drink is possible to make in the level.
+        /// </summary>
+        /// <param name="bev">The given drink</param>
+        /// <returns>True if possible to make, false if not.</returns>
+        public bool BeverageAvailable(Drink bev)
+        {
+            foreach (Drink drink in _possibleDrinks)
+            {
+                if (drink._drink == bev._drink) return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Gives a random drink that is possible to make in the level.
+        /// </summary>
+        /// <returns></returns>
+        public Drink RandomPossibleDrink()
+        {
+            int ran = Random.Range(0, _possibleDrinks.Count);
+            return _possibleDrinks[ran];
         }
 
         public void StartLevel()

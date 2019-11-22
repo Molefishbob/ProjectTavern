@@ -158,14 +158,13 @@ public class Customer : MonoBehaviour
         else
         {
             int random = Random.Range(1, 101);
-            if (random <= _preferredDrinkChance)
+            if (random <= _preferredDrinkChance && LevelManager.Instance.BeverageAvailable(_behaviour._race._preferredBeverage))
             {
                 drinkOrder = _behaviour._race._preferredBeverage;
             }
             else
             {
-                int ran = Random.Range(1, _beverageAmount);
-                drinkOrder = (Beverage)ran;
+                drinkOrder = LevelManager.Instance.RandomPossibleDrink()._drink;
             }
             _orderText.text = "D\\" + drinkOrder.ToString()[0] + drinkOrder.ToString()[1];
         }
