@@ -13,14 +13,9 @@ public class Glass : PlayerUseable
     private Drink _currentDrink = null;
     private string _drinkName = "";
     private string[] _beverageNames;
+    public bool _isDirty = false;
 
     public Drink CurrentDrink { get { return _currentDrink; } }
-
-    protected override void Awake()
-    {
-        base.Awake();
-        _timer.OnTimerCompleted += TakeGlass;
-    }
 
     protected override void Start()
     {
@@ -34,12 +29,12 @@ public class Glass : PlayerUseable
         }
         _beverageNames = Enum.GetNames(typeof(Beverage));
         _timer.OnTimerCompleted += UpdateUser;
+        _timer.OnTimerCompleted += TakeGlass;
 
     }
 
     protected override void OnDestroy()
     {
-        
         _timer.OnTimerCompleted -= TakeGlass;
         _timer.OnTimerCompleted -= UpdateUser;
     }
@@ -54,6 +49,7 @@ public class Glass : PlayerUseable
         transform.parent = User.transform;
         transform.position = transform.parent.position + new Vector3(0, 0.4f, 0);
         gameObject.GetComponent<CircleCollider2D>().enabled = false;
+        UpdateUser();
     }
 
     /// <summary>
@@ -62,6 +58,7 @@ public class Glass : PlayerUseable
     /// <param name="trans">Target transform to give glass to</param>
     public void PutGlassDown(Transform trans)
     {
+        ClearInfo();
         gameObject.transform.parent = trans;
         gameObject.transform.position = trans.position;
     }
@@ -177,6 +174,7 @@ public class Glass : PlayerUseable
         GetPossibleDrinks();
         _currentIngredients.Clear();
         _currentDrink = null;
+        _isDirty = true;
     }
 
     /// <summary>

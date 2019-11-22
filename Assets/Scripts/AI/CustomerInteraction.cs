@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Managers;
 
 /// <summary>
 /// How customer Interacts with player
@@ -112,6 +113,17 @@ public class CustomerInteraction : PlayerUseable
                     Debug.Log("CORRECTLY SERVED!");
                     User.CurrentlyHeld = PlayerState.Holdables.Nothing;
                     User.HeldDrink = Managers.BeverageManager.Beverage.None;
+                    Glass glass = User.GetComponentInChildren<Glass>();
+                    glass.transform.parent = _customer.transform;
+                    glass.transform.position = _customer.transform.position;
+                    if (glass._isDirty)
+                    {
+                        LevelManager.Instance.Happiness -= 10;
+                    }
+                    else
+                    {
+                        LevelManager.Instance.Happiness += 3;
+                    }
                 }
                 else if (_customer.Served(User.CurrentlyHeld))
                 {

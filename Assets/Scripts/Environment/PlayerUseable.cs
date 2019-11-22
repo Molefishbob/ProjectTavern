@@ -75,13 +75,14 @@ public abstract class PlayerUseable : MonoBehaviour, IUseable
         ClearInfo();
     }
 
-    private void ClearInfo()
+    protected void ClearInfo()
     {
         User = null;
     }
 
     protected void UpdateUser()
     {
+        print("ss");
         User.UpdateHeld();
         User.ClearUsable();
     }

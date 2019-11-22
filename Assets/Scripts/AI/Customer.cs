@@ -208,6 +208,18 @@ public class Customer : MonoBehaviour
         int orderRoll = Mathf.RoundToInt(Random.Range(0f, 20f) + LevelManager.Instance.Happiness / 10f);
         int passOutRoll = Mathf.RoundToInt(Random.Range(0f, 20f) + _drunknessPercentage / 10f);
         int leaveRoll = 0;
+
+        //if customer has a glass, do things
+        Glass glass = gameObject.GetComponentInChildren<Glass>();
+        if (glass != null)
+        {
+            glass.transform.parent = null;
+            glass.transform.position = transform.position + new Vector3(0, 0.3f, 0);
+            glass.GetComponent<CircleCollider2D>().enabled = true;
+            glass._isDirty = true;
+
+        }
+
         if (_drunknessPercentage > 20 && LevelManager.Instance.Happiness > 20)
         {
             leaveRoll = Mathf.RoundToInt(Random.Range(0f, 20f) + _drunknessPercentage / 10f);
