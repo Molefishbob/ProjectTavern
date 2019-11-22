@@ -28,6 +28,9 @@ namespace Managers
         [SerializeField]
         private PukePool _pukePoolPrefab = null;
         private PukePool _spawnedPukePool;
+        [SerializeField]
+        private GlassPool _glassPoolPrefab = null;
+        private GlassPool _spawnedGlassPool;
         private ScaledOneShotTimer _levelTimer;
         [SerializeField]
         private float _spawnInterval = 5;
@@ -93,6 +96,7 @@ namespace Managers
 
             _spawnedCustomerPool = Instantiate(_customerPoolPrefab);
             _spawnedPukePool = Instantiate(_pukePoolPrefab);
+            _spawnedGlassPool = Instantiate(_glassPoolPrefab);
             _tables = new List<TableInteractions>();
             _tables.AddRange(FindObjectsOfType<TableInteractions>());
             _queue = FindObjectOfType<Queue>();
@@ -170,6 +174,16 @@ namespace Managers
         public CleanableMess GetPuke()
         {
             return _spawnedPukePool.GetPooledObject();
+        }
+
+        /// <summary>
+        /// Returns a new glass from glass pool;
+        /// 
+        /// </summary>
+        /// <returns>Glass from glass pool</returns>
+        public Glass GetGlass()
+        {
+            return _spawnedGlassPool.GetPooledObject();
         }
 
         /// <summary>

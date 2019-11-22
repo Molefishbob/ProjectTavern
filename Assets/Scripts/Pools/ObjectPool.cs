@@ -9,6 +9,7 @@ public abstract class ObjectPoolT<T> : MonoBehaviour where T : MonoBehaviour
     [SerializeField]
     protected int _poolSize = 10;
     private List<T> _pool;
+    public bool _willGrow = true;
 
     private void Awake()
     {
@@ -43,7 +44,7 @@ public abstract class ObjectPoolT<T> : MonoBehaviour where T : MonoBehaviour
             }
         }
 
-        if (result == null)
+        if (result == null && _willGrow)
         {
             result = InstantiateObject();
         }
