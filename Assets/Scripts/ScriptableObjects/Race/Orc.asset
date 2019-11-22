@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d29aa3891a11624ebcd62b1e7c306b1, type: 3}
   m_Name: Orc
   m_EditorClassIdentifier: 
-  _aiActions: []
+  _aiBehaviours: []
   MaxAlcoholTolerance: 10
   MinAlcoholTolerance: 0
   _race: 4
   _alcoholTolerance: 6
   _agressiveness: 9
-  _preferredBeverage: 6
+  _preferredBeverage: 3

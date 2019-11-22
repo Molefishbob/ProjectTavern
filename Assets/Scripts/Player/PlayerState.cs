@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using System.Linq;
 using static Managers.BeverageManager;
+using UnityEngine.InputSystem;
 
 public class PlayerState : MonoBehaviour
 {
@@ -13,7 +14,8 @@ public class PlayerState : MonoBehaviour
         Nothing = 0,
         Drink = 1,
         Food = 2,
-        Corpse = 3
+        Corpse = 3,
+        Glass = 4
     }
     #endregion
 
@@ -75,6 +77,11 @@ public class PlayerState : MonoBehaviour
         {
             _actionBar.SetActive(false);
         }
+
+        if (Input.GetKeyDown(KeyCode.Alpha0))
+        {
+            Managers.GameManager.Instance.ChangeToMainMenu();
+        }
     }
 
     #endregion
@@ -130,7 +137,6 @@ public class PlayerState : MonoBehaviour
         else
         {
             _heldText.text = CurrentlyHeld.ToString()[0] + "";
-
             if (HeldDrink != Beverage.None)
                 _heldText.text += "\\" + HeldDrink.ToString()[0] + HeldDrink.ToString()[1];
         }
@@ -150,7 +156,7 @@ public class PlayerState : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "PlayerUsable" && UseableObject == null)
+        if (collision.gameObject.tag == "PlayerUsable" && UseableObject == null && collision.gameObject.transform.parent != gameObject)
         {
             UseableObject = collision.GetComponent<PlayerUseable>();
         }
@@ -158,7 +164,7 @@ public class PlayerState : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "PlayerUsable" && collision.GetComponent<PlayerUseable>() == UseableObject)
+        if (collision.gameObject.tag == "PlayerUsable" && collision.GetComponent<PlayerUseable>() == UseableObject && collision.gameObject.transform.parent != gameObject)
         {
             if (UseableObject.IsBeingUsed && UseableObject.User == this)
             {

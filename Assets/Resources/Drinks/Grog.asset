@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5e5484a998a93642b0a9cc474dd9c18, type: 3}
   m_Name: Grog
   m_EditorClassIdentifier: 
-  _drink: 8
-  _alcoholContent: 55
-  _price: 8
+  _drink: 9
+  _ingredients: 01000000020000000300000006000000
+  _alcoholContent: 50
+  _price: 20
   _amountOfUses: 10

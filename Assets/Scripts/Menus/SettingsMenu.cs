@@ -18,6 +18,9 @@ public class SettingsMenu : MonoBehaviour
         _masterSlider.value = SerializationManager.LoadedSettings.Volume.Master;
         _sfxSlider.value = SerializationManager.LoadedSettings.Volume.SFX;
         _musicSlider.value = SerializationManager.LoadedSettings.Volume.Music;
+        _masterMute.isOn = SerializationManager.LoadedSettings.Volume.MasterMute;
+        _sfxMute.isOn = SerializationManager.LoadedSettings.Volume.SFXMute;
+        _musicMute.isOn = SerializationManager.LoadedSettings.Volume.MusicMute;
     }
 
     //TODO: serialize current settings data
@@ -30,21 +33,25 @@ public class SettingsMenu : MonoBehaviour
     public void MasterVolumeChange()
     {
         float sliderValue = _masterSlider.value;
-        _audioMixer.SetFloat("masterVol", Mathf.Log10(sliderValue) * 20);
+        if (!_masterMute.isOn)
+            _audioMixer.SetFloat("masterVol", Mathf.Log10(sliderValue) * 20);
         SerializationManager.LoadedSettings.Volume.Master = _masterSlider.value;
     }
 
     public void SFXVolumeChange()
     {
         float sliderValue = _sfxSlider.value;
-        _audioMixer.SetFloat("sfxVol", Mathf.Log10(sliderValue) * 20);
+        if (!_sfxMute.isOn)
+            _audioMixer.SetFloat("sfxVol", Mathf.Log10(sliderValue) * 20);
         SerializationManager.LoadedSettings.Volume.SFX = _sfxSlider.value;
     }
 
     public void MusicVolumeChange()
     {
         float sliderValue = _musicSlider.value;
-        _audioMixer.SetFloat("musicVol", Mathf.Log10(sliderValue) * 20);
+        if (!_musicMute.isOn)
+            _audioMixer.SetFloat("musicVol", Mathf.Log10(sliderValue) * 20);
+
         SerializationManager.LoadedSettings.Volume.Music = _musicSlider.value;
     }
 

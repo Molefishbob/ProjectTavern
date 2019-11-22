@@ -26,6 +26,10 @@ namespace GameInput
         private List<PlayerMovement> _activePlayers = new List<PlayerMovement>();
         private PlayerMovement _playerPrefab = null;
 
+        public List<int> InUseControllers = new List<int>();
+
+        public static bool DoesExist { get => _instance != null; }
+
         private void Start()
         {
             if (_instance == null)
@@ -42,7 +46,9 @@ namespace GameInput
         private void Init()
         {
             DontDestroyOnLoad(gameObject);
-            
+
+            UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoaded;
+
             if (_playerPrefab == null)
             {
                 _playerPrefab = Resources.Load<PlayerMovement>("Test_Player");
@@ -63,6 +69,23 @@ namespace GameInput
 
             Initialized = true;
             Debug.Log("Control Manager Initialized");
+        }
+
+        private void OnDestroy()
+        {
+            if (_instance == this)
+                UnityEngine.SceneManagement.SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
+
+        private void OnSceneLoaded(UnityEngine.SceneManagement.Scene Scene, UnityEngine.SceneManagement.LoadSceneMode Loadmode)
+        {
+            if (Scene.name.ToLower().Contains("level"))
+            {
+                foreach (int active in InUseControllers)
+                {
+                    AddPlayer(active);
+                }
+            }
         }
 
         /// <summary>
@@ -91,6 +114,27 @@ namespace GameInput
             _activePlayers.Add(tmp);
 
             tmp.SetDevice(deviceID, device);
+        }
+
+        public void RemoveInActivePlayers()
+        {
+            for (int i = 0; i < _activePlayers.Count; i++)
+            {
+                if (_activePlayers[i].DeviceID == 0)
+                {
+                    Destroy(_activePlayers[i].gameObject);
+                    _activePlayers[i] = null;
+                }
+            }
+
+            InUseControllers.RemoveAll(t => t == 0);
+            _activePlayers.RemoveAll(t => t == null);
+        }
+
+        public void RemovePlayer(int deviceID)
+        {
+            _activePlayers.RemoveAll(t => t.DeviceID == deviceID);
+            InUseControllers.RemoveAll(t => t == deviceID);
         }
 
         /// <summary>
@@ -129,6 +173,20 @@ namespace GameInput
                             break;
                         }
                     }
+
+                    for (int i = 0; i < InUseControllers.Count; i++)
+                    {
+                        if (InUseControllers[i] == 0)
+                        {
+                            InUseControllers[i] = device.deviceId;
+                            break;
+                        }
+                    }
+
+                    if (!InUseControllers.Contains(0) && !Managers.GameManager.Instance.MenuActive && Managers.GameManager.Instance.GamePaused)
+                    {
+                        Managers.GameManager.Instance.UnPauseGame();
+                    }
                     break;
 
                 // Going to use removed, if the device is for some reason removed in runtime
@@ -142,12 +200,31 @@ namespace GameInput
                             item.StopMovement();
                         }
                     }
+
+                    // ToDo: Add someway to gamemanager to know that the pause was called because of
+                    //       Controller disconnect.
+                    for (int i = 0; i < InUseControllers.Count; i++)
+                    {
+                        if (InUseControllers[i] == device.deviceId)
+                        {
+                            InUseControllers[i] = 0;
+                            if (!Managers.GameManager.Instance.GamePaused && !Managers.GameManager.Instance.MenuActive)
+                            {
+                                Managers.GameManager.Instance.PauseGame();
+                            }
+                        }
+                    }
                     break;
 
                 case InputDeviceChange.Disconnected:
                     break;
                 case InputDeviceChange.Reconnected:
                     break;
+            }
+
+            if (DisconnectHandler.Instance != null)
+            {
+                DisconnectHandler.Instance.UpdatePlayers();
             }
         }
     }

@@ -17,7 +17,15 @@ public class TrashCan : PlayerUseable
 
     private void PutStuff()
     {
-        User.CurrentlyHeld = PlayerState.Holdables.Nothing;
+        if (User.CurrentlyHeld == PlayerState.Holdables.Glass)
+        {
+            User.GetComponentInChildren<Glass>().EmptyGlass();
+        }
+        else
+        {
+            User.CurrentlyHeld = PlayerState.Holdables.Nothing;
+        }
+
         User.HeldDrink = Managers.BeverageManager.Beverage.None;
     }
 }

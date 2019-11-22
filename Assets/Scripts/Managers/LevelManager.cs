@@ -8,22 +8,35 @@ namespace Managers
     {
         [SerializeField]
         [Range(-50, 50)]
-        private int _happiness = 50;
+        private int _happiness = 0;
         private int _currentMoney = 0;
         private int _tipsGained = 0;
         public int _moneyToWin = 1000;
         public float _playTime = 120f;
+        public event ValueChangedFloat OnHappinessChanged;
+        public event ValueChangedFloat OnMoneyChanged;
         private List<TableInteractions> _tables = null;
+        [SerializeField]
+        protected GetIngredient[] _barrels;
+        private List<Drink> _possibleDrinks = new List<Drink>();
         [SerializeField]
         private Transform _entrance = null, _exit = null;
         private int _maxQueueLength = 0;
         private Customer[] _customerQueue;
+        [SerializeField]
+        protected InGameUI _ui;
         [SerializeField]
         private CustomerPool _customerPoolPrefab = null;
         private CustomerPool _spawnedCustomerPool;
         [SerializeField]
         private PukePool _pukePoolPrefab = null;
         private PukePool _spawnedPukePool;
+        [SerializeField]
+        private GlassPool _glassPoolPrefab = null;
+        private GlassPool _spawnedGlassPool;
+        [SerializeField]
+        private SfxSoundPool _sfxSoundPoolPrefab = null;
+        private SfxSoundPool _spawnedSfxSoundPool;
         private ScaledOneShotTimer _levelTimer;
         [SerializeField]
         private float _spawnInterval = 5;
@@ -35,14 +48,86 @@ namespace Managers
         public List<TableInteractions> Tables { get { return _tables; } }
 
         public Customer[] CustomerQueue { get { return _customerQueue; } }
+        public List<Drink> PossibleDrinks { get; private set; }
 
         public Transform Entrance { get { return _entrance; } }
 
         public Transform Exit { get { return _exit; } }
 
-        public int CurrentMoney { get { return _currentMoney; } }
+        public float PlayTime { get { return _playTime; } }
+        public ScaledOneShotTimer LevelTime { get { return _levelTimer; } }
 
-        public int Happiness { get { return _happiness; } }
+        public int CurrentMoney
+        {
+            get
+            {
+                return _currentMoney;
+            }
+            set
+            {
+                _currentMoney = value;
+                OnMoneyChanged?.Invoke(_currentMoney);
+            }
+        }
+
+        public int Happiness
+        {
+            get
+            {
+                return _happiness;
+            }
+            set
+            {
+                _happiness = value;
+                OnHappinessChanged?.Invoke(_happiness);
+            }
+        }
+
+        private void OnValidate()
+        {
+            GetIngredient[] barr = FindObjectsOfType<GetIngredient>();
+
+            bool hasChanged = false;
+            for (int a = 0; a < _barrels.Length && !hasChanged; a++)
+            {
+                if (_barrels.Length != barr.Length)
+                {
+                    hasChanged = true;
+                    Debug.Log("Barrel list updated");
+                    break;
+                }
+                bool old = false;
+                for (int b = 0; b < barr.Length; b++)
+                {
+                    if (_barrels[a] == barr[b])
+                    {
+                        old = true;
+                    }
+                }
+                if (!old)
+                {
+                    Debug.Log("Barrel list updated");
+                    break;
+                }
+            }
+            for (int a = 0; a < barr.Length && !hasChanged; a++)
+            {
+                bool isss = false;
+                for (int b = 0; b < _barrels.Length; b++)
+                {
+                    if (barr[a] == _barrels[b])
+                    {
+                        isss = true;
+                    }
+                }
+                if (!isss)
+                {
+                    Debug.Log("Barrel list updated");
+                    break;
+                }
+            }
+            _barrels = barr;
+        }
 
         public static LevelManager Instance;
 
@@ -61,9 +146,11 @@ namespace Managers
             {
                 Destroy(gameObject);
             }
-            
+
             _spawnedCustomerPool = Instantiate(_customerPoolPrefab);
             _spawnedPukePool = Instantiate(_pukePoolPrefab);
+            _spawnedGlassPool = Instantiate(_glassPoolPrefab);
+            _spawnedSfxSoundPool = Instantiate(_sfxSoundPoolPrefab);
             _tables = new List<TableInteractions>();
             _tables.AddRange(FindObjectsOfType<TableInteractions>());
             _queue = FindObjectOfType<Queue>();
@@ -100,6 +187,8 @@ namespace Managers
             _levelTimer.StartTimer(_playTime);
             _maxQueueLength = _queue.QueueLength;
             _customerQueue = new Customer[_maxQueueLength];
+            GetAvailableDrinks();
+            StartLevel();
         }
 
         private void Update()
@@ -108,6 +197,75 @@ namespace Managers
             {
                 AIManager.Instance.StartSpawning(_spawnInterval, _spawnOffset);
             }
+        }
+
+        private void GetAvailableDrinks()
+        {
+            List<IngredientManager.DrinkIngredient> ingredients = new List<IngredientManager.DrinkIngredient>();
+            List<Drink> drinks = new List<Drink>();
+            foreach (GetIngredient barrel in _barrels)
+            {
+                ingredients.Add(barrel._ingredient);
+            }
+
+            foreach (Drink drink in Resources.LoadAll<Drink>("Drinks"))
+            {
+                drinks.Add(drink);
+            }
+
+            for (int a = 0; a < drinks.Count; a++)
+            {
+                int count = 0;
+                for (int b = 0; b < drinks[a]._ingredients.Count; b++)
+                {
+                    for (int c = 0; c < ingredients.Count; c++)
+                    {
+                        if (drinks[a]._ingredients[b] == ingredients[c])
+                        {
+                            count++;
+                        }
+                    }
+                }
+                if (count == drinks[a]._ingredients.Count) _possibleDrinks.Add(drinks[a]);
+            }
+        }
+
+        /// <summary>
+        /// Checks if the given beverage is possible to make in the level.
+        /// </summary>
+        /// <param name="bev">The given beverage</param>
+        /// <returns>True if possible to make, false if not.</returns>
+        public bool BeverageAvailable(BeverageManager.Beverage bev)
+        {
+            foreach (Drink drink in _possibleDrinks)
+            {
+                if (drink._drink == bev) return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Checks if the given Drink is possible to make in the level.
+        /// </summary>
+        /// <param name="bev">The given drink</param>
+        /// <returns>True if possible to make, false if not.</returns>
+        public bool BeverageAvailable(Drink bev)
+        {
+            foreach (Drink drink in _possibleDrinks)
+            {
+                if (drink._drink == bev._drink) return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Gives a random drink that is possible to make in the level.
+        /// </summary>
+        /// <returns></returns>
+        public Drink RandomPossibleDrink()
+        {
+            int ran = Random.Range(0, _possibleDrinks.Count);
+            return _possibleDrinks[ran];
         }
 
         public void StartLevel()
@@ -143,6 +301,25 @@ namespace Managers
         }
 
         /// <summary>
+        /// Used to play any sfx sound in level
+        /// </summary>
+        /// <returns>Returns a reference to the sfx soundplayer</returns>
+        public SFXSound GetSfxPlayer()
+        {
+            return _spawnedSfxSoundPool.GetPooledObject();
+        }
+
+        /// <summary>
+        /// Returns a new glass from glass pool;
+        /// 
+        /// </summary>
+        /// <returns>Glass from glass pool</returns>
+        public Glass GetGlass()
+        {
+            return _spawnedGlassPool.GetPooledObject();
+        }
+
+        /// <summary>
         /// Calculates the earned money from selling a drink.
         /// 
         /// Earned money is increased or decreased by tip depending on customer happiness.
@@ -151,14 +328,15 @@ namespace Managers
         public void ItemSold(Drink drink)
         {
             int price = drink._price;
-            int tip = Mathf.RoundToInt((float) drink._price * ((float) _happiness / 100f));
+            int tip = Mathf.RoundToInt((float)drink._price * ((float)_happiness / 100f));
             _tipsGained += tip;
-            _currentMoney += price + tip;
+            CurrentMoney += price + tip;
 
             if (tip >= 0)
             {
                 Debug.Log("Money gained: " + price + " + " + tip);
-            } else
+            }
+            else
             {
                 Debug.Log("Money gained: " + price + " - " + tip);
             }
@@ -175,7 +353,7 @@ namespace Managers
             int price = 5; // TODO: Add food price somewhere
             int tip = Mathf.RoundToInt(price * (_happiness / 100));
             _tipsGained += tip;
-            _currentMoney += price + tip;
+            CurrentMoney += price + tip;
 
             if (tip >= 0)
             {

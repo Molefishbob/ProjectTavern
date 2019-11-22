@@ -533,6 +533,96 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Assinging",
+            "id": "bf025ba2-4546-42b7-a430-9132db0a5ee6",
+            "actions": [
+                {
+                    "name": "Assing",
+                    "type": "Button",
+                    "id": "03a41c60-b862-4222-b587-30d7632b9b19",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Start",
+                    "type": "Button",
+                    "id": "7dbac371-a9af-4e47-be83-3bcf7836d6b4",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "7ebda889-6b48-479f-86c8-6166dc606018",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Assing",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "17725ed1-2501-40fa-a103-70e1a1ac8ab6",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Assing",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9a36376e-c020-4b6d-aaee-72ce33876f4a",
+                    "path": "<Joystick>/trigger",
+                    "interactions": "Tap",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Assing",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7b8027f2-77c2-4239-8a7f-36c17831a4ab",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Start",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3d896199-76cc-4c0d-986c-396f610672f7",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Start",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6b8503c9-a184-4ed8-a9b0-2bc5dd411fe0",
+                    "path": "<Joystick>/trigger",
+                    "interactions": "SlowTap",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Start",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [
