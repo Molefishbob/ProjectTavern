@@ -85,8 +85,48 @@ namespace Managers
 
         private void OnValidate()
         {
-            _barrels = FindObjectsOfType<GetIngredient>();
-            Debug.Log("Barrel list updated");
+            GetIngredient[] barr = FindObjectsOfType<GetIngredient>();
+
+            bool hasChanged = false;
+            for (int a = 0; a < _barrels.Length && !hasChanged; a++)
+            {
+                if (_barrels.Length != barr.Length)
+                {
+                    hasChanged = true;
+                    Debug.Log("Barrel list updated");
+                    break;
+                }
+                bool old = false;
+                for (int b = 0; b < barr.Length; b++)
+                {
+                    if (_barrels[a] == barr[b])
+                    {
+                        old = true;
+                    }
+                }
+                if (!old)
+                {
+                    Debug.Log("Barrel list updated");
+                    break;
+                }
+            }
+            for (int a = 0; a < barr.Length && !hasChanged; a++)
+            {
+                bool isss = false;
+                for (int b = 0; b < _barrels.Length; b++)
+                {
+                    if (barr[a] == _barrels[b])
+                    {
+                        isss = true;
+                    }
+                }
+                if (!isss)
+                {
+                    Debug.Log("Barrel list updated");
+                    break;
+                }
+            }
+            _barrels = barr;
         }
 
         public static LevelManager Instance;
