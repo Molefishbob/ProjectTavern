@@ -1,24 +1,41 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 using static Managers.IngredientManager;
 
 public class GetIngredient : PlayerUseable
 {
 
     public DrinkIngredient _ingredient;
+    private TextMeshProUGUI _ingredientText = null;
 
     protected override void Awake()
     {
         base.Awake();
         _requiresEmptyHands = false;
         _timer.OnTimerCompleted += TakeIngredient;
+        _ingredientText = GetComponentInChildren<TextMeshProUGUI>();
+    }
+
+    protected override void Start()
+    {
+        ShowIngredient();
     }
     protected override void OnDestroy()
     {
         base.OnDestroy();
         _timer.OnTimerCompleted -= TakeIngredient;
     }
+
+    /// <summary>
+    /// Visually shows what ingredient is in this game object
+    /// </summary>
+    private void ShowIngredient()
+    {
+        _ingredientText.text = _ingredient.ToString().Substring(0,3);
+    }
+
     private void TakeIngredient()
     {
         if (User.CurrentlyHeld == PlayerState.Holdables.Glass)
