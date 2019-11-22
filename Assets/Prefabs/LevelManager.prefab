@@ -55,6 +55,8 @@ MonoBehaviour:
     type: 3}
   _glassPoolPrefab: {fileID: 8036932818226478615, guid: 4ec27ee9b8a6da54ca3a918cf37108bf,
     type: 3}
+  _sfxSoundPoolPrefab: {fileID: 6190611941213854895, guid: 0b6975b1d9ab9bd4e90c4ea60e35ed9f,
+    type: 3}
   _spawnInterval: 5
   _spawnOffset: 5
   _queue: {fileID: 0}
