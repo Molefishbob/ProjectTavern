@@ -354,15 +354,15 @@ namespace Managers
 
         public void TemporaryMute()
         {
-            _audio.SetMixerValue("masterVol", 0f);
+            _audio.SetMixerValue("masterVol", 0.0000000001f);
         }
 
         public void TemporaryMuteOff()
         {
             if (!SerializationManager.LoadedSettings.Volume.MasterMute)
                 _audio.SetMixerValue("masterVol", SerializationManager.LoadedSettings.Volume.Master);
-
-            _audio.SetMixerValue("masterVol", 0f);
+            else
+                _audio.SetMixerValue("masterVol", 0.0000000001f);
         }
 
         /// <summary>
