@@ -96,7 +96,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interactionTime: 2
-  _temperature: 0
+  _requiresEmptyHands: 1
+  _showProgressBar: 1
+  _temperature: 40
+  MiniumServeableTemp: 25
+  _baseTempTime: 5
+  _baseTempDrop: 5
+  _selfRenderer: {fileID: 1699035974941761068}
 --- !u!61 &2784459362610949071
 BoxCollider2D:
   m_ObjectHideFlags: 0
