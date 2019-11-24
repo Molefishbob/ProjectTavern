@@ -1,0 +1,17 @@
+Adobe After Effects v16.1.1 Windows 64 render log for project “Dwarf_02_Animations.aep”
+
+Rendering started on 24-Nov-19 at 4:52:58 PM
+
+  24-Nov-19 4:52:58 PM: Starting composition “Dwarf_02_Pickup_Drink”.
+
+  Output To: C:\Users\Lee\OneDrive - TUNI.fi\TAMK\Games Academy 1 Autumn 2019\Game Project\Tavern\Animation\Dwarf_02\Dwarf_02_Pickup_Drink\Dwarf_02_Pickup_Drink_[#####].png    24-Nov-19 4:53:00 PM: Finished composition “Dwarf_02_Pickup_Drink”.
+
+
+  24-Nov-19 4:53:00 PM: Starting composition “Dwarf_02_Drinking”.
+
+  Output To: C:\Users\Lee\OneDrive - TUNI.fi\TAMK\Games Academy 1 Autumn 2019\Game Project\Tavern\Animation\Dwarf_02\Dwarf_02_Drinking\Dwarf_02_Drinking_[#####].png    24-Nov-19 4:53:08 PM: Finished composition “Dwarf_02_Drinking”.
+
+
+  Total Time Elapsed: 10 Seconds
+Log closed on 24-Nov-19 at 4:53:08 PM
+
