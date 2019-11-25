@@ -410,10 +410,10 @@ namespace Managers
                     _customerQueue[0] = null;
                     for (int a = 0; a < _customerQueue.Length; a++)
                     {
-                        if (_customerQueue[i] == null && CustomerQueue.Length > 1)
+                        if (_customerQueue[a] == null && CustomerQueue.Length > 1 && a != _customerQueue.Length - 1)
                         {
-                            _customerQueue[i] = _customerQueue[i + 1];
-                            _customerQueue[i + 1] = null;
+                            _customerQueue[a] = _customerQueue[a + 1];
+                            _customerQueue[a + 1] = null;
                         }
 
                     }

@@ -20,6 +20,7 @@ public class PauseMenu : MonoBehaviour
             Destroy(gameObject);
         }
 
+        GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
         gameObject.SetActive(false);
     }
 

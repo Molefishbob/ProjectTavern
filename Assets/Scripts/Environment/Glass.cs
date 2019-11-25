@@ -46,6 +46,7 @@ public class Glass : PlayerUseable
     public void TakeGlass()
     {
         User.CurrentlyHeld = PlayerState.Holdables.Glass;
+        User.Glass = this;
         transform.parent = User.transform;
         transform.position = transform.parent.position + new Vector3(0, 0.4f, 0);
         gameObject.GetComponent<CircleCollider2D>().enabled = false;

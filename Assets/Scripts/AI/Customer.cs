@@ -32,6 +32,7 @@ public class Customer : MonoBehaviour
     protected MyOrder _order;
     protected Customer _fightOpponent;
     protected float _passOutDist;
+    protected Glass _glass;
     [SerializeField]
     private TMPro.TextMeshProUGUI _orderText = null;
     #endregion
@@ -244,10 +245,11 @@ public class Customer : MonoBehaviour
     /// </summary>
     /// <param name="drink">The drink being served</param>
     /// <returns>true if the correct drink, otherwise false</returns>
-    public bool Served(Drink drink)
+    public bool Served(Drink drink, Glass glass)
     {
         if (drink == null || drink._drink != _order._drinkOrder) return false;
 
+        _glass = glass;
         LevelManager.Instance.ItemSold(drink);
         _currentDrink = drink;
         _currentHoldable = Holdables.Drink;
@@ -298,6 +300,11 @@ public class Customer : MonoBehaviour
 
         if (_currentDrink == null || _sipsCount >= _currentDrink._amountOfUses)
         {
+            if (_glass != null)
+            {
+                _glass.EmptyGlass();
+                _glass = null;
+            }
             StopDrinking();
         }
         else
@@ -363,6 +370,7 @@ public class Customer : MonoBehaviour
     public void GetInLine(Transform trans)
     {
         _afterMoveState = State.Waiting;
+        print(trans.position);
         Move(trans.position);
     }
 

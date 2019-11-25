@@ -107,7 +107,7 @@ public class CustomerInteraction : PlayerUseable
             case Managers.AIManager.State.Ordered:
                 if (User.CurrentlyHeld == PlayerState.Holdables.Nothing) break;
 
-                if (_customer.Served(ConvertBeverageToDrink(User.HeldDrink)))
+                if (_customer.Served(ConvertBeverageToDrink(User.HeldDrink),User.Glass))
                 {
                     // TODO: Tell the customer to drink muchos alcohol
                     Debug.Log("CORRECTLY SERVED!");
