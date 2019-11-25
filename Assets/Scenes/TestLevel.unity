@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -237,46 +237,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 1410502107732118354, guid: c1b0a5cfe135bab4988b3cd49f487514,
-        type: 3}
-      propertyPath: m_textInfo.characterCount
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 1410502107732118354, guid: c1b0a5cfe135bab4988b3cd49f487514,
-        type: 3}
-      propertyPath: m_textInfo.wordCount
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1410502107732118354, guid: c1b0a5cfe135bab4988b3cd49f487514,
-        type: 3}
-      propertyPath: m_textInfo.lineCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1410502107732118354, guid: c1b0a5cfe135bab4988b3cd49f487514,
-        type: 3}
-      propertyPath: m_textInfo.pageCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1410502107732118354, guid: c1b0a5cfe135bab4988b3cd49f487514,
-        type: 3}
-      propertyPath: m_text
-      value: Main Menu
-      objectReference: {fileID: 0}
-    - target: {fileID: 1410502107732118354, guid: c1b0a5cfe135bab4988b3cd49f487514,
-        type: 3}
-      propertyPath: m_fontSize
-      value: 41.15
-      objectReference: {fileID: 0}
-    - target: {fileID: 1410502107732118354, guid: c1b0a5cfe135bab4988b3cd49f487514,
-        type: 3}
-      propertyPath: m_firstOverflowCharacterIndex
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1410502107732118354, guid: c1b0a5cfe135bab4988b3cd49f487514,
-        type: 3}
-      propertyPath: m_textInfo.spaceCount
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1410502109058707906, guid: c1b0a5cfe135bab4988b3cd49f487514,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -331,6 +291,46 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 1410502107732118354, guid: c1b0a5cfe135bab4988b3cd49f487514,
+        type: 3}
+      propertyPath: m_textInfo.characterCount
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1410502107732118354, guid: c1b0a5cfe135bab4988b3cd49f487514,
+        type: 3}
+      propertyPath: m_textInfo.wordCount
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1410502107732118354, guid: c1b0a5cfe135bab4988b3cd49f487514,
+        type: 3}
+      propertyPath: m_textInfo.lineCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1410502107732118354, guid: c1b0a5cfe135bab4988b3cd49f487514,
+        type: 3}
+      propertyPath: m_textInfo.pageCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1410502107732118354, guid: c1b0a5cfe135bab4988b3cd49f487514,
+        type: 3}
+      propertyPath: m_text
+      value: Main Menu
+      objectReference: {fileID: 0}
+    - target: {fileID: 1410502107732118354, guid: c1b0a5cfe135bab4988b3cd49f487514,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 41.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1410502107732118354, guid: c1b0a5cfe135bab4988b3cd49f487514,
+        type: 3}
+      propertyPath: m_firstOverflowCharacterIndex
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1410502107732118354, guid: c1b0a5cfe135bab4988b3cd49f487514,
+        type: 3}
+      propertyPath: m_textInfo.spaceCount
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c1b0a5cfe135bab4988b3cd49f487514, type: 3}
@@ -1979,46 +1979,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 1410502107732118354, guid: c1b0a5cfe135bab4988b3cd49f487514,
-        type: 3}
-      propertyPath: m_textInfo.characterCount
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 1410502107732118354, guid: c1b0a5cfe135bab4988b3cd49f487514,
-        type: 3}
-      propertyPath: m_textInfo.wordCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1410502107732118354, guid: c1b0a5cfe135bab4988b3cd49f487514,
-        type: 3}
-      propertyPath: m_textInfo.lineCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1410502107732118354, guid: c1b0a5cfe135bab4988b3cd49f487514,
-        type: 3}
-      propertyPath: m_textInfo.pageCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1410502107732118354, guid: c1b0a5cfe135bab4988b3cd49f487514,
-        type: 3}
-      propertyPath: m_text
-      value: Quit
-      objectReference: {fileID: 0}
-    - target: {fileID: 1410502107732118354, guid: c1b0a5cfe135bab4988b3cd49f487514,
-        type: 3}
-      propertyPath: m_fontSize
-      value: 41.15
-      objectReference: {fileID: 0}
-    - target: {fileID: 1410502107732118354, guid: c1b0a5cfe135bab4988b3cd49f487514,
-        type: 3}
-      propertyPath: m_firstOverflowCharacterIndex
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1410502107732118354, guid: c1b0a5cfe135bab4988b3cd49f487514,
-        type: 3}
-      propertyPath: m_textInfo.spaceCount
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1410502109058707906, guid: c1b0a5cfe135bab4988b3cd49f487514,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -2073,6 +2033,46 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 1410502107732118354, guid: c1b0a5cfe135bab4988b3cd49f487514,
+        type: 3}
+      propertyPath: m_textInfo.characterCount
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1410502107732118354, guid: c1b0a5cfe135bab4988b3cd49f487514,
+        type: 3}
+      propertyPath: m_textInfo.wordCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1410502107732118354, guid: c1b0a5cfe135bab4988b3cd49f487514,
+        type: 3}
+      propertyPath: m_textInfo.lineCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1410502107732118354, guid: c1b0a5cfe135bab4988b3cd49f487514,
+        type: 3}
+      propertyPath: m_textInfo.pageCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1410502107732118354, guid: c1b0a5cfe135bab4988b3cd49f487514,
+        type: 3}
+      propertyPath: m_text
+      value: Quit
+      objectReference: {fileID: 0}
+    - target: {fileID: 1410502107732118354, guid: c1b0a5cfe135bab4988b3cd49f487514,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 41.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1410502107732118354, guid: c1b0a5cfe135bab4988b3cd49f487514,
+        type: 3}
+      propertyPath: m_firstOverflowCharacterIndex
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1410502107732118354, guid: c1b0a5cfe135bab4988b3cd49f487514,
+        type: 3}
+      propertyPath: m_textInfo.spaceCount
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c1b0a5cfe135bab4988b3cd49f487514, type: 3}
@@ -3801,41 +3801,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 1410502107732118354, guid: c1b0a5cfe135bab4988b3cd49f487514,
-        type: 3}
-      propertyPath: m_textInfo.characterCount
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 1410502107732118354, guid: c1b0a5cfe135bab4988b3cd49f487514,
-        type: 3}
-      propertyPath: m_textInfo.wordCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1410502107732118354, guid: c1b0a5cfe135bab4988b3cd49f487514,
-        type: 3}
-      propertyPath: m_textInfo.lineCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1410502107732118354, guid: c1b0a5cfe135bab4988b3cd49f487514,
-        type: 3}
-      propertyPath: m_textInfo.pageCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1410502107732118354, guid: c1b0a5cfe135bab4988b3cd49f487514,
-        type: 3}
-      propertyPath: m_text
-      value: Settings
-      objectReference: {fileID: 0}
-    - target: {fileID: 1410502107732118354, guid: c1b0a5cfe135bab4988b3cd49f487514,
-        type: 3}
-      propertyPath: m_fontSize
-      value: 41.15
-      objectReference: {fileID: 0}
-    - target: {fileID: 1410502107732118354, guid: c1b0a5cfe135bab4988b3cd49f487514,
-        type: 3}
-      propertyPath: m_firstOverflowCharacterIndex
-      value: -1
-      objectReference: {fileID: 0}
     - target: {fileID: 1410502109058707906, guid: c1b0a5cfe135bab4988b3cd49f487514,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -3890,6 +3855,41 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 1410502107732118354, guid: c1b0a5cfe135bab4988b3cd49f487514,
+        type: 3}
+      propertyPath: m_textInfo.characterCount
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1410502107732118354, guid: c1b0a5cfe135bab4988b3cd49f487514,
+        type: 3}
+      propertyPath: m_textInfo.wordCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1410502107732118354, guid: c1b0a5cfe135bab4988b3cd49f487514,
+        type: 3}
+      propertyPath: m_textInfo.lineCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1410502107732118354, guid: c1b0a5cfe135bab4988b3cd49f487514,
+        type: 3}
+      propertyPath: m_textInfo.pageCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1410502107732118354, guid: c1b0a5cfe135bab4988b3cd49f487514,
+        type: 3}
+      propertyPath: m_text
+      value: Settings
+      objectReference: {fileID: 0}
+    - target: {fileID: 1410502107732118354, guid: c1b0a5cfe135bab4988b3cd49f487514,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 41.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1410502107732118354, guid: c1b0a5cfe135bab4988b3cd49f487514,
+        type: 3}
+      propertyPath: m_firstOverflowCharacterIndex
+      value: -1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c1b0a5cfe135bab4988b3cd49f487514, type: 3}
@@ -5909,12 +5909,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -100
-  m_Sprite: {fileID: 21300000, guid: ac8906a1a858a6945a5fc5878ebd0bf7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: da40b2c080313734ca80dc7cb58200cf, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
-  m_Size: {x: 17.24, y: 9.429285}
+  m_Size: {x: 17, y: 10}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -5928,7 +5928,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1135237630}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.192, y: 3.8549998, z: 2}
+  m_LocalPosition: {x: 0, y: 3.8549998, z: 2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -7020,41 +7020,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 1410502107732118354, guid: c1b0a5cfe135bab4988b3cd49f487514,
-        type: 3}
-      propertyPath: m_textInfo.characterCount
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 1410502107732118354, guid: c1b0a5cfe135bab4988b3cd49f487514,
-        type: 3}
-      propertyPath: m_textInfo.wordCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1410502107732118354, guid: c1b0a5cfe135bab4988b3cd49f487514,
-        type: 3}
-      propertyPath: m_textInfo.lineCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1410502107732118354, guid: c1b0a5cfe135bab4988b3cd49f487514,
-        type: 3}
-      propertyPath: m_textInfo.pageCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1410502107732118354, guid: c1b0a5cfe135bab4988b3cd49f487514,
-        type: 3}
-      propertyPath: m_text
-      value: Continue
-      objectReference: {fileID: 0}
-    - target: {fileID: 1410502107732118354, guid: c1b0a5cfe135bab4988b3cd49f487514,
-        type: 3}
-      propertyPath: m_fontSize
-      value: 41.15
-      objectReference: {fileID: 0}
-    - target: {fileID: 1410502107732118354, guid: c1b0a5cfe135bab4988b3cd49f487514,
-        type: 3}
-      propertyPath: m_firstOverflowCharacterIndex
-      value: -1
-      objectReference: {fileID: 0}
     - target: {fileID: 1410502109058707906, guid: c1b0a5cfe135bab4988b3cd49f487514,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -7109,6 +7074,41 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 1410502107732118354, guid: c1b0a5cfe135bab4988b3cd49f487514,
+        type: 3}
+      propertyPath: m_textInfo.characterCount
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1410502107732118354, guid: c1b0a5cfe135bab4988b3cd49f487514,
+        type: 3}
+      propertyPath: m_textInfo.wordCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1410502107732118354, guid: c1b0a5cfe135bab4988b3cd49f487514,
+        type: 3}
+      propertyPath: m_textInfo.lineCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1410502107732118354, guid: c1b0a5cfe135bab4988b3cd49f487514,
+        type: 3}
+      propertyPath: m_textInfo.pageCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1410502107732118354, guid: c1b0a5cfe135bab4988b3cd49f487514,
+        type: 3}
+      propertyPath: m_text
+      value: Continue
+      objectReference: {fileID: 0}
+    - target: {fileID: 1410502107732118354, guid: c1b0a5cfe135bab4988b3cd49f487514,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 41.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1410502107732118354, guid: c1b0a5cfe135bab4988b3cd49f487514,
+        type: 3}
+      propertyPath: m_firstOverflowCharacterIndex
+      value: -1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c1b0a5cfe135bab4988b3cd49f487514, type: 3}
