@@ -36,6 +36,7 @@ public class Customer : MonoBehaviour
     [SerializeField]
     private TMPro.TextMeshProUGUI _orderText = null;
     public GameObject _happyIndicator, _angryIndicator;
+    public TableInteractions _currentTable;
     #endregion
 
     #region Properties
@@ -215,15 +216,15 @@ public class Customer : MonoBehaviour
         int passOutRoll = Mathf.RoundToInt(Random.Range(0f, 20f) + _drunknessPercentage / 10f);
         int leaveRoll = 0;
 
-        //if customer has a glass, do things
-        Glass glass = gameObject.GetComponentInChildren<Glass>();
-        if (glass != null)
+        //if customer has a glass, puts it away
+        if (_glass != null)
         {
-            glass.transform.parent = null;
-            glass.transform.position = transform.position + new Vector3(0, 0.3f, 0);
-            glass.GetComponent<CircleCollider2D>().enabled = true;
-            glass._isDirty = true;
-
+            _glass.transform.parent = null;
+            //_glass.transform.position = transform.position + new Vector3(0, 0.3f, 0);
+            GetPlaceForGlass();
+            _glass.GetComponent<CircleCollider2D>().enabled = true;
+            _glass._isDirty = true;
+            _glass = null;
         }
 
         if (_drunknessPercentage > 20 && LevelManager.Instance.Happiness > 20)
@@ -243,6 +244,17 @@ public class Customer : MonoBehaviour
         else
             Leave(LevelManager.Instance.Exit);
 
+    }
+
+
+    private void GetPlaceForGlass()
+    {
+        for (int i = 0; i < _currentTable.GlassPlaces.Length; i++)
+        {
+            //TODO: see if place is empty and put glass there
+            if (_currentTable.GlassPlaces[i])
+                _glass.transform.position = _currentTable.GlassPlaces[i].position;
+        }
     }
 
     /// <summary>
@@ -308,7 +320,6 @@ public class Customer : MonoBehaviour
             if (_glass != null)
             {
                 _glass.EmptyGlass();
-                _glass = null;
             }
             StopDrinking();
         }
@@ -370,6 +381,7 @@ public class Customer : MonoBehaviour
     {
         _afterMoveState = State.Ordered;
         Move(trans.position);
+        _currentTable = trans.parent.GetComponent<TableInteractions>();
     }
 
     public void GetInLine(Transform trans)
@@ -384,6 +396,7 @@ public class Customer : MonoBehaviour
             LevelManager.Instance.GetTable(this).RemoveCustomer(this);
         _afterMoveState = State.None;
         Move(trans.position);
+        _currentTable = null;
     }
 
     private void AfterMoveActions()

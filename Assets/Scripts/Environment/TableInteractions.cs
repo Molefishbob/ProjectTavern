@@ -18,18 +18,20 @@ public class TableInteractions : AIUseable
     private int _freeSeatsCount;
     protected Transform[] _chairs;
     protected Customer[] _sitters;
+    private Transform[] _placesForGlasses;
     #endregion
 
     #region Properties
     public Transform[] Chairs { get => _chairs; }
     public Customer[] Sitters { get => _sitters; }
+    public Transform[] GlassPlaces { get { return _placesForGlasses; } }
     #endregion
 
     #region Unity Methods
     private void Awake()
     {
         _currentState = TableState.Empty;
-        _totalSeatsCount = transform.childCount;
+        _totalSeatsCount = transform.childCount -1;
         _chairs = new Transform[_totalSeatsCount];
         for (int a = 0; a < _totalSeatsCount; a++)
         {
@@ -37,6 +39,13 @@ public class TableInteractions : AIUseable
         }
         _freeSeatsCount = _totalSeatsCount;
         _sitters = new Customer[_totalSeatsCount];
+
+        Transform temp = transform.GetChild(transform.childCount - 1);
+        for(int i = 0; i < temp.childCount; i++)
+        {
+            _placesForGlasses[i] = temp.GetChild(i);
+        }
+        
     }
     #endregion
 
