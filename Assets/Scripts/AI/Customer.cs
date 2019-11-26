@@ -212,13 +212,13 @@ public class Customer : MonoBehaviour
 
         //if customer has a glass, do things
         Glass glass = gameObject.GetComponentInChildren<Glass>();
-        if (glass != null)
-        {
-            glass.transform.parent = null;
-            glass.transform.position = transform.position + new Vector3(0, 0.3f, 0);
-            glass.GetComponent<CircleCollider2D>().enabled = true;
-            glass._isDirty = true;
-
+        if (glass != null)
+        {
+            glass.transform.parent = null;
+            glass.transform.position = transform.position + new Vector3(0, 0.3f, 0);
+            glass.GetComponent<CircleCollider2D>().enabled = true;
+            glass._isDirty = true;
+
         }
 
         if (_drunknessPercentage > 20 && LevelManager.Instance.Happiness > 20)
@@ -300,10 +300,10 @@ public class Customer : MonoBehaviour
 
         if (_currentDrink == null || _sipsCount >= _currentDrink._amountOfUses)
         {
-            if (_glass != null)
-            {
-                _glass.EmptyGlass();
-                _glass = null;
+            if (_glass != null)
+            {
+                _glass.EmptyGlass();
+                _glass = null;
             }
             StopDrinking();
         }
