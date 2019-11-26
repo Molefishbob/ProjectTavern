@@ -13,7 +13,6 @@ public class LoadingScreen : MonoBehaviour
     {
         if (GameManager.Instance.LoadingScreen != null && GameManager.Instance.LoadingScreen != this.gameObject)
         {
-            print("kys");
             Destroy(gameObject);
         } else
         {

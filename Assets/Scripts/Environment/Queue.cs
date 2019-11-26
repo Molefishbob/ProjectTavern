@@ -49,7 +49,6 @@ public class Queue : AIUseable
     public void GoToQueue(Customer ai)
     {
         ai.GetInLine(_queueSpots[_queueLength - _freeSpots].transform);
-        print(_queueLength - _freeSpots);
         _queuedCustomers.Add(ai);
         _freeSpots--;
     }

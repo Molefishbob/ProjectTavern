@@ -370,7 +370,6 @@ public class Customer : MonoBehaviour
     public void GetInLine(Transform trans)
     {
         _afterMoveState = State.Waiting;
-        print(trans.position);
         Move(trans.position);
     }
 
