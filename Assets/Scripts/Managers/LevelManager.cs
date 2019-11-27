@@ -113,10 +113,10 @@ namespace Managers
                     break;
                 }
             }
-            for (int a = 0; a < barr.Length && !hasChanged; a++)
+            for (int a = 0;_barrels != null && a < barr.Length && !hasChanged; a++)
             {
                 bool isss = false;
-                for (int b = 0; b < _barrels.Length; b++)
+                for (int b = 0;b < _barrels.Length; b++)
                 {
                     if (barr[a] == _barrels[b])
                     {
@@ -129,6 +129,8 @@ namespace Managers
                     break;
                 }
             }
+
+            if (_barrels == null) Debug.Log("Barrel list updated");
             _barrels = barr;
         }
 
