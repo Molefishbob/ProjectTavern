@@ -48,7 +48,7 @@ namespace Managers
         public List<TableInteractions> Tables { get { return _tables; } }
 
         public Customer[] CustomerQueue { get { return _customerQueue; } }
-        public List<Drink> PossibleDrinks { get; private set; }
+        public List<Drink> PossibleDrinks => _possibleDrinks;
 
         public Transform Entrance { get { return _entrance; } }
 

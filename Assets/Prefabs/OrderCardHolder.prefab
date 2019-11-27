@@ -88,6 +88,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00c3b338138a63746a54d414418b54c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _indgredientbBlocks:
+  - {fileID: 4403451305042432004}
+  - {fileID: 4403451305394323392}
+  - {fileID: 4403451305991008835}
+  - {fileID: 4403451304513393548}
+  _ingredientText:
+  - {fileID: 4403451306266368680}
+  - {fileID: 4403451306376978761}
+  - {fileID: 4403451304898647491}
+  - {fileID: 4403451306147894004}
+  _drinkText: {fileID: 4403451305270100059}
 --- !u!1 &4403451304513393548
 GameObject:
   m_ObjectHideFlags: 0

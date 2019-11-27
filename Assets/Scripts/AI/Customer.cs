@@ -108,6 +108,7 @@ public class Customer : MonoBehaviour
     #endregion
 
     #region Struct
+    [System.Serializable]
     public struct MyOrder
     {
         public Holdables _order;
@@ -144,7 +145,6 @@ public class Customer : MonoBehaviour
     /// Decides on a drink to order and informs it
     /// visually to the player.
     /// </summary>
-    /// <returns>The ordered beverage</returns>
     public void Order()
     {
         Beverage drinkOrder = Beverage.None;
@@ -171,6 +171,7 @@ public class Customer : MonoBehaviour
         }
         _currentState = State.Ordered;
         _order = new MyOrder(foodOrder, drinkOrder);
+        Managers.OrderCardManager.Instance.AddCard(_order, null, false);
     }
 
     /// <summary>
@@ -195,6 +196,8 @@ public class Customer : MonoBehaviour
 
         if (_currentState == State.Fighting)
             _orderText.text = "Bullied!";
+
+        Managers.OrderCardManager.Instance.RemoveCard(_order);
     }
 
     /// <summary>
@@ -249,6 +252,7 @@ public class Customer : MonoBehaviour
     {
         if (drink == null || drink._drink != _order._drinkOrder) return false;
 
+        Managers.OrderCardManager.Instance.RemoveCard(_order);
         _glass = glass;
         LevelManager.Instance.ItemSold(drink);
         _currentDrink = drink;
