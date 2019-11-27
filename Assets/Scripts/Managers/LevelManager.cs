@@ -20,6 +20,8 @@ namespace Managers
         private List<Customer> _passedOut = new List<Customer>();
         private List<TableInteractions> _tables = null;
         [SerializeField]
+        protected int _cleanlinessHappinessMod = 5, _fighthappinessMod = 5, _difficulty = 2;
+        [SerializeField]
         protected GetIngredient[] _barrels;
         private List<Drink> _possibleDrinks = new List<Drink>();
         [SerializeField]
@@ -79,7 +81,7 @@ namespace Managers
             }
             set
             {
-                _happiness = Mathf.Clamp(value,-50,50);
+                _happiness = Mathf.Clamp(value, -50, 50);
                 OnHappinessChanged?.Invoke(_happiness);
             }
         }
@@ -113,10 +115,10 @@ namespace Managers
                     break;
                 }
             }
-            for (int a = 0;_barrels != null && a < barr.Length && !hasChanged; a++)
+            for (int a = 0; _barrels != null && a < barr.Length && !hasChanged; a++)
             {
                 bool isss = false;
-                for (int b = 0;b < _barrels.Length; b++)
+                for (int b = 0; b < _barrels.Length; b++)
                 {
                     if (barr[a] == _barrels[b])
                     {
@@ -200,10 +202,10 @@ namespace Managers
 
         private void CheckHappinessModifier()
         {
-            int fightMod = AIManager.Instance.SearchForFighters() * 5;
-            if (fightMod == 0) fightMod = -5;
-            int cleanliness = _passedOut.Count + _pukeAmount + _glassTables.Count * 5;
-            if (cleanliness == 0) cleanliness = -5;
+            int fightMod = AIManager.Instance.SearchForFighters() * _fighthappinessMod;
+            if (fightMod == 0) fightMod = -(_fighthappinessMod / _difficulty);
+            int cleanliness = _passedOut.Count + _pukeAmount + _glassTables.Count * _cleanlinessHappinessMod;
+            if (cleanliness == 0) cleanliness = -(_cleanlinessHappinessMod / _difficulty);
             int temp = fightMod + cleanliness;
             Debug.Log("happiness changed! " + -temp);
             Happiness -= temp;
@@ -324,7 +326,7 @@ namespace Managers
         /// <param name="table">The table</param>
         public void GlassSpotsFull(TableInteractions table)
         {
-            foreach(TableInteractions i in _glassTables)
+            foreach (TableInteractions i in _glassTables)
             {
                 if (table == i)
                 {
@@ -340,9 +342,9 @@ namespace Managers
         /// <param name="table">The table</param>
         public void RemoveGlassTable(TableInteractions table)
         {
-            foreach(TableInteractions i in _glassTables)
+            foreach (TableInteractions i in _glassTables)
             {
-                if(table == i)
+                if (table == i)
                 {
                     _glassTables.Remove(i);
                     return;
