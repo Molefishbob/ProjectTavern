@@ -35,6 +35,7 @@ public class Customer : MonoBehaviour
     protected Glass _glass;
     [SerializeField]
     private TMPro.TextMeshProUGUI _orderText = null;
+    public GameObject _happyIndicator, _angryIndicator;
     #endregion
 
     #region Properties
@@ -190,6 +191,10 @@ public class Customer : MonoBehaviour
     /// <param name="newState"></param>
     public void ChangeState(State newState)
     {
+        if (_currentState == State.Moving)
+        {
+            _afterMoveState = newState;
+        }
         _currentState = newState;
         if (_drinkTimer.IsRunning)
             _drinkTimer.StopTimer();

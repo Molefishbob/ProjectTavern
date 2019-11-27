@@ -116,8 +116,15 @@ public class CustomerInteraction : PlayerUseable
                     Glass glass = User.GetComponentInChildren<Glass>();
                     glass.transform.parent = _customer.transform;
                     glass.transform.position = _customer.transform.position;
+
+                    if(_customer._happyIndicator != null)
+                    {
+                        _customer._happyIndicator.SetActive(true);
+                    }
+
                     if (glass._isDirty)
                     {
+                        
                         LevelManager.Instance.Happiness -= 10;
                     }
                     else
@@ -130,11 +137,20 @@ public class CustomerInteraction : PlayerUseable
                     // TODO: Tell the customer to drink muchos alcohol
                     Debug.Log("CORRECTLY SERVED FOOD!");
                     User.CurrentlyHeld = PlayerState.Holdables.Nothing;
+                    if (_customer._happyIndicator != null)
+                    {
+                        _customer._happyIndicator.SetActive(true);
+                    }
                 }
                 else
                 {
                     // TODO: Lower happiness and other stuff
                     Debug.Log("INCORRECTLY SERVED!");
+                    LevelManager.Instance.Happiness -= 10;
+                    if (_customer._angryIndicator != null)
+                    {
+                        _customer._angryIndicator.SetActive(true);
+                    }
                 }
                 break;
             default:

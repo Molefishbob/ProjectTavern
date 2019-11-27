@@ -15,6 +15,9 @@ namespace Managers
         public float _playTime = 120f;
         public event ValueChangedFloat OnHappinessChanged;
         public event ValueChangedFloat OnMoneyChanged;
+        private int _pukeAmount = 0;
+        private List<TableInteractions> _glassTables = new List<TableInteractions>();
+        private List<Customer> _passedOut = new List<Customer>();
         private List<TableInteractions> _tables = null;
         [SerializeField]
         protected GetIngredient[] _barrels;
@@ -39,6 +42,9 @@ namespace Managers
         private SfxSoundPool _spawnedSfxSoundPool;
         private ScaledOneShotTimer _levelTimer;
         [SerializeField]
+        protected float _happInterval = 10f;
+        private ScaledRepeatingTimer _conHappinessTimer;
+        [SerializeField]
         private float _spawnInterval = 5;
         [SerializeField]
         private float _spawnOffset = 5;
@@ -46,17 +52,14 @@ namespace Managers
         public Queue _queue;
 
         public List<TableInteractions> Tables { get { return _tables; } }
-
+        public int PukeAmount { get { return _pukeAmount; } set { _pukeAmount = Mathf.Clamp(value, 0, 255); } }
         public Customer[] CustomerQueue { get { return _customerQueue; } }
         public List<Drink> PossibleDrinks => _possibleDrinks;
 
         public Transform Entrance { get { return _entrance; } }
-
         public Transform Exit { get { return _exit; } }
-
         public float PlayTime { get { return _playTime; } }
         public ScaledOneShotTimer LevelTime { get { return _levelTimer; } }
-
         public int CurrentMoney
         {
             get
@@ -69,7 +72,6 @@ namespace Managers
                 OnMoneyChanged?.Invoke(_currentMoney);
             }
         }
-
         public int Happiness
         {
             get
@@ -78,7 +80,7 @@ namespace Managers
             }
             set
             {
-                _happiness = value;
+                _happiness = Mathf.Clamp(value,-50,50);
                 OnHappinessChanged?.Invoke(_happiness);
             }
         }
@@ -87,8 +89,10 @@ namespace Managers
         {
             GetIngredient[] barr = FindObjectsOfType<GetIngredient>();
 
+            if (barr == null) return;
+
             bool hasChanged = false;
-            for (int a = 0; a < _barrels.Length && !hasChanged; a++)
+            for (int a = 0; _barrels != null && a < _barrels.Length && !hasChanged; a++)
             {
                 if (_barrels.Length != barr.Length)
                 {
@@ -110,10 +114,10 @@ namespace Managers
                     break;
                 }
             }
-            for (int a = 0; a < barr.Length && !hasChanged; a++)
+            for (int a = 0;_barrels != null && a < barr.Length && !hasChanged; a++)
             {
                 bool isss = false;
-                for (int b = 0; b < _barrels.Length; b++)
+                for (int b = 0;b < _barrels.Length; b++)
                 {
                     if (barr[a] == _barrels[b])
                     {
@@ -126,6 +130,8 @@ namespace Managers
                     break;
                 }
             }
+
+            if (_barrels == null) Debug.Log("Barrel list updated");
             _barrels = barr;
         }
 
@@ -173,22 +179,35 @@ namespace Managers
                 Debug.LogError("No Exit found.");
             }
             _levelTimer = gameObject.AddComponent<ScaledOneShotTimer>();
-            _levelTimer.OnTimerCompleted += EndLevel;
+            _conHappinessTimer = gameObject.AddComponent<ScaledRepeatingTimer>();
 
         }
 
         private void OnDestroy()
         {
             _levelTimer.OnTimerCompleted -= EndLevel;
+            _conHappinessTimer.OnTimerCompleted -= CheckHappinessModifier;
         }
 
         private void Start()
         {
-            _levelTimer.StartTimer(_playTime);
             _maxQueueLength = _queue.QueueLength;
             _customerQueue = new Customer[_maxQueueLength];
+            _conHappinessTimer.OnTimerCompleted += CheckHappinessModifier;
+            _levelTimer.OnTimerCompleted += EndLevel;
             GetAvailableDrinks();
             StartLevel();
+        }
+
+        private void CheckHappinessModifier()
+        {
+            int fightMod = AIManager.Instance.SearchForFighters() * 5;
+            if (fightMod == 0) fightMod = -5;
+            int cleanliness = _passedOut.Count + _pukeAmount + _glassTables.Count * 5;
+            if (cleanliness == 0) cleanliness = -5;
+            int temp = fightMod + cleanliness;
+            Debug.Log("happiness changed! " + -temp);
+            Happiness -= temp;
         }
 
         private void Update()
@@ -268,9 +287,76 @@ namespace Managers
             return _possibleDrinks[ran];
         }
 
+        /// <summary>
+        /// Adds the passed out customer to affect happiness
+        /// </summary>
+        /// <param name="cus">The customer</param>
+        public void AddPassedOut(Customer cus)
+        {
+            foreach (Customer ai in _passedOut)
+            {
+                if (ai == cus)
+                {
+                    return;
+                }
+            }
+            _passedOut.Add(cus);
+        }
+
+        /// <summary>
+        /// Removes a passed out customer
+        /// </summary>
+        /// <param name="cus">The customer</param>
+        public void RemovePassedOut(Customer cus)
+        {
+            foreach (Customer ai in _passedOut)
+            {
+                if (ai == cus)
+                {
+                    _passedOut.Remove(ai);
+                    return;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Adds a table that has no spots for glasses left
+        /// </summary>
+        /// <param name="table">The table</param>
+        public void GlassSpotsFull(TableInteractions table)
+        {
+            foreach(TableInteractions i in _glassTables)
+            {
+                if (table == i)
+                {
+                    return;
+                }
+            }
+            _glassTables.Add(table);
+        }
+
+        /// <summary>
+        /// Removes a table that has spots for glasses
+        /// </summary>
+        /// <param name="table">The table</param>
+        public void RemoveGlassTable(TableInteractions table)
+        {
+            foreach(TableInteractions i in _glassTables)
+            {
+                if(table == i)
+                {
+                    _glassTables.Remove(i);
+                    return;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Does the necessary things to get the level going
+        /// </summary>
         public void StartLevel()
         {
-            // TODO: Start level timer
+            _conHappinessTimer.StartTimer(_happInterval);
             _levelTimer.StartTimer(_playTime);
             Debug.Log("Game time started");
         }
@@ -297,6 +383,7 @@ namespace Managers
         /// <returns>Puke from the puke pool</returns>
         public CleanableMess GetPuke()
         {
+            _pukeAmount++;
             return _spawnedPukePool.GetPooledObject();
         }
 
