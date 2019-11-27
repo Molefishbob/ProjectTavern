@@ -14,8 +14,8 @@ public class Customer : MonoBehaviour
     protected AIBehaviour _behaviour;
     [SerializeField, Range(0, 100), Tooltip("The percentage chance to take the preferred drink")]
     protected int _preferredDrinkChance = 85;
-    protected float _minDrinkFrequency = 5f;
-    protected float _maxDrinkFrequency = 10f;
+    protected float _minDrinkFrequency = 1f;
+    protected float _maxDrinkFrequency = 2f;
     protected Drink _currentDrink;
     protected Holdables _currentHoldable;
     protected int _sipsCount = 0;
@@ -94,7 +94,8 @@ public class Customer : MonoBehaviour
             // Easing out for nice stopping
             float t = _positionCorrectiontimer.NormalizedTimeElapsed;
             transform.position = Vector3.Lerp(_correctStartPos, _movePos, (--t) * t * t + 1);
-        } else if (CurrentState == State.PassedOut)
+        }
+        else if (CurrentState == State.PassedOut)
         {
             _positionCorrectiontimer.StopTimer();
         }
@@ -216,15 +217,10 @@ public class Customer : MonoBehaviour
         int passOutRoll = Mathf.RoundToInt(Random.Range(0f, 20f) + _drunknessPercentage / 10f);
         int leaveRoll = 0;
 
-        //if customer has a glass, puts it away
+        //if customer has a glass, puts it on table if there is room. If there is no room on table throws it away randomly 
         if (_glass != null)
         {
-            _glass.transform.parent = null;
-            //_glass.transform.position = transform.position + new Vector3(0, 0.3f, 0);
-            GetPlaceForGlass();
-            _glass.GetComponent<CircleCollider2D>().enabled = true;
-            _glass._isDirty = true;
-            _glass = null;
+            PutGlassAway();
         }
 
         if (_drunknessPercentage > 20 && LevelManager.Instance.Happiness > 20)
@@ -246,15 +242,85 @@ public class Customer : MonoBehaviour
 
     }
 
+    private void PutGlassAway()
+    {
+        _glass.transform.parent = null;
+        if (ThereIsRoom())
+        {
+            _glass.transform.position = GetPlaceForGlass().position;
+            AddGlassToTable(_glass);
+        }
+        else
+        {
+            _glass.transform.position = transform.position +  new Vector3(Random.Range(0.0f, 2.0f), Random.Range(0.0f, 2.0f), 0);
+            _glass.GetComponent<CircleCollider2D>().enabled = true;
+        }
+        _glass._isDirty = true;
+        _glass = null;
+    }
 
-    private void GetPlaceForGlass()
+    private void AddGlassToTable(Glass glass)
+    {
+        for (int i = 0; i < _currentTable.GlassesOnTable.Length; i++)
+        {
+            if (_currentTable.GlassesOnTable[i] == null)
+            {
+                _currentTable.GlassesOnTable[i] = glass;
+            }
+        }
+
+    }
+
+    private bool ThereIsRoom()
     {
         for (int i = 0; i < _currentTable.GlassPlaces.Length; i++)
         {
-            //TODO: see if place is empty and put glass there
-            if (_currentTable.GlassPlaces[i])
-                _glass.transform.position = _currentTable.GlassPlaces[i].position;
+            if (_currentTable.GlassPlaces[i] != null)
+            {
+                return true;
+            }
         }
+
+        return false;
+    }
+
+    private Transform GetPlaceForGlass()
+    {
+        float distance = 0;
+        Transform trans = null;
+
+        for (int i = 0; i < _currentTable.GlassPlaces.Length; i++)
+        {
+            Transform temp = null;
+            if (_currentTable.GlassPlaces[i] != null)
+            {
+                temp = _currentTable.GlassPlaces[i];
+            }
+
+            if (temp != null)
+            {
+                if (Vector3.Distance(temp.position, transform.position) < distance || distance == 0)
+                {
+                    distance = Vector3.Distance(temp.position, transform.position);
+                    trans = _currentTable.GlassPlaces[i];
+                }
+            }
+        }
+
+        for (int i = 0; i < _currentTable.GlassPlaces.Length; i++)
+        {
+            if (_currentTable.GlassPlaces[i] != null)
+            {
+                if (trans.position == _currentTable.GlassPlaces[i].position)
+                {
+                    _currentTable.GlassPlaces[i] = null;
+                    print(_currentTable.GlassPlaces.Length);
+                    break;
+                }
+            }
+        }
+
+        return trans;
     }
 
     /// <summary>
@@ -392,6 +458,10 @@ public class Customer : MonoBehaviour
 
     public void Leave(Transform trans)
     {
+        if(_glass != null)
+        {
+            PutGlassAway();
+        }
         if (_currentState != State.PassedOut)
             LevelManager.Instance.GetTable(this).RemoveCustomer(this);
         _afterMoveState = State.None;

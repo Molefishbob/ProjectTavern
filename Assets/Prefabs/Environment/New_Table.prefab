@@ -73,9 +73,11 @@ GameObject:
   - component: {fileID: 5784202046544276970}
   - component: {fileID: 4756767137584971801}
   - component: {fileID: 7870807480628341521}
+  - component: {fileID: 1986396376228516269}
+  - component: {fileID: 1049367072341504828}
   m_Layer: 8
   m_Name: New_Table
-  m_TagString: Untagged
+  m_TagString: PlayerUsable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -192,6 +194,58 @@ MonoBehaviour:
   _refreshRate: 5
   _offset: 0
   _renderer: {fileID: 0}
+--- !u!114 &1986396376228516269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1602150329316157618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10757b26fcd531b4bb213057895c7a25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _interactionTime: 0.2
+  _requiresEmptyHands: 1
+  _showProgressBar: 1
+--- !u!60 &1049367072341504828
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1602150329316157618}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.3351064, y: 1.3351064}
+    newSize: {x: 4.64, y: 4.2}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.2, y: -1}
+      - {x: -0.2, y: -1}
+      - {x: -0.32, y: -0.5}
+      - {x: -1, y: -0.35}
+      - {x: -1, y: -0.09}
+      - {x: -0.35, y: 0.05}
+      - {x: -0.2, y: 0.5}
+      - {x: 0.21, y: 0.5}
+      - {x: 0.4, y: 0.03}
+      - {x: 1, y: -0.1}
+      - {x: 1, y: -0.37}
+      - {x: 0.35, y: -0.5}
 --- !u!1 &1792517253915826840
 GameObject:
   m_ObjectHideFlags: 0
@@ -203,7 +257,6 @@ GameObject:
   - component: {fileID: 1031762650464827242}
   - component: {fileID: 2010281573465706510}
   - component: {fileID: 5164277151668131634}
-  - component: {fileID: 8971058300442455298}
   m_Layer: 8
   m_Name: New_Chair_R
   m_TagString: Untagged
@@ -289,22 +342,6 @@ MonoBehaviour:
   _refreshRate: 5
   _offset: 0
   _renderer: {fileID: 0}
---- !u!70 &8971058300442455298
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1792517253915826840}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.5, y: 0.5}
-  m_Direction: 1
 --- !u!1 &1844321327703084381
 GameObject:
   m_ObjectHideFlags: 0
@@ -346,7 +383,6 @@ GameObject:
   - component: {fileID: 3473743633571362218}
   - component: {fileID: 1090527070999197981}
   - component: {fileID: 5472079173107645403}
-  - component: {fileID: 3529107807083355582}
   m_Layer: 8
   m_Name: New_Chair_R (1)
   m_TagString: Untagged
@@ -432,22 +468,6 @@ MonoBehaviour:
   _refreshRate: 5
   _offset: 0
   _renderer: {fileID: 0}
---- !u!70 &3529107807083355582
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2731330740763922345}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.5, y: 0.5}
-  m_Direction: 1
 --- !u!1 &3335267264345546403
 GameObject:
   m_ObjectHideFlags: 0
@@ -459,7 +479,6 @@ GameObject:
   - component: {fileID: 6790357236649682311}
   - component: {fileID: 7732775083591198008}
   - component: {fileID: 8376374014043282614}
-  - component: {fileID: 7907357326527891085}
   m_Layer: 8
   m_Name: New_Chair_L
   m_TagString: Untagged
@@ -545,22 +564,6 @@ MonoBehaviour:
   _refreshRate: 5
   _offset: 0
   _renderer: {fileID: 0}
---- !u!70 &7907357326527891085
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3335267264345546403}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.5, y: 0.5}
-  m_Direction: 1
 --- !u!1 &3882195820533462907
 GameObject:
   m_ObjectHideFlags: 0
@@ -602,7 +605,6 @@ GameObject:
   - component: {fileID: 2613613409314476569}
   - component: {fileID: 9004217573200475407}
   - component: {fileID: 3673948846966562216}
-  - component: {fileID: 7390338594195721890}
   m_Layer: 8
   m_Name: New_Chair_L (1)
   m_TagString: Untagged
@@ -688,22 +690,6 @@ MonoBehaviour:
   _refreshRate: 5
   _offset: 0
   _renderer: {fileID: 0}
---- !u!70 &7390338594195721890
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5691716197684568124}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.5, y: 0.5}
-  m_Direction: 1
 --- !u!1 &5705200233291197108
 GameObject:
   m_ObjectHideFlags: 0
