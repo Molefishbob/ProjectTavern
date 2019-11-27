@@ -88,8 +88,10 @@ namespace Managers
         {
             GetIngredient[] barr = FindObjectsOfType<GetIngredient>();
 
+            if (barr == null) return;
+
             bool hasChanged = false;
-            for (int a = 0; a < _barrels.Length && !hasChanged; a++)
+            for (int a = 0; _barrels != null && a < _barrels.Length && !hasChanged; a++)
             {
                 if (_barrels.Length != barr.Length)
                 {
