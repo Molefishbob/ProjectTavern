@@ -42,6 +42,8 @@ namespace Managers
         [SerializeField]
         private SfxSoundPool _sfxSoundPoolPrefab = null;
         private SfxSoundPool _spawnedSfxSoundPool;
+        [SerializeField]
+        protected EndGameMenu _endGameMenu;
         private ScaledOneShotTimer _levelTimer;
         [SerializeField]
         protected float _happInterval = 10f;
@@ -58,6 +60,7 @@ namespace Managers
         public Customer[] CustomerQueue { get { return _customerQueue; } }
         public List<Drink> PossibleDrinks { get; private set; }
         public Transform Entrance { get { return _entrance; } }
+        public string LevelEndText { get; set; }
         public Transform Exit { get { return _exit; } }
         public float PlayTime { get { return _playTime; } }
         public ScaledOneShotTimer LevelTime { get { return _levelTimer; } }
@@ -364,7 +367,18 @@ namespace Managers
 
         private void EndLevel()
         {
-            //TODO: end level
+            if (_currentMoney >= _moneyToWin)
+            {
+                LevelEndText = "WIN";
+            }
+            else
+            {
+                LevelEndText = "LOS";
+            }
+            GameManager.Instance.PauseGame();
+            _conHappinessTimer.StopTimer();
+            _levelTimer.StopTimer();
+            _endGameMenu.gameObject.SetActive(true);
         }
 
         /// <summary>
