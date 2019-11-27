@@ -367,18 +367,22 @@ namespace Managers
 
         private void EndLevel()
         {
+            bool win = false;
             if (_currentMoney >= _moneyToWin)
             {
                 LevelEndText = "WIN";
+                win = true;
             }
             else
             {
+                win = false;
                 LevelEndText = "LOS";
             }
             GameManager.Instance.PauseGame();
             _conHappinessTimer.StopTimer();
             _levelTimer.StopTimer();
             _endGameMenu.gameObject.SetActive(true);
+            _endGameMenu.ContinueButtonSettings(win);
         }
 
         /// <summary>
