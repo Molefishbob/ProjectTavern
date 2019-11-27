@@ -109,6 +109,7 @@ public class Customer : MonoBehaviour
     #endregion
 
     #region Struct
+    [System.Serializable]
     public struct MyOrder
     {
         public Holdables _order;
@@ -145,7 +146,6 @@ public class Customer : MonoBehaviour
     /// Decides on a drink to order and informs it
     /// visually to the player.
     /// </summary>
-    /// <returns>The ordered beverage</returns>
     public void Order()
     {
         Beverage drinkOrder = Beverage.None;
@@ -172,6 +172,7 @@ public class Customer : MonoBehaviour
         }
         _currentState = State.Ordered;
         _order = new MyOrder(foodOrder, drinkOrder);
+        Managers.OrderCardManager.Instance.AddCard(_order, null, false);
     }
 
     /// <summary>
@@ -190,9 +191,9 @@ public class Customer : MonoBehaviour
     /// <param name="newState"></param>
     public void ChangeState(State newState)
     {
-        if (_currentState == State.Moving)
-        {
-            _afterMoveState = newState;
+        if (_currentState == State.Moving)
+        {
+            _afterMoveState = newState;
         }
         _currentState = newState;
         if (_drinkTimer.IsRunning)
@@ -200,6 +201,8 @@ public class Customer : MonoBehaviour
 
         if (_currentState == State.Fighting)
             _orderText.text = "Bullied!";
+
+        Managers.OrderCardManager.Instance.RemoveCard(_order);
     }
 
     /// <summary>
@@ -217,13 +220,13 @@ public class Customer : MonoBehaviour
 
         //if customer has a glass, do things
         Glass glass = gameObject.GetComponentInChildren<Glass>();
-        if (glass != null)
-        {
-            glass.transform.parent = null;
-            glass.transform.position = transform.position + new Vector3(0, 0.3f, 0);
-            glass.GetComponent<CircleCollider2D>().enabled = true;
-            glass._isDirty = true;
-
+        if (glass != null)
+        {
+            glass.transform.parent = null;
+            glass.transform.position = transform.position + new Vector3(0, 0.3f, 0);
+            glass.GetComponent<CircleCollider2D>().enabled = true;
+            glass._isDirty = true;
+
         }
 
         if (_drunknessPercentage > 20 && LevelManager.Instance.Happiness > 20)
@@ -254,6 +257,7 @@ public class Customer : MonoBehaviour
     {
         if (drink == null || drink._drink != _order._drinkOrder) return false;
 
+        Managers.OrderCardManager.Instance.RemoveCard(_order);
         _glass = glass;
         LevelManager.Instance.ItemSold(drink);
         _currentDrink = drink;
@@ -305,10 +309,10 @@ public class Customer : MonoBehaviour
 
         if (_currentDrink == null || _sipsCount >= _currentDrink._amountOfUses)
         {
-            if (_glass != null)
-            {
-                _glass.EmptyGlass();
-                _glass = null;
+            if (_glass != null)
+            {
+                _glass.EmptyGlass();
+                _glass = null;
             }
             StopDrinking();
         }

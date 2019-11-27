@@ -54,7 +54,8 @@ namespace Managers
         public List<TableInteractions> Tables { get { return _tables; } }
         public int PukeAmount { get { return _pukeAmount; } set { _pukeAmount = Mathf.Clamp(value, 0, 255); } }
         public Customer[] CustomerQueue { get { return _customerQueue; } }
-        public List<Drink> PossibleDrinks { get; private set; }
+        public List<Drink> PossibleDrinks => _possibleDrinks;
+
         public Transform Entrance { get { return _entrance; } }
         public Transform Exit { get { return _exit; } }
         public float PlayTime { get { return _playTime; } }
