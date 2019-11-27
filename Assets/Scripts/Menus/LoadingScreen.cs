@@ -7,7 +7,7 @@ using Managers;
 public class LoadingScreen : MonoBehaviour
 {
     private int _loadState = -1;
-    private ScaledOneShotTimer _timer;
+    private UnscaledOneShotTimer _timer;
 
     private void Start()
     {
@@ -19,7 +19,7 @@ public class LoadingScreen : MonoBehaviour
             GameManager.Instance.LoadingScreen = this.gameObject;
         }
         gameObject.SetActive(false);
-        _timer = gameObject.AddComponent<ScaledOneShotTimer>();
+        _timer = gameObject.AddComponent<UnscaledOneShotTimer>();
         _timer.OnTimerCompleted += ShutDown;
         DontDestroyOnLoad(this);
     }
