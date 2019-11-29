@@ -29,7 +29,6 @@ public class ServedFeedback : MonoBehaviour
 
     private void OnEnable()
     {
-        print(_startingPosition);
         _startingPosition = transform.position;
         _timer.StartTimer(_lerptime);
         _endPosition = _startingPosition + new Vector3(0, 0.5f, 0);

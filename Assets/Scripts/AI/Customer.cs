@@ -252,7 +252,7 @@ public class Customer : MonoBehaviour
         }
         else
         {
-            _glass.transform.position = transform.position +  new Vector3(Random.Range(0.0f, 2.0f), Random.Range(0.0f, 2.0f), 0);
+            _glass.transform.position = transform.position + new Vector3(Random.Range(0.0f, 2.0f), Random.Range(0.0f, 2.0f), 0);
             _glass.GetComponent<CircleCollider2D>().enabled = true;
         }
         _glass._isDirty = true;
@@ -314,7 +314,6 @@ public class Customer : MonoBehaviour
                 if (trans.position == _currentTable.GlassPlaces[i].position)
                 {
                     _currentTable.GlassPlaces[i] = null;
-                    print(_currentTable.GlassPlaces.Length);
                     break;
                 }
             }
@@ -458,7 +457,7 @@ public class Customer : MonoBehaviour
 
     public void Leave(Transform trans)
     {
-        if(_glass != null)
+        if (_glass != null)
         {
             PutGlassAway();
         }

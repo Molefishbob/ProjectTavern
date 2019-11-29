@@ -13,8 +13,9 @@ public class GetGlassFromTable : PlayerUseable
         _timer.OnTimerCompleted += TakeGlassFromTable;
     }
 
-    private void OnDestroy()
+    protected override void OnDestroy()
     {
+        base.OnDestroy();
         _timer.OnTimerCompleted -= TakeGlassFromTable;
     }
 
@@ -28,8 +29,9 @@ public class GetGlassFromTable : PlayerUseable
                 User = player;
             }
         }
-        
+
     }
+
 
     private void TakeGlassFromTable()
     {
@@ -37,16 +39,16 @@ public class GetGlassFromTable : PlayerUseable
 
         for (int i = 0; i < _table.GlassesOnTable.Length; i++)
         {
-            if(_table.GlassesOnTable[i] != null)
+            if (_table.GlassesOnTable[i] != null)
             {
                 trans = CheckTransformPosition(_table.GlassesOnTable[i].gameObject.transform);
-                _table.GlassesOnTable[i].TakeGlass();
+                _table.GlassesOnTable[i].Use(User);
                 _table.GlassesOnTable[i] = null;
                 break;
             }
         }
 
-        if(trans != null)
+        if (trans != null)
         {
             for (int i = 0; i < _table.GlassPlaces.Length; i++)
             {
@@ -56,20 +58,20 @@ public class GetGlassFromTable : PlayerUseable
                 }
             }
         }
-        
+
     }
 
     private Transform CheckTransformPosition(Transform trans)
     {
+        GameObject temp = _table.transform.GetChild(transform.childCount - 1).gameObject;
         Transform result = null;
-        for(int i = 0; i < _table.GlassPlaces.Length; i++)
+        for (int i = 0; i < temp.transform.childCount; i++)
         {
-            if (_table.GlassPlaces[i] != null)
+            print(temp.transform.childCount + " sadfluhdsfkjabdj khg " + trans.position + " sa " + temp.transform.GetChild(i).transform.position);
+            if (trans.position == temp.transform.GetChild(i).transform.position)
             {
-                if (trans.position == _table.GlassPlaces[i].transform.position)
-                {
-                    result = _table.GlassPlaces[i].transform;
-                }
+                result = temp.transform.GetChild(i).transform;
+                print("jee");
             }
         }
 
