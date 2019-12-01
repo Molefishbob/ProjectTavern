@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Managers;
 
 public class CleanableMess : PlayerUseable
 {
@@ -20,6 +21,7 @@ public class CleanableMess : PlayerUseable
     private void Cleaned()
     {
         Debug.Log("You cleaned some rancid puke");
+        LevelManager.Instance.PukeAmount--;
         gameObject.SetActive(false);
     }
 

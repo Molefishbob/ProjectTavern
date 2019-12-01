@@ -40,6 +40,8 @@ public class PlayerState : MonoBehaviour
     /// </summary>
     public Holdables CurrentlyHeld = Holdables.Nothing;
 
+    public Glass Glass { get; set; } = null;
+
     /// <summary>
     /// What drink is in the hand?
     /// </summary>

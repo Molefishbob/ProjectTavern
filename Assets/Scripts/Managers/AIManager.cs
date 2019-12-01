@@ -41,10 +41,6 @@ namespace Managers
             _activeAgents = new List<Customer>();
             _customers = Resources.LoadAll<Customer>("Customers");
         }
-        private void Start()
-        {
-
-        }
 
         private void OnDestroy()
         {
@@ -98,7 +94,23 @@ namespace Managers
             ai.transform.position = LevelManager.Instance.Entrance.position;
             _activeAgents.Add(ai);
             LevelManager.Instance.GetSeat(ai);
-            //_timer.StartTimer(_duration + Random.Range(-_offset, _offset + 1));
+        }
+
+        /// <summary>
+        /// Checks the activeAgents for fighting customers
+        /// </summary>
+        /// <returns>The amount of fights ongoing</returns>
+        public int SearchForFighters()
+        {
+            int amount = 0;
+            foreach (Customer cus in _activeAgents)
+            {
+                if (cus.CurrentState == State.Fighting)
+                {
+                    amount++;
+                }
+            }
+            return amount / 2;
         }
         #endregion
     }

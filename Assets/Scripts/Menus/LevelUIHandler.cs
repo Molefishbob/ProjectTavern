@@ -15,7 +15,6 @@ public class LevelUIHandler : MonoBehaviour
             Destroy(_pauseMenu);
         } else
         {
-            print("yes");
             GameManager.Instance.PauseMenu = _pauseMenu;
         }
     }
