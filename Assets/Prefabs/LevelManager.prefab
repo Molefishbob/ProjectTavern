@@ -46,10 +46,23 @@ MonoBehaviour:
   _happiness: 0
   _moneyToWin: 1000
   _playTime: 120
+  _cleanlinessHappinessMod: 5
+  _fighthappinessMod: 5
+  _difficulty: 2
+  _barrels:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   _entrance: {fileID: 0}
   _exit: {fileID: 0}
   _ui: {fileID: 0}
   _customerPoolPrefab: {fileID: 1072988576359790456, guid: 80ff28073fff15b42a98ccb8b8628bc5,
+    type: 3}
+  _humanCustomerPoolPrefab: {fileID: 1680738404445848948, guid: 36da8b17fc0dd054185fbf6613d19c58,
+    type: 3}
+  _elfCustomerPoolPrefab: {fileID: 6785923256222531417, guid: 3037d9494ad07cb4c930cf96c0825fb4,
+    type: 3}
+  _dwarfCustomerPoolPrefab: {fileID: 2626580524648912062, guid: 1618fb25a1a87bc478fbc2d96f475a00,
     type: 3}
   _pukePoolPrefab: {fileID: 4086042485819754219, guid: 1a210f003d5b1c343810657b6342c3c6,
     type: 3}
@@ -57,6 +70,8 @@ MonoBehaviour:
     type: 3}
   _sfxSoundPoolPrefab: {fileID: 6190611941213854895, guid: 0b6975b1d9ab9bd4e90c4ea60e35ed9f,
     type: 3}
+  _endGameMenu: {fileID: 0}
+  _happInterval: 10
   _spawnInterval: 5
   _spawnOffset: 5
   _queue: {fileID: 0}
