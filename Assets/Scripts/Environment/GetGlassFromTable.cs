@@ -27,6 +27,7 @@ public class GetGlassFromTable : PlayerUseable
             {
                 _timer.StartTimer(_interactionTime);
                 User = player;
+                break;
             }
         }
 
@@ -55,6 +56,7 @@ public class GetGlassFromTable : PlayerUseable
                 if (_table.GlassPlaces[i] == null)
                 {
                     _table.GlassPlaces[i] = trans;
+                    break;
                 }
             }
         }
@@ -69,6 +71,7 @@ public class GetGlassFromTable : PlayerUseable
             if (trans.position == temp.transform.GetChild(i).transform.position)
             {
                 result = temp.transform.GetChild(i).transform;
+                break;
             }
         }
 
