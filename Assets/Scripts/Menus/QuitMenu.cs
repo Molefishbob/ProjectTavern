@@ -16,5 +16,22 @@ public class QuitMenu : MonoBehaviour
     public void CancelQuit()
     {
         gameObject.SetActive(false);
+
+        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == 0)
+        {
+            UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(MainMenu.Menu._mainMenuDefaultBind);
+            for (int i = 0; i < MainMenu.Menu.transform.childCount; i++)
+            {
+                MainMenu.Menu.transform.GetChild(i).GetComponent<UnityEngine.UI.Button>().interactable = true;
+            }
+        }
+        else
+        {
+            UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(PauseMenu.Menu.transform.GetChild(2).GetChild(3).gameObject);
+            for (int i = 0; i < PauseMenu.Menu.transform.GetChild(2).childCount; i++)
+            {
+                PauseMenu.Menu.transform.GetChild(2).GetChild(i).GetComponent<UnityEngine.UI.Button>().interactable = true;
+            }
+        }
     }
 }

@@ -21,13 +21,21 @@ public class SettingsMenu : MonoBehaviour
         _masterMute.isOn = SerializationManager.LoadedSettings.Volume.MasterMute;
         _sfxMute.isOn = SerializationManager.LoadedSettings.Volume.SFXMute;
         _musicMute.isOn = SerializationManager.LoadedSettings.Volume.MusicMute;
+
+        UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(transform.GetChild(0).GetChild(1).gameObject);
     }
 
     //TODO: serialize current settings data
     public void CloseSettingsMenu()
     {
-        gameObject.SetActive(false);
         GameManager.Instance.SaveData();
+        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex == 0)
+            MainMenu.Menu.GotoMainMenu();
+        else
+        {
+            UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(PauseMenu.Menu.DefaultSelection);
+            gameObject.SetActive(false);
+        }
     }
 
     public void MasterVolumeChange()
