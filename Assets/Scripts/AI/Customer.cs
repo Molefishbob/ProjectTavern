@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using PolyNav;
 using Managers;
 using static Managers.AIManager;
@@ -36,6 +36,7 @@ public class Customer : MonoBehaviour
     [SerializeField]
     private TMPro.TextMeshProUGUI _orderText = null;
     public GameObject _happyIndicator, _angryIndicator;
+    public TableInteractions _currentTable;
     #endregion
 
     #region Properties
@@ -153,7 +154,7 @@ public class Customer : MonoBehaviour
         int random1 = Random.Range(1, 101);
 
         if (random1 >= 75)
-        {
+{
             foodOrder = Holdables.Food;
             _orderText.text = "FUD";
         }
@@ -172,7 +173,6 @@ public class Customer : MonoBehaviour
         }
         _currentState = State.Ordered;
         _order = new MyOrder(foodOrder, drinkOrder);
-        Managers.OrderCardManager.Instance.AddCard(_order, null, false);
     }
 
     /// <summary>
@@ -191,9 +191,9 @@ public class Customer : MonoBehaviour
     /// <param name="newState"></param>
     public void ChangeState(State newState)
     {
-        if (_currentState == State.Moving)
-        {
-            _afterMoveState = newState;
+        if (_currentState == State.Moving)
+        {
+            _afterMoveState = newState;
         }
         _currentState = newState;
         if (_drinkTimer.IsRunning)
@@ -201,7 +201,7 @@ public class Customer : MonoBehaviour
 
         if (_currentState == State.Fighting)
             _orderText.text = "Bullied!";
-
+      
         Managers.OrderCardManager.Instance.RemoveCard(_order);
     }
 
@@ -218,15 +218,10 @@ public class Customer : MonoBehaviour
         int passOutRoll = Mathf.RoundToInt(Random.Range(0f, 20f) + _drunknessPercentage / 10f);
         int leaveRoll = 0;
 
-        //if customer has a glass, do things
-        Glass glass = gameObject.GetComponentInChildren<Glass>();
-        if (glass != null)
-        {
-            glass.transform.parent = null;
-            glass.transform.position = transform.position + new Vector3(0, 0.3f, 0);
-            glass.GetComponent<CircleCollider2D>().enabled = true;
-            glass._isDirty = true;
-
+        //if customer has a glass, puts it on table if there is room. If there is no room on table throws it away randomly 
+        if (_glass != null)
+        {
+            PutGlassAway();
         }
 
         if (_drunknessPercentage > 20 && LevelManager.Instance.Happiness > 20)
@@ -248,6 +243,88 @@ public class Customer : MonoBehaviour
 
     }
 
+    private void PutGlassAway()
+    {
+        _glass.transform.parent = null;
+        if (ThereIsRoom())
+        {
+            _glass.transform.position = GetPlaceForGlass().position;
+            AddGlassToTable(_glass);
+        }
+        else
+        {
+            _glass.transform.position = transform.position + new Vector3(Random.Range(0.0f, 2.0f), Random.Range(0.0f, 2.0f), 0);
+            _glass.GetComponent<CircleCollider2D>().enabled = true;
+        }
+        _glass._isDirty = true;
+        _glass = null;
+
+    }
+
+    private void AddGlassToTable(Glass glass)
+    {
+        for (int i = 0; i < _currentTable.GlassesOnTable.Length; i++)
+        {
+            if (_currentTable.GlassesOnTable[i] == null)
+            {
+                _currentTable.GlassesOnTable[i] = glass;
+                break;
+            }
+        }
+
+    }
+
+    private bool ThereIsRoom()
+    {
+        for (int i = 0; i < _currentTable.GlassPlaces.Length; i++)
+        {
+            if (_currentTable.GlassPlaces[i] != null)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private Transform GetPlaceForGlass()
+    {
+        float distance = 0;
+        Transform trans = null;
+
+        for (int i = 0; i < _currentTable.GlassPlaces.Length; i++)
+        {
+            Transform temp = null;
+            if (_currentTable.GlassPlaces[i] != null)
+            {
+                temp = _currentTable.GlassPlaces[i];
+            }
+
+            if (temp != null)
+            {
+                if (Vector3.Distance(temp.position, transform.position) < distance || distance == 0)
+                {
+                    distance = Vector3.Distance(temp.position, transform.position);
+                    trans = _currentTable.GlassPlaces[i];
+                }
+            }
+        }
+
+        for (int i = 0; i < _currentTable.GlassPlaces.Length; i++)
+        {
+            if (_currentTable.GlassPlaces[i] != null)
+            {
+                if (trans.position == _currentTable.GlassPlaces[i].position)
+                {
+                    _currentTable.GlassPlaces[i] = null;
+                    break;
+                }
+            }
+        }
+
+        return trans;
+    }
+
     /// <summary>
     /// Called when the players serve a drink to the customer
     /// </summary>
@@ -257,7 +334,6 @@ public class Customer : MonoBehaviour
     {
         if (drink == null || drink._drink != _order._drinkOrder) return false;
 
-        Managers.OrderCardManager.Instance.RemoveCard(_order);
         _glass = glass;
         LevelManager.Instance.ItemSold(drink);
         _currentDrink = drink;
@@ -309,10 +385,9 @@ public class Customer : MonoBehaviour
 
         if (_currentDrink == null || _sipsCount >= _currentDrink._amountOfUses)
         {
-            if (_glass != null)
-            {
-                _glass.EmptyGlass();
-                _glass = null;
+            if (_glass != null)
+            {
+                _glass.EmptyGlass();
             }
             StopDrinking();
         }
@@ -374,6 +449,7 @@ public class Customer : MonoBehaviour
     {
         _afterMoveState = State.Ordered;
         Move(trans.position);
+        _currentTable = trans.parent.GetComponent<TableInteractions>();
     }
 
     public void GetInLine(Transform trans)
@@ -384,10 +460,15 @@ public class Customer : MonoBehaviour
 
     public void Leave(Transform trans)
     {
+        if (_glass != null)
+        {
+            PutGlassAway();
+        }
         if (_currentState != State.PassedOut)
             LevelManager.Instance.GetTable(this).RemoveCustomer(this);
         _afterMoveState = State.None;
         Move(trans.position);
+        _currentTable = null;
     }
 
     private void AfterMoveActions()

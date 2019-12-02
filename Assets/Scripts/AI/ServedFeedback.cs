@@ -15,8 +15,6 @@ public class ServedFeedback : MonoBehaviour
     private void Awake()
     {
         _timer = gameObject.AddComponent<ScaledOneShotTimer>();
-        _startingPosition = transform.position;
-        _endPosition = _startingPosition + new Vector3(0, 0.5f, 0);
     }
 
     private void Start()
@@ -31,8 +29,9 @@ public class ServedFeedback : MonoBehaviour
 
     private void OnEnable()
     {
-        transform.position = _startingPosition;
+        _startingPosition = transform.position;
         _timer.StartTimer(_lerptime);
+        _endPosition = _startingPosition + new Vector3(0, 0.5f, 0);
     }
 
     private void OnDisable()
