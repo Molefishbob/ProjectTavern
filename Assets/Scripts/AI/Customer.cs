@@ -179,6 +179,7 @@ public class Customer : MonoBehaviour
         }
         _currentState = State.Ordered;
         _order = new MyOrder(foodOrder, drinkOrder);
+        OrderCardManager.Instance.AddCard(_order, null, false);
         _happinessTimer.StartTimer(_unhappinessTime);
     }
 
@@ -209,7 +210,7 @@ public class Customer : MonoBehaviour
         if (_currentState == State.Fighting)
             _orderText.text = "Bullied!";
       
-        Managers.OrderCardManager.Instance.RemoveCard(_order);
+        OrderCardManager.Instance.RemoveCard(_order);
     }
 
     /// <summary>
@@ -342,6 +343,8 @@ public class Customer : MonoBehaviour
     {
         if (drink == null || drink._drink != _order._drinkOrder) return false;
 
+
+        OrderCardManager.Instance.RemoveCard(_order);
         _glass = glass;
         LevelManager.Instance.ItemSold(drink);
         _currentDrink = drink;
