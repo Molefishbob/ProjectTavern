@@ -148,7 +148,7 @@ public class Glass : PlayerUseable
             _drinkName = "";
         }
 
-        if(!_drinkName.Equals("")) _drinkName = _drinkName.Remove(_drinkName.Length - 8, 8);
+        if (!_drinkName.Equals("")) _drinkName = _drinkName.Remove(_drinkName.Length - 8, 8);
 
         Beverage bev = Beverage.None;
 

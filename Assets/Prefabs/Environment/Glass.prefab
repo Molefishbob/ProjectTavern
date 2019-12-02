@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4897652357558741401}
   - component: {fileID: -1268926230538604933}
   - component: {fileID: 3583866077504659208}
+  - component: {fileID: 155562573733016093}
   m_Layer: 0
   m_Name: Glass
   m_TagString: PlayerUsable
@@ -88,7 +89,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: cf1b77048c87b994cbe41d80a21a8093, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 54d7c53cc2c3dd849bac2d88fac4c643, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -115,3 +116,18 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.4
+--- !u!114 &155562573733016093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4465372564333002929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf8b11d563e666b4ebc0b4942afad0a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _refreshRate: 5
+  _offset: 5
+  _renderer: {fileID: 0}

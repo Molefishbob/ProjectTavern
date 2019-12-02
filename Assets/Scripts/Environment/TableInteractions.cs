@@ -18,18 +18,22 @@ public class TableInteractions : AIUseable
     private int _freeSeatsCount;
     protected Transform[] _chairs;
     protected Customer[] _sitters;
+    private Transform[] _placesForGlasses;
+    private Glass[] _glassesOnTable;
     #endregion
 
     #region Properties
     public Transform[] Chairs { get => _chairs; }
     public Customer[] Sitters { get => _sitters; }
+    public Transform[] GlassPlaces { get { return _placesForGlasses; } }
+    public Glass[] GlassesOnTable { get { return _glassesOnTable; } }
     #endregion
 
     #region Unity Methods
     private void Awake()
     {
         _currentState = TableState.Empty;
-        _totalSeatsCount = transform.childCount;
+        _totalSeatsCount = transform.childCount - 1;
         _chairs = new Transform[_totalSeatsCount];
         for (int a = 0; a < _totalSeatsCount; a++)
         {
@@ -37,6 +41,15 @@ public class TableInteractions : AIUseable
         }
         _freeSeatsCount = _totalSeatsCount;
         _sitters = new Customer[_totalSeatsCount];
+
+        GameObject temp = gameObject.transform.GetChild(transform.childCount - 1).gameObject;
+        _placesForGlasses = new Transform[temp.transform.childCount];
+        _glassesOnTable = new Glass[temp.transform.childCount];
+        for (int i = 0; i < temp.transform.childCount; i++)
+        {
+            _placesForGlasses[i] = temp.transform.GetChild(i);
+        }
+
     }
     #endregion
 
@@ -61,7 +74,7 @@ public class TableInteractions : AIUseable
                 break;
             }
         }
-        
+
         _freeSeatsCount--;
         if (_freeSeatsCount == 0)
         {
@@ -109,7 +122,7 @@ public class TableInteractions : AIUseable
             _currentState = TableState.Empty;
 
         int me = ai.GetInstanceID();
-        
+
         for (int a = 0; a < _sitters.Length; a++)
         {
             if (_sitters[a] == null) continue;

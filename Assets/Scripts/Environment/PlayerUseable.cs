@@ -27,7 +27,7 @@ public abstract class PlayerUseable : MonoBehaviour, IUseable
     /// <summary>
     /// Who is using this?
     /// </summary>
-    public PlayerState User { get; private set; }
+    public PlayerState User { get; set; }
 
     [SerializeField, Tooltip("Does this object require empty hands to be used?")]
     protected bool _requiresEmptyHands = true;
