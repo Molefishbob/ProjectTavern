@@ -9,8 +9,6 @@ public class InGameUI : MonoBehaviour
 {
     public TimeCounter _dayCounter;
     [SerializeField]
-    protected float _levelTime;
-    [SerializeField]
     protected Slider _happiness;
     [SerializeField]
     protected TMP_Text _money;

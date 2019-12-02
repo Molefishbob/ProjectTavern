@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using PolyNav;
 using Managers;
 using static Managers.AIManager;
@@ -14,8 +14,8 @@ public class Customer : MonoBehaviour
     protected AIBehaviour _behaviour;
     [SerializeField, Range(0, 100), Tooltip("The percentage chance to take the preferred drink")]
     protected int _preferredDrinkChance = 85;
-    protected float _minDrinkFrequency = 1f;
-    protected float _maxDrinkFrequency = 2f;
+    protected float _minDrinkFrequency = 5f;
+    protected float _maxDrinkFrequency = 10f;
     protected Drink _currentDrink;
     protected Holdables _currentHoldable;
     protected int _sipsCount = 0;
@@ -94,8 +94,7 @@ public class Customer : MonoBehaviour
             // Easing out for nice stopping
             float t = _positionCorrectiontimer.NormalizedTimeElapsed;
             transform.position = Vector3.Lerp(_correctStartPos, _movePos, (--t) * t * t + 1);
-        }
-        else if (CurrentState == State.PassedOut)
+        } else if (CurrentState == State.PassedOut)
         {
             _positionCorrectiontimer.StopTimer();
         }
@@ -111,6 +110,7 @@ public class Customer : MonoBehaviour
     #endregion
 
     #region Struct
+    [System.Serializable]
     public struct MyOrder
     {
         public Holdables _order;
@@ -147,7 +147,6 @@ public class Customer : MonoBehaviour
     /// Decides on a drink to order and informs it
     /// visually to the player.
     /// </summary>
-    /// <returns>The ordered beverage</returns>
     public void Order()
     {
         Beverage drinkOrder = Beverage.None;
@@ -155,7 +154,7 @@ public class Customer : MonoBehaviour
         int random1 = Random.Range(1, 101);
 
         if (random1 >= 75)
-        {
+{
             foodOrder = Holdables.Food;
             _orderText.text = "FUD";
         }
@@ -202,6 +201,8 @@ public class Customer : MonoBehaviour
 
         if (_currentState == State.Fighting)
             _orderText.text = "Bullied!";
+      
+        Managers.OrderCardManager.Instance.RemoveCard(_order);
     }
 
     /// <summary>

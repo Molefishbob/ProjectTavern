@@ -44,9 +44,9 @@ public class Food : PlayerUseable
         _tempTimer.OnTimerCompleted -= ManipulateTemperature;
     }
 
-    public override void Use()
+    public override void Use(PlayerState player)
     {
-        base.Use();
+        base.Use(player);
 
         _tempTimer.StopTimer();
     }
