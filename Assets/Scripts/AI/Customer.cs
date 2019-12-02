@@ -37,6 +37,9 @@ public class Customer : MonoBehaviour
     private TMPro.TextMeshProUGUI _orderText = null;
     public GameObject _happyIndicator, _angryIndicator;
     public TableInteractions _currentTable;
+    private ScaledRepeatingTimer _happinessTimer;
+    [SerializeField]
+    private float _unhappinessTime = 5;
     #endregion
 
     #region Properties
@@ -60,6 +63,8 @@ public class Customer : MonoBehaviour
         _drinkTimer.OnTimerCompleted += TimeToDrink;
         _polyNav.OnDestinationReached += CorrectPosition;
         _polyNav.OnDestinationReached += AfterMoveActions;
+        _happinessTimer = gameObject.AddComponent<ScaledRepeatingTimer>();
+        _happinessTimer.OnTimerCompleted += DecreaseHappinesOverTime;
 
         _race = _behaviour._race;
         if (typeof(BaseActions) == _behaviour._actions[0].GetType())
@@ -106,6 +111,7 @@ public class Customer : MonoBehaviour
         _polyNav.OnDestinationReached -= AfterMoveActions;
         _drinkTimer.OnTimerCompleted -= TimeToDrink;
         _polyNav.OnAlertDistance -= TimeToPassOut;
+        _happinessTimer.OnTimerCompleted -= DecreaseHappinesOverTime;
     }
     #endregion
 
@@ -173,6 +179,7 @@ public class Customer : MonoBehaviour
         }
         _currentState = State.Ordered;
         _order = new MyOrder(foodOrder, drinkOrder);
+        _happinessTimer.StartTimer(_unhappinessTime);
     }
 
     /// <summary>
@@ -233,6 +240,7 @@ public class Customer : MonoBehaviour
         {
             Customer opp = LevelManager.Instance.GetTable(this).GetOpponent(this);
             Fight(opp);
+            LevelManager.Instance.Happiness -= LevelManager.Instance._fightUnhappiness;
         }
         else if (orderRoll > fightRoll && orderRoll > passOutRoll && orderRoll > leaveRoll)
             Order();
@@ -283,7 +291,7 @@ public class Customer : MonoBehaviour
                 return true;
             }
         }
-
+        LevelManager.Instance.GlassSpotsFull(_currentTable);
         return false;
     }
 
@@ -501,6 +509,13 @@ public class Customer : MonoBehaviour
                 break;
         }
         _afterMoveState = State.None;
+    }
+
+    private void DecreaseHappinesOverTime()
+    {
+        if (_happinessTimer.TimesCompleted > 3) {
+            LevelManager.Instance.Happiness -= _happinessTimer.TimesCompleted;
+        }
     }
 
     #endregion
