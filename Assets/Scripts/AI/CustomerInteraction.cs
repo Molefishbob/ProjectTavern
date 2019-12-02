@@ -125,11 +125,11 @@ public class CustomerInteraction : PlayerUseable
                     if (glass._isDirty)
                     {
 
-                        LevelManager.Instance.Happiness -= 10;
+                        LevelManager.Instance.Happiness -= LevelManager.Instance._dirtyGlassUnhappiness;
                     }
                     else
                     {
-                        LevelManager.Instance.Happiness += 3;
+                        LevelManager.Instance.Happiness += LevelManager.Instance._correctDrinkHappiness;
                     }
                 }
                 else if (_customer.Served(User.CurrentlyHeld))
@@ -137,6 +137,7 @@ public class CustomerInteraction : PlayerUseable
                     // TODO: Tell the customer to drink muchos alcohol
                     Debug.Log("CORRECTLY SERVED FOOD!");
                     User.CurrentlyHeld = PlayerState.Holdables.Nothing;
+                    LevelManager.Instance.Happiness += LevelManager.Instance._correctDrinkHappiness;
                     if (_customer._happyIndicator != null)
                     {
                         _customer._happyIndicator.SetActive(true);
@@ -146,7 +147,7 @@ public class CustomerInteraction : PlayerUseable
                 {
                     // TODO: Lower happiness and other stuff
                     Debug.Log("INCORRECTLY SERVED!");
-                    LevelManager.Instance.Happiness -= 10;
+                    LevelManager.Instance.Happiness -= LevelManager.Instance._wrongDrinkUnhappiness;
                     if (_customer._angryIndicator != null)
                     {
                         _customer._angryIndicator.SetActive(true);

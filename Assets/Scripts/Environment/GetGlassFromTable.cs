@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Managers;
 
 public class GetGlassFromTable : PlayerUseable
 {
@@ -56,6 +57,7 @@ public class GetGlassFromTable : PlayerUseable
                 if (_table.GlassPlaces[i] == null)
                 {
                     _table.GlassPlaces[i] = trans;
+                    LevelManager.Instance.RemoveGlassTable(_table);
                     break;
                 }
             }

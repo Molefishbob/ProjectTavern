@@ -34,6 +34,15 @@ namespace Managers
         private CustomerPool _customerPoolPrefab = null;
         private CustomerPool _spawnedCustomerPool;
         [SerializeField]
+        private CustomerPool _humanCustomerPoolPrefab = null;
+        private CustomerPool _spawnedHumanCustomerPool;
+        [SerializeField]
+        private CustomerPool _elfCustomerPoolPrefab = null;
+        private CustomerPool _spawnedElfCustomerPool;
+        [SerializeField]
+        private CustomerPool _dwarfCustomerPoolPrefab = null;
+        private CustomerPool _spawnedDwarfCustomerPool;
+        [SerializeField]
         private PukePool _pukePoolPrefab = null;
         private PukePool _spawnedPukePool;
         [SerializeField]
@@ -54,6 +63,10 @@ namespace Managers
         private float _spawnOffset = 5;
         [HideInInspector]
         public Queue _queue;
+        public int _fightUnhappiness = 5;
+        public int _correctDrinkHappiness = 3;
+        public int _wrongDrinkUnhappiness = 10;
+        public int _dirtyGlassUnhappiness = 5;
 
         public List<TableInteractions> Tables { get { return _tables; } }
         public int PukeAmount { get { return _pukeAmount; } set { _pukeAmount = Mathf.Clamp(value, 0, 255); } }
@@ -159,6 +172,9 @@ namespace Managers
             }
 
             _spawnedCustomerPool = Instantiate(_customerPoolPrefab);
+            _spawnedHumanCustomerPool = Instantiate(_humanCustomerPoolPrefab);
+            _spawnedElfCustomerPool = Instantiate(_elfCustomerPoolPrefab);
+            _spawnedDwarfCustomerPool = Instantiate(_dwarfCustomerPoolPrefab);
             _spawnedPukePool = Instantiate(_pukePoolPrefab);
             _spawnedGlassPool = Instantiate(_glassPoolPrefab);
             _spawnedSfxSoundPool = Instantiate(_sfxSoundPoolPrefab);
@@ -393,7 +409,34 @@ namespace Managers
         /// <returns>Customer from customer pool</returns>
         public Customer GetCustomer()
         {
-            return _spawnedCustomerPool.GetPooledObject();
+            int customerRandomizer = 0;
+
+            customerRandomizer = Random.Range(0, 4);
+
+            switch (customerRandomizer)
+            {
+                case 0:
+                    {
+                        return _spawnedCustomerPool.GetPooledObject();
+                    }
+                case 1:
+                    {
+                        return _spawnedHumanCustomerPool.GetPooledObject();
+                    }
+                case 2:
+                    {
+                        return _spawnedElfCustomerPool.GetPooledObject();
+                    }
+                case 3:
+                    {
+                        return _spawnedDwarfCustomerPool.GetPooledObject();
+                    }
+                default:
+                    Debug.Log("No customer to spawn");
+                    return null;
+            }
+
+            
         }
 
         /// <summary>

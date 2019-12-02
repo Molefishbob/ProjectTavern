@@ -18,7 +18,6 @@ namespace Managers
             Ordered = 6
         }
         protected List<Customer> _activeAgents;
-        protected Customer[] _customers;
         public static AIManager Instance;
         [HideInInspector]
         public ScaledOneShotTimer _timer;
@@ -39,7 +38,6 @@ namespace Managers
             _timer = gameObject.AddComponent<ScaledOneShotTimer>();
             _timer.OnTimerCompleted += SpawnAI;
             _activeAgents = new List<Customer>();
-            _customers = Resources.LoadAll<Customer>("Customers");
         }
 
         private void OnDestroy()
