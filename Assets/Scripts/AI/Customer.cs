@@ -257,6 +257,7 @@ public class Customer : MonoBehaviour
         }
         _glass._isDirty = true;
         _glass = null;
+
     }
 
     private void AddGlassToTable(Glass glass)
@@ -266,6 +267,7 @@ public class Customer : MonoBehaviour
             if (_currentTable.GlassesOnTable[i] == null)
             {
                 _currentTable.GlassesOnTable[i] = glass;
+                break;
             }
         }
 

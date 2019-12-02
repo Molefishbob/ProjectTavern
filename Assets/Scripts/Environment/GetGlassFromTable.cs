@@ -58,7 +58,6 @@ public class GetGlassFromTable : PlayerUseable
                 }
             }
         }
-
     }
 
     private Transform CheckTransformPosition(Transform trans)
@@ -67,7 +66,7 @@ public class GetGlassFromTable : PlayerUseable
         Transform result = null;
         for (int i = 0; i < temp.transform.childCount; i++)
         {
-            print(temp.transform.childCount + " sadfluhdsfkjabdj khg " + trans.position + " sa " + temp.transform.GetChild(i).transform.position);
+            print(" trans " + trans.position + " temp " + temp.transform.GetChild(i).transform.position);
             if (trans.position == temp.transform.GetChild(i).transform.position)
             {
                 result = temp.transform.GetChild(i).transform;
