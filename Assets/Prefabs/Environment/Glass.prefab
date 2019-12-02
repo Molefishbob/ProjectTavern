@@ -129,5 +129,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _refreshRate: 5
-  _offset: 3
+  _offset: 5
   _renderer: {fileID: 0}
