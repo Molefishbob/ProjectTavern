@@ -66,11 +66,9 @@ public class GetGlassFromTable : PlayerUseable
         Transform result = null;
         for (int i = 0; i < temp.transform.childCount; i++)
         {
-            print(" trans " + trans.position + " temp " + temp.transform.GetChild(i).transform.position);
             if (trans.position == temp.transform.GetChild(i).transform.position)
             {
                 result = temp.transform.GetChild(i).transform;
-                print("jee");
             }
         }
 
