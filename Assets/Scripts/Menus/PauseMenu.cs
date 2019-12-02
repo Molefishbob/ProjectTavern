@@ -53,6 +53,7 @@ public class PauseMenu : MonoBehaviour
 
     public void Continue()
     {
+        GameManager.Instance.UnPauseGame();
         gameObject.SetActive(false);
     }
 }
