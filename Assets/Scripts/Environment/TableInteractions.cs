@@ -65,17 +65,42 @@ public class TableInteractions : AIUseable
     {
         if (_currentState == TableState.Full) return false;
 
-        for (int i = 0; i < _totalSeatsCount; i++)
+        return true;
+    }
+
+    /// <summary>
+    /// Adds the ai to the table
+    /// </summary>
+    /// <param name="ai">the customer</param>
+    public void AddAi(Customer ai)
+    {
+        int val = -1;
+        for (int a = 0; a < _sitters.Length; a++)
         {
-            if (_sitters[i] == null)
-            {
-                ai.Sit(_chairs[i].transform);
-                _sitters[i] = ai;
+            val = Random.Range(0, _sitters.Length);
+            if (_sitters[val] == null)
                 break;
+
+        }
+
+        if (_sitters[val] != null)
+        {
+            int b = 0;
+            foreach (Customer cus in _sitters)
+            {
+                if (cus == null)
+                {
+                    val = b;
+                    break;
+                }
+                b++;
             }
         }
 
-        _freeSeatsCount--;
+        ai.Sit(_chairs[val].transform);
+        _sitters[val] = ai;
+
+        _freeSeatsCount--; 
         if (_freeSeatsCount == 0)
         {
             _currentState = TableState.Full;
@@ -84,7 +109,6 @@ public class TableInteractions : AIUseable
         {
             _currentState = TableState.Occupied;
         }
-        return true;
     }
 
     /// <summary>
