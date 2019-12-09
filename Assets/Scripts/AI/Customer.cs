@@ -237,6 +237,8 @@ public class Customer : MonoBehaviour
 
         if (_currentState == State.Fighting)
             _orderText.text = "Bullied!";
+        _renderer.sprite = null;
+        _foodOrder.SetActive(false);
       
         OrderCardManager.Instance.RemoveCard(_order);
     }
