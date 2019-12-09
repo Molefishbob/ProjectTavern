@@ -195,7 +195,7 @@ PrefabInstance:
     - target: {fileID: 1410502109058707907, guid: c1b0a5cfe135bab4988b3cd49f487514,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -205.02104
+      value: -205.02103
       objectReference: {fileID: 0}
     - target: {fileID: 1410502109058707907, guid: c1b0a5cfe135bab4988b3cd49f487514,
         type: 3}
@@ -2213,7 +2213,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _refreshRate: 5
-  _offset: 0
+  _offset: -3
   _renderer: {fileID: 0}
 --- !u!1001 &334743963
 PrefabInstance:
@@ -6473,17 +6473,17 @@ PrefabInstance:
     - target: {fileID: 3226753804942125455, guid: c8c0f538b6454ee4590ca9add2b68587,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -4.9999695
+      value: -4.9999847
       objectReference: {fileID: 0}
     - target: {fileID: 4911275465881016712, guid: c8c0f538b6454ee4590ca9add2b68587,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -4.9999695
+      value: -4.9999847
       objectReference: {fileID: 0}
     - target: {fileID: 7953374352787842073, guid: c8c0f538b6454ee4590ca9add2b68587,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -4.9999695
+      value: -4.9999847
       objectReference: {fileID: 0}
     - target: {fileID: 286310766376058002, guid: c8c0f538b6454ee4590ca9add2b68587,
         type: 3}
