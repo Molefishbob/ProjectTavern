@@ -60,7 +60,10 @@ public class Food : PlayerUseable
     private void PotAction()
     {
         if (_temperature > MiniumServeableTemp)
-            GetFood();
+        {
+            GetFood(); 
+            if (User._carriedFood != null) User._carriedFood.SetActive(true);
+        }
         else
             ConfuseThePot();
 

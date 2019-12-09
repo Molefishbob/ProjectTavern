@@ -436,7 +436,7 @@ namespace Managers
                     return null;
             }
 
-            
+
         }
 
         /// <summary>
@@ -524,10 +524,31 @@ namespace Managers
         /// <param name="ai"></param>
         public void GetSeat(Customer ai)
         {
+            bool freeseats = false;
+            int val = -1;
             for (int a = 0; a < _tables.Count; a++)
             {
-                if (_tables[a].Use(ai)) return;
+                if (_tables[a].Use(ai)) freeseats = true;
+                val = Random.Range(0, _tables.Count);
+                if (_tables[val].Use(ai))
+                {
+                    _tables[val].AddAi(ai);
+                    return;
+                }
             }
+            if (freeseats)
+            {
+                int a = 0;
+                foreach(TableInteractions table in _tables)
+                {
+                    if (_tables[a].Use(ai))
+                    {
+                        _tables[a].AddAi(ai);
+                        return;
+                    }
+                }
+            }
+
             for (int a = 0; a < _maxQueueLength; a++)
             {
                 if (_customerQueue[a] == null)
@@ -617,6 +638,7 @@ namespace Managers
             {
                 if (CustomerQueue[i] == null)
                 {
+                    _spawnInterval = 5f;
                     return true;
                 }
             }

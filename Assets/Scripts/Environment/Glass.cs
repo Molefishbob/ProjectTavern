@@ -14,6 +14,9 @@ public class Glass : PlayerUseable
     private string _drinkName = "";
     private string[] _beverageNames;
     public bool _isDirty = false;
+    public Sprite _cleanEmpty, _dirtyEmpty, _mix;
+    [HideInInspector]
+    public SpriteRenderer _spriteRend;
 
     public Drink CurrentDrink { get { return _currentDrink; } }
 
@@ -30,7 +33,8 @@ public class Glass : PlayerUseable
         _beverageNames = Enum.GetNames(typeof(Beverage));
         _timer.OnTimerCompleted += UpdateUser;
         _timer.OnTimerCompleted += TakeGlass;
-
+        _spriteRend = gameObject.GetComponent<SpriteRenderer>();
+        _spriteRend.sprite = _cleanEmpty;
     }
 
     protected override void OnDestroy()
@@ -122,6 +126,7 @@ public class Glass : PlayerUseable
                 if (doesContain)
                 {
                     _currentDrink = _possibleDrinks[i];
+                    _spriteRend.sprite = _currentDrink._sprite;
                     GetDrinkName();
                 }
             }
@@ -129,6 +134,7 @@ public class Glass : PlayerUseable
         if (_currentDrink == null)
         {
             Debug.Log("Warning, no valid drink!");
+            _spriteRend.sprite = _mix;
             GetDrinkName();
         }
     }
@@ -176,6 +182,7 @@ public class Glass : PlayerUseable
         _currentIngredients.Clear();
         _currentDrink = null;
         _isDirty = true;
+        _spriteRend.sprite = _dirtyEmpty;
     }
 
     /// <summary>
@@ -190,5 +197,4 @@ public class Glass : PlayerUseable
             i++;
         }
     }
-
 }

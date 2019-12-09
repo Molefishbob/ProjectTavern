@@ -25,6 +25,7 @@ public class PlayerState : MonoBehaviour
     private UnityEngine.UI.Image _actionBarFill = null;
     private TextMeshProUGUI _heldText = null;
     private CircleCollider2D _selfCollider = null;
+    public GameObject _carriedFood;
 
     #endregion
 
@@ -67,6 +68,7 @@ public class PlayerState : MonoBehaviour
         _actionBar.SetActive(false);
         _heldText = gameObject.transform.GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>();
         _selfCollider = gameObject.GetComponent<CircleCollider2D>();
+        _carriedFood.SetActive(false);
     }
 
     private void Update()

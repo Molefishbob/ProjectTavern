@@ -18,9 +18,12 @@ public class DishWasher : PlayerUseable
     }
     public void WashDish()
     {
+        Glass glass;
         if(User.CurrentlyHeld == PlayerState.Holdables.Glass && User.GetComponentInChildren<Glass>() != null)
         {
-            User.GetComponentInChildren<Glass>()._isDirty = false;
+            glass = User.GetComponentInChildren<Glass>();
+            glass._isDirty = false;
+            glass._spriteRend.sprite = glass._cleanEmpty;
         }
         else
         {
