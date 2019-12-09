@@ -17,3 +17,4 @@ MonoBehaviour:
   _alcoholContent: 32
   _price: 8
   _amountOfUses: 6
+  _sprite: {fileID: 21300000, guid: e2cfb9f62c2a1434d8294fd8c794f96a, type: 3}

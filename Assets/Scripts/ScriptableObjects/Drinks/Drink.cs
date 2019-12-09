@@ -11,4 +11,5 @@ public class Drink : ScriptableObject
     public int _alcoholContent;
     public int _price;
     public int _amountOfUses;
+    public Sprite _sprite;
 }
