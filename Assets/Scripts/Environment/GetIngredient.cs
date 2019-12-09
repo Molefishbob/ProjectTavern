@@ -21,7 +21,6 @@ public class GetIngredient : PlayerUseable
     protected override void Start()
     {
         base.Start();
-        ShowIngredient();
     }
     protected override void OnDestroy()
     {
