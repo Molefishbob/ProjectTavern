@@ -43,6 +43,7 @@ public class Customer : MonoBehaviour
     private float _unhappinessTime = 5;
     private Drink[] _drinks;
     public SpriteRenderer _renderer;
+    public GameObject _foodOrder;
     #endregion
 
     #region Properties
@@ -111,6 +112,7 @@ public class Customer : MonoBehaviour
             }
         }
         _orderText.text = "";
+        _foodOrder.SetActive(false);
     }
 
     private void Update()
@@ -185,7 +187,8 @@ public class Customer : MonoBehaviour
         if (random1 >= 75)
 {
             foodOrder = Holdables.Food;
-            _orderText.text = "FUD";
+            _orderText.text = "";
+            _foodOrder.SetActive(true);
         }
         else
         {
@@ -395,6 +398,7 @@ public class Customer : MonoBehaviour
         _currentState = State.Served;
         Consume();
         _order._order = Holdables.Nothing;
+        _foodOrder.SetActive(false);
         return true;
     }
 

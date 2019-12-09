@@ -138,6 +138,10 @@ public class CustomerInteraction : PlayerUseable
                     Debug.Log("CORRECTLY SERVED FOOD!");
                     User.CurrentlyHeld = PlayerState.Holdables.Nothing;
                     LevelManager.Instance.Happiness += LevelManager.Instance._correctDrinkHappiness;
+                    if (User._carriedFood != null)
+                    {
+                        User._carriedFood.SetActive(false);
+                    }
                     if (_customer._happyIndicator != null)
                     {
                         _customer._happyIndicator.SetActive(true);
