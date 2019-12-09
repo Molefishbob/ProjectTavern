@@ -577,6 +577,7 @@ namespace Managers
             {
                 if (_tables[i].Use(ai))
                 {
+                    _tables[i].AddAi(ai);
                     _queue._queuedCustomers.RemoveAt(0);
                     _customerQueue[0] = null;
                     for (int a = 0; a < _customerQueue.Length; a++)
