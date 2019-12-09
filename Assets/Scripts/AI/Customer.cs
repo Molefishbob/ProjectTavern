@@ -4,6 +4,7 @@ using Managers;
 using static Managers.AIManager;
 using static Managers.BeverageManager;
 using static PlayerState;
+using System.Linq;
 
 public class Customer : MonoBehaviour
 {
@@ -40,6 +41,9 @@ public class Customer : MonoBehaviour
     private ScaledRepeatingTimer _happinessTimer;
     [SerializeField]
     private float _unhappinessTime = 5;
+    private Drink[] _drinks;
+    public SpriteRenderer _renderer;
+    public GameObject _foodOrder;
     #endregion
 
     #region Properties
@@ -51,6 +55,7 @@ public class Customer : MonoBehaviour
     public int Drunkness { get => _drunknessPercentage; }
     public float DrinkTimerElapsed { get => _drinkTimer.TimeLeft; }
     public bool DrinkTimerRunning { get => _drinkTimer.IsRunning; }
+
     #endregion
 
     #region Unity Methods
@@ -88,7 +93,26 @@ public class Customer : MonoBehaviour
             Debug.LogError("Order text has not been set in!");
         }
 
+        if (_drinks == null)
+        {
+            _drinks = Resources.LoadAll<Drink>("Drinks");
+            Managers.BeverageManager.Beverage[] tmp = new Managers.BeverageManager.Beverage[_drinks.Length];
+
+            for (int i = 0; i < tmp.Length; i++)
+            {
+                tmp[i] = _drinks[i]._drink;
+            }
+
+            tmp = tmp.Distinct().ToArray();
+
+            if (tmp.Length != System.Enum.GetNames(typeof(Managers.BeverageManager.Beverage)).Length - 1)
+            {
+                Debug.LogWarning("There are uneven amounts of drinks between bewerage and drinks!\nDrinks in resources"
+                    + tmp.Length + "\nDrinks in Beverages" + (System.Enum.GetNames(typeof(Managers.BeverageManager.Beverage)).Length - 1));
+            }
+        }
         _orderText.text = "";
+        _foodOrder.SetActive(false);
     }
 
     private void Update()
@@ -157,12 +181,14 @@ public class Customer : MonoBehaviour
     {
         Beverage drinkOrder = Beverage.None;
         Holdables foodOrder = Holdables.Nothing;
+        Drink orderDrink;
         int random1 = Random.Range(1, 101);
 
         if (random1 >= 75)
 {
             foodOrder = Holdables.Food;
-            _orderText.text = "FUD";
+            _orderText.text = "";
+            _foodOrder.SetActive(true);
         }
         else
         {
@@ -175,7 +201,9 @@ public class Customer : MonoBehaviour
             {
                 drinkOrder = LevelManager.Instance.RandomPossibleDrink()._drink;
             }
-            _orderText.text = "D\\" + drinkOrder.ToString()[0] + drinkOrder.ToString()[1];
+            orderDrink = ConvertBeverageToDrink(drinkOrder);
+            _renderer.sprite = orderDrink._sprite;
+            _orderText.text = "";
         }
         _currentState = State.Ordered;
         _order = new MyOrder(foodOrder, drinkOrder);
@@ -352,7 +380,7 @@ public class Customer : MonoBehaviour
         _currentState = State.Served;
         Consume();
         _order._drinkOrder = Beverage.None;
-
+        _renderer.sprite = null;
         return true;
     }
 
@@ -370,6 +398,7 @@ public class Customer : MonoBehaviour
         _currentState = State.Served;
         Consume();
         _order._order = Holdables.Nothing;
+        _foodOrder.SetActive(false);
         return true;
     }
 
@@ -519,6 +548,14 @@ public class Customer : MonoBehaviour
         if (_happinessTimer.TimesCompleted > 3) {
             LevelManager.Instance.Happiness -= _happinessTimer.TimesCompleted;
         }
+    }
+
+    private Drink ConvertBeverageToDrink(Managers.BeverageManager.Beverage beverage)
+    {
+        foreach (Drink drink in _drinks)
+            if (drink._drink == beverage)
+                return drink;
+        return null;
     }
 
     #endregion
