@@ -9,14 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5e5484a998a93642b0a9cc474dd9c18, type: 3}
+  m_Script: {fileID: 11500000, guid: 7d8f6e38fbefaa54aa92bc990162a764, type: 3}
   m_Name: Whisky
   m_EditorClassIdentifier: 
-  _drink: 2
-  _ingredients: 03000000
-  _ingredientSprites:
-  - {fileID: 11400000, guid: 17d1536cab3010a409e1c7bde186b89e, type: 2}
-  _alcoholContent: 40
-  _price: 8
-  _amountOfUses: 7
+  _ingredient: 3
   _sprite: {fileID: 21300000, guid: 356ab88ab6a425f4ba48153e98e3b2c8, type: 3}

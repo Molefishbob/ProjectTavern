@@ -14,6 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _drink: 9
   _ingredients: 01000000020000000300000006000000
+  _ingredientSprites:
+  - {fileID: 11400000, guid: 80304a4ebf3b28748adb92344d66d31c, type: 2}
+  - {fileID: 11400000, guid: 46e8bcf00f919a648aa00689fb226b22, type: 2}
+  - {fileID: 11400000, guid: 17d1536cab3010a409e1c7bde186b89e, type: 2}
+  - {fileID: 11400000, guid: 0214ea4941831674584f9c068ee3611f, type: 2}
   _alcoholContent: 50
   _price: 20
   _amountOfUses: 10
