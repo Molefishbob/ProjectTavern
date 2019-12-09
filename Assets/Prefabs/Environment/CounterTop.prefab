@@ -178,7 +178,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _refreshRate: 5
-  _offset: -3
+  _offset: 0
   _renderer: {fileID: 0}
 --- !u!1 &4388963068458159031
 GameObject:
