@@ -9,14 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5e5484a998a93642b0a9cc474dd9c18, type: 3}
+  m_Script: {fileID: 11500000, guid: 7d8f6e38fbefaa54aa92bc990162a764, type: 3}
   m_Name: Ale
   m_EditorClassIdentifier: 
-  _drink: 1
-  _ingredients: 01000000
-  _ingredientSprites:
-  - {fileID: 11400000, guid: 80304a4ebf3b28748adb92344d66d31c, type: 2}
-  _alcoholContent: 4
-  _price: 5
-  _amountOfUses: 3
+  _ingredient: 1
   _sprite: {fileID: 21300000, guid: ab1f551b3f613bb448552100423f4795, type: 3}

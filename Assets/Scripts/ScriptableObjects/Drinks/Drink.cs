@@ -8,6 +8,7 @@ public class Drink : ScriptableObject
 {
     public Beverage _drink = Beverage.None;
     public List<DrinkIngredient> _ingredients = new List<DrinkIngredient>();
+    public List<Ingredient> _ingredientSprites = new List<Ingredient>();
     public int _alcoholContent;
     public int _price;
     public int _amountOfUses;

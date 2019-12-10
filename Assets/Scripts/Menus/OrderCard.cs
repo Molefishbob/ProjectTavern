@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class OrderCard : MonoBehaviour
 {
@@ -23,6 +24,10 @@ public class OrderCard : MonoBehaviour
     private TextMeshProUGUI[] _ingredientText = null;
     [SerializeField]
     private TextMeshProUGUI _drinkText = null;
+    [SerializeField]
+    private Image[] _ingredientSprites;
+    [SerializeField]
+    private Image _drinkSprite;
 
     private void Awake()
     {
@@ -51,16 +56,19 @@ public class OrderCard : MonoBehaviour
         if (order._order != PlayerState.Holdables.Drink)
             return;
 
-        _drinkText.text = order._drinkOrder.ToString();
+        //_drinkText.text = order._drinkOrder.ToString();
 
         Drink tmp = null;
         foreach (var item in Managers.LevelManager.Instance.PossibleDrinks)
             if (item._drink == order._drinkOrder)
+            {
                 tmp = item;
-
+                _drinkSprite.sprite = tmp._sprite;
+            }
         for (int i = 0; i < tmp._ingredients.Count; i++)
         {
-            _ingredientText[i].text = tmp._ingredients[i].ToString();
+            //_ingredientText[i].text = tmp._ingredients[i].ToString();
+            _ingredientSprites[i].sprite = tmp._ingredientSprites[i]._sprite;
         }
 
         for (int i = tmp._ingredients.Count; i < _indgredientbBlocks.Length; i++)
