@@ -74,7 +74,7 @@ public class CustomerInteraction : PlayerUseable
                 break;
             case Managers.AIManager.State.Fighting:
                 _requiresEmptyHands = true;
-                _interactionTime = 6;
+                _interactionTime = 2;
                 break;
             case Managers.AIManager.State.Ordered:
                 _requiresEmptyHands = false;

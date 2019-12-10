@@ -85,7 +85,6 @@ public class TableInteractions : AIUseable
 
         if (_sitters[val] != null)
         {
-            print("kys");
             int b = 0;
             foreach (Customer cus in _sitters)
             {

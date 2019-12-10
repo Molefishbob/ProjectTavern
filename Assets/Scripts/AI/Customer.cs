@@ -40,7 +40,7 @@ public class Customer : MonoBehaviour
     public TableInteractions _currentTable;
     private ScaledRepeatingTimer _happinessTimer;
     [SerializeField]
-    private float _unhappinessTime = 5;
+    private float _unhappinessTime = 15;
     private Drink[] _drinks;
     public SpriteRenderer _renderer;
     public GameObject _foodOrder;
@@ -271,7 +271,7 @@ public class Customer : MonoBehaviour
         {
             Customer opp = LevelManager.Instance.GetTable(this).GetOpponent(this);
             Fight(opp);
-            LevelManager.Instance.Happiness -= LevelManager.Instance._fightUnhappiness;
+            //LevelManager.Instance.Happiness -= LevelManager.Instance._fightUnhappiness;
         }
         else if (orderRoll > fightRoll && orderRoll > passOutRoll && orderRoll > leaveRoll)
             Order();
@@ -548,7 +548,7 @@ public class Customer : MonoBehaviour
     private void DecreaseHappinesOverTime()
     {
         if (_happinessTimer.TimesCompleted > 3) {
-            LevelManager.Instance.Happiness -= _happinessTimer.TimesCompleted;
+            LevelManager.Instance.Happiness -= (_happinessTimer.TimesCompleted / 2);
         }
     }
 

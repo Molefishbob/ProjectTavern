@@ -96,7 +96,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3315df71c86ca04a8887e757d020035, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _interactionTime: 2
+  _interactionTime: 1
   _requiresEmptyHands: 1
   _showProgressBar: 1
   _temperature: 40

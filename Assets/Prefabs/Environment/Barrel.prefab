@@ -418,7 +418,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2db850f28d169947a3843e1264e88e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _interactionTime: 2
+  _interactionTime: 1
   _requiresEmptyHands: 1
   _showProgressBar: 1
   _ingredient: 1

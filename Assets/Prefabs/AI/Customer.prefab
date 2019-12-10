@@ -289,7 +289,7 @@ MonoBehaviour:
   _happyIndicator: {fileID: 3311004234359319318}
   _angryIndicator: {fileID: 918395251488779933}
   _currentTable: {fileID: 0}
-  _unhappinessTime: 5
+  _unhappinessTime: 15
   _renderer: {fileID: 5147348205788170610}
   _foodOrder: {fileID: 4776155571882627046}
 --- !u!212 &6336922286752668688
@@ -430,7 +430,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f21f87f5c35b26649860ee06481ced81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _interactionTime: 2
+  _interactionTime: 1
   _requiresEmptyHands: 1
   _showProgressBar: 1
 --- !u!58 &4120626563946466393
@@ -639,11 +639,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5875334520844916448}
     m_Modifications:
-    - target: {fileID: 1427541640155483126, guid: 3bd60b0e6624c954fa2d1870841dd92b,
-        type: 3}
-      propertyPath: m_Name
-      value: Happy
-      objectReference: {fileID: 0}
     - target: {fileID: 3345789373456577188, guid: 3bd60b0e6624c954fa2d1870841dd92b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -748,6 +743,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1427541640155483126, guid: 3bd60b0e6624c954fa2d1870841dd92b,
+        type: 3}
+      propertyPath: m_Name
+      value: Happy
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3bd60b0e6624c954fa2d1870841dd92b, type: 3}
