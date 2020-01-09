@@ -25,9 +25,9 @@ public class OrderCard : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI _drinkText = null;
     [SerializeField]
-    private Image[] _ingredientSprites;
+    private Image[] _ingredientSprites = null;
     [SerializeField]
-    private Image _drinkSprite;
+    private Image _drinkSprite = null;
 
     private void Awake()
     {

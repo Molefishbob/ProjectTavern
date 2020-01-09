@@ -6,6 +6,7 @@ using System.Linq;
 using static Managers.BeverageManager;
 using UnityEngine.InputSystem;
 
+[SelectionBase]
 public class PlayerState : MonoBehaviour
 {
     #region EnumsAndOtherStuff
@@ -26,6 +27,7 @@ public class PlayerState : MonoBehaviour
     private TextMeshProUGUI _heldText = null;
     private CircleCollider2D _selfCollider = null;
     public GameObject _carriedFood;
+    public float _distanceFromUseable = 0f;
 
     #endregion
 
@@ -82,9 +84,11 @@ public class PlayerState : MonoBehaviour
             _actionBar.SetActive(false);
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha0))
+        if (UseableObject && 2 < (_distanceFromUseable = Vector3.Distance(transform.position, UseableObject.transform.position)))
         {
-            Managers.GameManager.Instance.ChangeToMainMenu();
+            UseableObject.InterruptAction();
+            UseableObject = null;
+            Debug.LogError("Something bad happened :(");
         }
     }
 
